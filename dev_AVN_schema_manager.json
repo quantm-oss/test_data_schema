@@ -969,11 +969,6 @@
           "description": "Mã định danh duy nhất của người dùng trong một ứng dụng Zalo cụ thể, dùng để theo dõi hành vi và liên kết dữ liệu người dùng. Example: '102465571524114491' "
         },
         {
-          "name": "app_type",
-          "type": "LowCardinality(String)",
-          "description": "Loại ứng dụng. Có thể bao gồm PangoForm, PangoWheel, PangoConnect, PangoScan, Pango1Touch, PangoSell, PangoReward."
-        },
-        {
           "name": "zma_zone",
           "type": "LowCardinality(String)",
           "description": "Vùng / zone trong hệ thống ZMA mà ứng dụng hoặc người dùng đang hoạt động. Example: 'Private'"
