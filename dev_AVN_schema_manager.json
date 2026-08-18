@@ -704,6 +704,11 @@
           "description": "Tên sự kiện xảy ra, dùng để phân loại và phân tích loại hành vi. Example: 'zma-screen-view', 'open-app', 'follow-oa', 'play-game', 'view-product',... (tùy vào ngữ cảnh)"
         },
         {
+          "name": "event_data",
+          "type": "Nullable(String)",
+          "description": "Dữ liệu chi tiết đi kèm sự kiện. Example: 'Ngon là được, không để ý lắm', 'Cũng quan tâm nhưng không quá khắt khe',... "
+        },
+        {
           "name": "event_at",
           "type": "DateTime64(3, 'UTC')",
           "description": "Thời điểm sự kiện xảy ra theo UTC. Dùng để phân tích thời gian tương tác và hành vi theo mốc hoặc khoảng thời gian. Example: 1785332366504, 1785322719760"
