@@ -1,0 +1,1275 @@
+{
+  "collections": [
+    {
+      "collection": "lead_info",
+      "description": "Bảng chứa dữ liệu Lead được hiểu là thông tin khách hàng được tổng hợp từ hệ thống có sẵn. Dùng để tham khảo, ít dùng trong việc xử lý dữ liệu khách hàng.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Mã duy nhất của lead trong hệ thống CDP. Example: 'c1352357a1fe97fd10b7c5dadb9406da'"
+        },
+        {
+          "name": "org_id",
+          "type": "String",
+          "description": "Mã tổ chức / tenant (multi-tenant). Example: 'fecf6f8c0ce658734a5b730271977767'"
+        },
+        {
+          "name": "version",
+          "type": "UInt64",
+          "description": "Phiên bản của bản ghi, dùng để quản lý version dữ liệu. Example: 1780299906328, 1780365554169"
+        },
+        {
+          "name": "ref_id",
+          "type": "String",
+          "description": "Mã lead từ hệ thống nguồn. Format: {systemName}*{formId}*{phone}. Example: 'MNMN_WEBSITE_177145_0896031180', 'MNMN_WEBSITE_177214_0933308149'"
+        },
+        {
+          "name": "key",
+          "type": "String",
+          "description": "Khóa duy nhất tổng hợp: {orgId}::{refId}. Dùng để dedup bản ghi. Example: 'fecf6f8c0ce658734a5b730271977767::MNMN_WEBSITE_179207_0363203343', 'fecf6f8c0ce658734a5b730271977767::MNMN_WEBSITE_178919_0389783792'"
+        },
+        {
+          "name": "system_name",
+          "type": "String",
+          "description": "Tên hệ thống phát sinh lead. Ví dụ: MNMN_WEBSITE. Example: 'MNMN_WEBSITE', 'WebTagging', 'MNMN_UAT_WEBSITE'"
+        },
+        {
+          "name": "datasource",
+          "type": "String",
+          "description": "Nguồn dữ liệu của bản ghi. Ví dụ: XDossier Lead. Example: 'XDossier Lead', 'MNMN upload'"
+        },
+        {
+          "name": "dataset_id",
+          "type": "String",
+          "description": "Mã dataset chứa bản ghi. Example: '683d076a7edda100015ca21e'"
+        },
+        {
+          "name": "internal_company_id",
+          "type": "String",
+          "description": "Mã công ty nội bộ liên quan đến lead. Example: "
+        },
+        {
+          "name": "full_name",
+          "type": "Nullable(String)",
+          "description": "Họ tên đầy đủ của lead. Example: "
+        },
+        {
+          "name": "first_name",
+          "type": "Nullable(String)",
+          "description": "Tên của lead. Example: "
+        },
+        {
+          "name": "last_name",
+          "type": "Nullable(String)",
+          "description": "Họ của lead. Example: "
+        },
+        {
+          "name": "middle_name",
+          "type": "Nullable(String)",
+          "description": "Tên đệm của lead. Example: "
+        },
+        {
+          "name": "gender",
+          "type": "Nullable(String)",
+          "description": "Giới tính của lead. Có thể chứa các giá trị. Example: 'male', 'female', 'none', 'undefined'"
+        },
+        {
+          "name": "dob",
+          "type": "Nullable(DateTime64(3, 'UTC'))",
+          "description": "Ngày sinh đầy đủ của lead. Example: "
+        },
+        {
+          "name": "yob",
+          "type": "UInt16",
+          "description": "Năm sinh của lead. Example: "
+        },
+        {
+          "name": "mob",
+          "type": "UInt8",
+          "description": "Tháng sinh của lead. Example: "
+        },
+        {
+          "name": "phone",
+          "type": "String",
+          "description": "Số điện thoại của lead — định danh chính để liên kết với profile CDP. Example: '0896031180', '0963114991'"
+        },
+        {
+          "name": "email",
+          "type": "Nullable(String)",
+          "description": "Email của lead. Example: 'nguyenmaichi031@gmail.com', 'minhminhtam805@gmail.com'"
+        },
+        {
+          "name": "zalo_id",
+          "type": "Nullable(String)",
+          "description": "Zalo User ID của lead. Example: "
+        },
+        {
+          "name": "zouid",
+          "type": "Nullable(String)",
+          "description": "Zalo OA User ID của lead. Example: "
+        },
+        {
+          "name": "fbpsid",
+          "type": "Nullable(String)",
+          "description": "Facebook Page-Scoped ID của lead. Example: "
+        },
+        {
+          "name": "facebook_id",
+          "type": "Nullable(String)",
+          "description": "Facebook ID của lead. Example: "
+        },
+        {
+          "name": "linkedin",
+          "type": "Nullable(String)",
+          "description": "LinkedIn ID hoặc URL của lead. Example: "
+        },
+        {
+          "name": "twitter_id",
+          "type": "Nullable(String)",
+          "description": "Twitter ID của lead. Example: "
+        },
+        {
+          "name": "instagram_id",
+          "type": "Nullable(String)",
+          "description": "Instagram ID của lead. Example: "
+        },
+        {
+          "name": "ga_tid",
+          "type": "Nullable(String)",
+          "description": "Google Analytics Tracking ID. Example: 'G-96X21C5P8H'"
+        },
+        {
+          "name": "ga_cid",
+          "type": "Nullable(String)",
+          "description": "Google Analytics Client ID — định danh thiết bị/trình duyệt trong GA. Example: '510225175.1741177174'"
+        },
+        {
+          "name": "country",
+          "type": "Nullable(String)",
+          "description": "Quốc gia của lead. Example: "
+        },
+        {
+          "name": "city",
+          "type": "Nullable(String)",
+          "description": "Tỉnh / thành phố của lead. Example: "
+        },
+        {
+          "name": "district",
+          "type": "Nullable(String)",
+          "description": "Quận / huyện của lead. Example: "
+        },
+        {
+          "name": "ward",
+          "type": "Nullable(String)",
+          "description": "Phường / xã của lead. Example: "
+        },
+        {
+          "name": "state",
+          "type": "Nullable(String)",
+          "description": "Bang / tỉnh, chủ yếu dùng cho địa chỉ quốc tế. Example: "
+        },
+        {
+          "name": "zip_code",
+          "type": "Nullable(String)",
+          "description": "Mã bưu chính. Example: "
+        },
+        {
+          "name": "address",
+          "type": "Nullable(String)",
+          "description": "Địa chỉ đầy đủ của lead. Example: "
+        },
+        {
+          "name": "form_key",
+          "type": "Nullable(String)",
+          "description": "Mã định danh form đăng ký. Example: "
+        },
+        {
+          "name": "form_name",
+          "type": "Nullable(String)",
+          "description": "Tên form đăng ký. Ví dụ: sign-up, contact, survey. Example: 'sign-up', 'form-lien-he'"
+        },
+        {
+          "name": "form_vs",
+          "type": "Nullable(String)",
+          "description": "Phiên bản form đăng ký. Example: "
+        },
+        {
+          "name": "double_opt_in",
+          "type": "Nullable(String)",
+          "description": "Trạng thái Double Opt-In: Yes / No. Xác nhận khách đã đồng ý nhận thông tin qua 2 bước. Example: "
+        },
+        {
+          "name": "single_opt_in",
+          "type": "Nullable(String)",
+          "description": "Trạng thái Single Opt-In: Yes / No. Xác nhận khách đã đồng ý nhận thông tin qua 1 bước. Example: 'Yes', 'No'"
+        },
+        {
+          "name": "source_channel",
+          "type": "Nullable(String)",
+          "description": "Kênh nguồn dẫn lead đến form đăng ký. Example: 'Online'"
+        },
+        {
+          "name": "source_name",
+          "type": "Nullable(String)",
+          "description": "Tên nguồn cấp 1. Example: 'Web Log'"
+        },
+        {
+          "name": "source_name_level2",
+          "type": "Nullable(String)",
+          "description": "Tên nguồn cấp 2. Example: 'monngonmoingay.com', 'dev.monngonmoingay.com'"
+        },
+        {
+          "name": "source_name_level3",
+          "type": "Nullable(String)",
+          "description": "Tên nguồn cấp 3. Example: "
+        },
+        {
+          "name": "status",
+          "type": "Nullable(String)",
+          "description": "Trạng thái của lead trong pipeline xử lý. Example: 'Auto Created'"
+        },
+        {
+          "name": "prospect_level",
+          "type": "Int32",
+          "description": "Mức độ tiềm năng của lead. Giá trị 0 có thể được dùng để biểu thị lead chưa được đánh giá. Example: 0"
+        },
+        {
+          "name": "tags",
+          "type": "Array(String)",
+          "description": "Danh sách tag được gán cho lead. Example: "
+        },
+        {
+          "name": "lead_created_at",
+          "type": "Nullable(DateTime64(3, 'UTC'))",
+          "description": "Timestamp tạo lead trong hệ thống nguồn. Example: 1741177409000, 1742723111000"
+        },
+        {
+          "name": "lead_created_by",
+          "type": "Nullable(String)",
+          "description": "Người hoặc service tạo lead trong hệ thống nguồn. Example: 'System'"
+        },
+        {
+          "name": "lead_updated_at",
+          "type": "Nullable(DateTime64(3, 'UTC'))",
+          "description": "Timestamp cập nhật lead gần nhất trong hệ thống nguồn. Example: 1741177409000, 1742511396000"
+        },
+        {
+          "name": "lead_updated_by",
+          "type": "Nullable(String)",
+          "description": "Người hoặc service cập nhật lead gần nhất trong hệ thống nguồn. Example: 'System'"
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Timestamp tạo bản ghi trong CDP. Example: '1780299906000', '1780827528000'"
+        },
+        {
+          "name": "created_by",
+          "type": "Nullable(String)",
+          "description": "Người hoặc service tạo bản ghi trong CDP. Example: 'apimnmnea1@bytetech.io', 'System'"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Timestamp cập nhật bản ghi gần nhất trong CDP. Example: 1780299906000, 1780313461000"
+        },
+        {
+          "name": "updated_by",
+          "type": "Nullable(String)",
+          "description": "Người hoặc service cập nhật bản ghi gần nhất trong CDP. Example: 'apimnmnea1@bytetech.io', 'System'"
+        },
+        {
+          "name": "timezone",
+          "type": "Int32",
+          "description": "Múi giờ offset UTC của lead. 0 = UTC. Example: 0, 7"
+        },
+        {
+          "name": "cf_customer_name",
+          "type": "Nullable(String)",
+          "description": "Họ tên khách hàng được lưu trong custom field. Example: 'Lin cink', 'Nguyễn Thị Ngọc', 'Tran Anh Vu'"
+        },
+        {
+          "name": "cf_customer_city",
+          "type": "Nullable(String)",
+          "description": "Tỉnh / thành phố của khách hàng được lưu trong custom field. Example: 'Hà Nội', 'Hồ Chí Minh',... (tên tỉnh thành Việt Nam, có dấu)"
+        },
+        {
+          "name": "cf_customer_yob",
+          "type": "Nullable(String)",
+          "description": "Năm sinh của khách hàng được lưu trong custom field. Example: '1989', '2005'"
+        },
+        {
+          "name": "cf_customer_gender",
+          "type": "Nullable(String)",
+          "description": "Giới tính của khách hàng được lưu trong custom field. Example: male, female, Nam, Nữ, nam, nu"
+        },
+        {
+          "name": "cf_zalo_user_id",
+          "type": "Nullable(String)",
+          "description": "Zalo User ID của lead được lưu trong custom field. Example: '2376480327432978432', '23462936784239432'"
+        },
+        {
+          "name": "meal_planner_group",
+          "type": "Nullable(String)",
+          "description": "Meal Planner Group — nhóm kế hoạch bữa ăn mà khách hàng đăng ký hoặc được phân loại vào. Dùng để cá nhân hóa nội dung và gợi ý công thức nấu ăn phù hợp với từng nhóm. Example: 'MeetLover'"
+        },
+        {
+          "name": "page_url",
+          "type": "Nullable(String)",
+          "description": "URL đầy đủ của trang đăng ký. Example: 'https://monngonmoingay.com/lien-he/'"
+        },
+        {
+          "name": "page_path",
+          "type": "Nullable(String)",
+          "description": "Path URL của trang đăng ký, không bao gồm domain. Example: '/lien-he/'"
+        },
+        {
+          "name": "page_title",
+          "type": "Nullable(String)",
+          "description": "Tiêu đề trang nơi khách điền form. Example: 'Chương trình Món Ngon Mỗi Ngày | Nấu chuẩn ăn lành tại nhà', 'Liên hệ | Món ngon mỗi ngày', 'Daily Delicious Dish Program | Cook healthy meals at home', 'Kế hoạch nấu ăn của bạn | Món Ngon Mỗi Ngày'"
+        },
+        {
+          "name": "referrer_url",
+          "type": "Nullable(String)",
+          "description": "URL trang referrer — trang dẫn khách đến trang đăng ký. Example: 'https://monngonmoingay.com/?action=dang-ky', 'https://monngonmoingay.com/lien-he/', 'https://monngonmoingay.com/danh-muc-gia-vi-ban-can/nau-nhanh-gon/'"
+        },
+        {
+          "name": "utm_parameters",
+          "type": "Nullable(String)",
+          "description": "UTM parameters tổng hợp của lượt truy cập. Example: 'Direct_KTU / qrcode_Direct_KTU', 'BTL / qrcode_AN3A', 'BTL / qrcode_AM14'"
+        },
+        {
+          "name": "utm_source",
+          "type": "Nullable(String)",
+          "description": "UTM source — nguồn truy cập. Example: 'Direct_KTU', '(direct)', 'Google', 'Facebook'"
+        },
+        {
+          "name": "utm_medium",
+          "type": "Nullable(String)",
+          "description": "UTM medium — loại kênh truy cập. Example: 'qrcode_Direct_KTU'"
+        },
+        {
+          "name": "utm_campaign_id",
+          "type": "Nullable(String)",
+          "description": "Mã ID của chiến dịch marketing. Example: "
+        },
+        {
+          "name": "utm_campaign_name",
+          "type": "Nullable(String)",
+          "description": "Tên chiến dịch marketing. Example: 'Direct_82024', 'BTL_GYO_MT_PG_112024'"
+        },
+        {
+          "name": "utm_term",
+          "type": "Nullable(String)",
+          "description": "UTM term — từ khóa tìm kiếm dẫn đến form. Example: 'Aug-23', 'Dec-24'"
+        },
+        {
+          "name": "company_name",
+          "type": "Nullable(String)",
+          "description": "Tên công ty của lead. Example: "
+        },
+        {
+          "name": "occupation",
+          "type": "Nullable(String)",
+          "description": "Nghề nghiệp của lead. Example: "
+        }
+      ]
+    },
+    {
+      "collection": "purchase_order_items",
+      "description": "Tập dữ liệu ghi nhận chi tiết từng dòng sản phẩm (line item) trong đơn hàng. Mỗi bản ghi đại diện cho một loại sản phẩm cụ thể trong một đơn hàng — nếu một đơn có 3 loại sản phẩm khác nhau thì sẽ có 3 bản ghi tương ứng trong bảng này, tất cả cùng trỏ về một đơn hàng qua ref_order_id. Bảng này là nền tảng để phân tích hành vi mua sản phẩm ở cấp độ chi tiết nhất: sản phẩm nào bán chạy, khách hàng nào mua sản phẩm gì, tần suất mua từng SKU, giá trị thực tế so với giá niêm yết và phân tích giỏ hàng (basket analysis). Thông tin khách hàng và ngày đặt được lưu denormalized trực tiếp trong bảng để tối ưu hiệu năng query trên ClickHouse mà không cần join sang bảng đơn hàng.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Mã định danh duy nhất của dòng sản phẩm (line item) trong hệ thống. Là khóa chính để truy vấn chính xác một dòng sản phẩm cụ thể trong một đơn hàng. Example: '11811:10d6963aa6bbcbfd71ab968a65afdc1d'"
+        },
+        {
+          "name": "org_id",
+          "type": "String",
+          "description": "Mã tổ chức hoặc tenant sở hữu bản ghi. Dùng để phân tách dữ liệu trong môi trường multi-tenant. Query cần filter theo org_id để tránh lấy nhầm dữ liệu của tổ chức khác.  Example: 'fecf6f8c0ce658734a5b730271977767'"
+        },
+        {
+          "name": "version",
+          "type": "UInt64",
+          "description": "Phiên bản của bản ghi.  Example: 1769913028102, 1769914594510, 1769915196413"
+        },
+        {
+          "name": "ref_order_id",
+          "type": "String",
+          "description": "Mã đơn hàng tham chiếu — liên kết dòng sản phẩm về đơn hàng cha. Dùng để nhóm các line item cùng một đơn hàng hoặc join sang bảng đơn hàng. Example: 28222, 28223"
+        },
+        {
+          "name": "order_id",
+          "type": "String",
+          "description": "Mã đơn hàng trong hệ thống bán hàng mà dòng sản phẩm thuộc về. Example: 'e53eed61f91b96891a0eadf80384c2c2', 'd2ce6331457b38306764b97a9196d1be', '2c3712305ae7823daf58d8316addca30'"
+        },
+        {
+          "name": "cdp_customer_id",
+          "type": "String",
+          "description": "Mã khách hàng trong hệ thống CDP. Được lưu denormalized để phân tích hành vi mua sản phẩm theo từng khách hàng mà không cần đi qua bảng đơn hàng. Example: '0f6986000c4f99a3bf52ba0985e68bd5', '1e17ead8c3ceb2e97fd499825123916c', '6a4b008990ae2ac60c4b94ee753ce656'"
+        },
+        {
+          "name": "customer_id",
+          "type": "String",
+          "description": "Mã khách hàng nội bộ trong hệ thống bán hàng. Được lưu denormalized từ đơn hàng cha. Example: '648674960343276631', '2151192909297668749'"
+        },
+        {
+          "name": "customer_email",
+          "type": "String",
+          "description": "Email khách hàng tại thời điểm đặt đơn, được lưu denormalized để lọc và phân tích hành vi mua sản phẩm trực tiếp. Example: 'buucanh@icloud.com', 'thach.nh87@gmail.com'"
+        },
+        {
+          "name": "customer_phone",
+          "type": "String",
+          "description": "Số điện thoại khách hàng tại thời điểm đặt đơn, được lưu denormalized. Là định danh quan trọng để liên kết với profile khách hàng. Example: '84919751123', '84767888809'"
+        },
+        {
+          "name": "order_date",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Ngày giờ đặt đơn hàng theo UTC, được lưu denormalized từ đơn hàng cha. Dùng để phân tích xu hướng mua sản phẩm theo thời gian. Example: 1769904000000, 1769990400000"
+        },
+        {
+          "name": "item_created_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm dòng sản phẩm được tạo trong hệ thống. Có thể trùng với thời điểm tạo đơn hoặc muộn hơn nếu sản phẩm được thêm sau. Example: 1769913026000, 1769970594000"
+        },
+        {
+          "name": "item_updated_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm dòng sản phẩm được cập nhật gần nhất. Có thể thay đổi khi số lượng hoặc giá của dòng sản phẩm được sửa. Example: 1769913028000, 1769970595000"
+        },
+        {
+          "name": "product_sku",
+          "type": "String",
+          "description": "Mã SKU — định danh của từng biến thể sản phẩm cụ thể. Là field chính để phân tích doanh số theo sản phẩm hoặc SKU. Example: '5099902617', '5649678608'"
+        },
+        {
+          "name": "product_name",
+          "type": "String",
+          "description": "Tên sản phẩm tại thời điểm đặt hàng, được lưu dưới dạng snapshot để phục vụ hiển thị và báo cáo lịch sử. Example: 'Thịt heo chiên xù kiểu Nhật Tonkatsu (MUA 1 TONKATSU VÀ 1 GYOZA 114G TẶNG 1 GYOZA 114G) - Thịt heo chiên xù Tonkatsu + Gyoza'"
+        },
+        {
+          "name": "price",
+          "type": "Float64",
+          "description": "Giá gốc niêm yết của sản phẩm trước khi áp dụng giảm giá. Example: 112500, 192000"
+        },
+        {
+          "name": "price_sale",
+          "type": "Float64",
+          "description": "Giá bán thực tế sau khi áp dụng khuyến mãi, voucher hoặc chính sách giá đặc biệt. Example: 113694, 192000"
+        },
+        {
+          "name": "quantity",
+          "type": "UInt64",
+          "description": "Số lượng sản phẩm trong đơn hàng. Kết hợp với price_sale để tính giá trị thực tế của dòng sản phẩm. Example: 1, 2, 100"
+        },
+        {
+          "name": "unit",
+          "type": "String",
+          "description": "Đơn vị tính của sản phẩm, xác định ý nghĩa của giá trị quantity. Ví dụ: cái, hộp, kg, lít, thùng, gói, bộ. Example: 'Gói', 'Hộp', 'chiếc'"
+        },
+        {
+          "name": "total_product_cost",
+          "type": "Float64",
+          "description": "Tổng giá trị dòng sản phẩm theo giá gốc, thường được tính bằng price × quantity. Example: 225000"
+        },
+        {
+          "name": "total_cost",
+          "type": "Float64",
+          "description": "Tổng giá trị thực tế của dòng sản phẩm mà khách hàng phải trả, thường được tính bằng price_sale × quantity. Example: 225000"
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Timestamp hệ thống khi bản ghi được tạo vào database, theo UTC. Dùng cho audit và đồng bộ dữ liệu. Example: 1769913028000"
+        },
+        {
+          "name": "created_by",
+          "type": "String",
+          "description": "Người dùng hoặc service đã tạo bản ghi. Example: 'apidigbird@bytetech.io'"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Timestamp lần cuối bản ghi được cập nhật, theo UTC. Có thể dùng cho incremental sync. Example: 1741254177000"
+        },
+        {
+          "name": "updated_by",
+          "type": "String",
+          "description": "Người dùng hoặc service thực hiện cập nhật bản ghi gần nhất. Example: 'apidigbird@bytetech.io'"
+        },
+        {
+          "name": "tags",
+          "type": "Array(String)",
+          "description": "Danh sách nhãn gán cho dòng sản phẩm. Có thể dùng để phân loại hoặc lọc các dòng sản phẩm đặc biệt. Example: "
+        }
+      ]
+    },
+    {
+      "collection": "purchase_orders",
+      "description": "Tập dữ liệu ghi nhận toàn bộ đơn hàng phát sinh chi tiết trong hệ thống, từ nhiều kênh bán hàng khác nhau. Mỗi bản ghi đại diện cho một đơn hàng duy nhất, phản ánh thông tin khách hàng, chi tiết tài chính, trạng thái xử lý, thông tin giao hàng và nguồn marketing dẫn đến đơn hàng. Đây là nguồn dữ liệu trung tâm để tính toán doanh thu, tần suất mua hàng (Frequency), giá trị đơn hàng trung bình (AOV), phân tích RFM, đo lường hiệu quả chiến dịch marketing qua các trường UTM và theo dõi tình trạng thanh toán / công nợ.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Mã định danh duy nhất của bản ghi đơn hàng. Example: 'f1a2a6cd7f897b2abd2238c072946cd8'"
+        },
+        {
+          "name": "org_id",
+          "type": "String",
+          "description": "Mã tổ chức / tenant sở hữu đơn hàng, dùng để phân tách dữ liệu giữa các tổ chức. Example: 'fecf6f8c0ce658734a5b730271977767'"
+        },
+        {
+          "name": "version",
+          "type": "UInt64",
+          "description": "Phiên bản của bản ghi đơn hàng. Example: 1746671630619"
+        },
+        {
+          "name": "ref_id",
+          "type": "String",
+          "description": "Mã tham chiếu của đơn hàng từ hệ thống nguồn. Example: '16618'"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "Trạng thái hiện tại của đơn hàng, dùng để lọc và phân tích tình trạng xử lý đơn. Example: 'delivered', 'ordered', 'confirmed', 'shipping'"
+        },
+        {
+          "name": "cdp_customer_id",
+          "type": "String",
+          "description": "Mã khách hàng trong hệ thống CDP, dùng để liên kết đơn hàng với hồ sơ khách hàng. Example: 'a3869e4e555949f8a32d79ae0d7a2b2f'"
+        },
+        {
+          "name": "customer_id",
+          "type": "String",
+          "description": "Mã khách hàng trong hệ thống bán hàng. Example: '8517284150510932068'"
+        },
+        {
+          "name": "customer_name",
+          "type": "String",
+          "description": "Tên khách hàng tại thời điểm phát sinh đơn hàng. Example: 'Uyen Ly', 'Ngọc Trâm',... (Tên tiếng Việt có dấu hoặc không có dấu)"
+        },
+        {
+          "name": "customer_email",
+          "type": "String",
+          "description": "Email khách hàng được lưu trên đơn hàng. Example: 'zhihwaxd96@gmail.com'"
+        },
+        {
+          "name": "customer_phone",
+          "type": "String",
+          "description": "Số điện thoại khách hàng trên đơn hàng, có thể dùng để liên kết với profile CDP. Example: '0937324173'"
+        },
+        {
+          "name": "order_date",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Ngày giờ của đơn hàng theo UTC. Là trường quan trọng để phân tích doanh thu, Frequency, Recency và xu hướng mua hàng theo thời gian. Example: 1751328000000"
+        },
+        {
+          "name": "order_created_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm đơn hàng được tạo. Example: 1750758203000"
+        },
+        {
+          "name": "order_created_by",
+          "type": "String",
+          "description": "Người hoặc service tạo đơn hàng. Example: "
+        },
+        {
+          "name": "order_updated_by",
+          "type": "String",
+          "description": "Người hoặc service cập nhật đơn hàng. Example: "
+        },
+        {
+          "name": "shipping_cost",
+          "type": "Float64",
+          "description": "Chi phí vận chuyển của đơn hàng. Example: 0, 20000"
+        },
+        {
+          "name": "total_product_cost",
+          "type": "Float64",
+          "description": "Tổng giá trị sản phẩm của đơn hàng trước các khoản điều chỉnh liên quan. Example: 113832, 112500"
+        },
+        {
+          "name": "total_cost",
+          "type": "Float64",
+          "description": "Tổng giá trị đơn hàng, dùng làm cơ sở phân tích doanh thu và giá trị mua hàng. Example: 113832, 112500"
+        },
+        {
+          "name": "sub_total_cost",
+          "type": "Float64",
+          "description": "Tổng tiền hàng trước các khoản thuế, phí hoặc điều chỉnh bổ sung. Example: 0"
+        },
+        {
+          "name": "total_cost_with_vat",
+          "type": "Float64",
+          "description": "Tổng giá trị đơn hàng bao gồm VAT. Example: 112500, 332500 "
+        },
+        {
+          "name": "total_item",
+          "type": "UInt64",
+          "description": "Tổng số loại item / dòng sản phẩm trong đơn hàng. Example: 1, 2, 3"
+        },
+        {
+          "name": "total_quantity",
+          "type": "UInt64",
+          "description": "Tổng số lượng sản phẩm trong đơn hàng. Example: 1, 2, 5"
+        },
+        {
+          "name": "cancelled_reason",
+          "type": "String",
+          "description": "Lý do đơn hàng bị hủy. Example: 'Khách hàng yêu cầu hủy', 'Sản phẩm hết hàng', 'Không liên hệ được',..."
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm bản ghi được tạo trong database. Example: 1746413013000"
+        },
+        {
+          "name": "created_by",
+          "type": "String",
+          "description": "Người hoặc service tạo bản ghi. Example: 'apidigbird@bytetech.io'"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm bản ghi được cập nhật gần nhất. Example: 1746413013000"
+        },
+        {
+          "name": "updated_by",
+          "type": "String",
+          "description": "Người hoặc service cập nhật bản ghi gần nhất. Example: 'apidigbird@bytetech.io'"
+        },
+        {
+          "name": "warehouse_email",
+          "type": "String",
+          "description": "Email liên quan đến kho xử lý đơn hàng. Example: saigon1@gmail.com, saigon2@gmail.com, saigon3@gmail.com"
+        },
+        {
+          "name": "pango_source",
+          "type": "String",
+          "description": "Nguồn phát sinh đơn hàng trong hệ thống Pango. Example: 'UID_CTA', 'Leaflet', 'DENTSU', 'Facebook', 'Dentsu', 'FocusDay', 'InternalAVN', 'CTA_Button', 'UID_7', 'Reward', 'UID_11-2', 'UIDMessage', 'UID_3week', 'WebsiteMNMN', 'Haku_Facebook', 'ThankYouLetter', 'HAKU', 'UID_11-1', 'UIDmessage1'"
+        },
+        {
+          "name": "shipping_address",
+          "type": "String",
+          "description": "Địa chỉ giao hàng của đơn hàng. Example: '2/8/3 Nguyễn Văn Công',  '931 Chợ Bà Chiểu'"
+        },
+        {
+          "name": "shipping_provider_code",
+          "type": "String",
+          "description": "Mã đơn vị / nhà cung cấp vận chuyển. Example: "
+        },
+        {
+          "name": "pango_campaign",
+          "type": "String",
+          "description": "Tên hoặc mã campaign liên quan đến đơn hàng trong Pango. Example: 'Leaflet-B2B-Apr25', 'FB_Click-Prospective_RTG_LAL-Mar2025'"
+        },
+        {
+          "name": "notes",
+          "type": "String",
+          "description": "Ghi chú liên quan đến đơn hàng. Example: 'Giao giờ hành chính', 'giao hàng giờ hành chính',..."
+        },
+        {
+          "name": "pango_medium",
+          "type": "String",
+          "description": "Medium / kênh marketing của đơn hàng trong Pango. Example: 'ZOA', 'Organic', 'KOLS', 'Paid', 'Facebook', 'Dentsu-BuiThuyTrang-Facebook-Video', 'UID', 'button', 'Gyoza', 'FooterBanner', 'Adtimaib', 'Recipes', 'FB_Thruplay', 'FB', 'Facebook-RF', 'survey', 'Dentsu-soctapbay-Facebook-Video', 'Dentsu-DoThiUtHoa-Facebook-Video', 'Dentsu-TrucVo-Facebook-Video'"
+        },
+        {
+          "name": "gender",
+          "type": "String",
+          "description": "Giới tính của khách hàng được lưu trên đơn hàng. Example: 'female', 'male', 'sister', 'ms', 'mr'"
+        },
+        {
+          "name": "warehouse_name",
+          "type": "String",
+          "description": "Tên kho xử lý đơn hàng. Example: 'Sài Gòn 3', 'Sài Gòn 2', 'Sài Gòn 1', 'Hà Nội 3', 'Hà Nội 1', 'Hà Nội 2', 'Bình Dương', 'Cần Thơ', 'Đà Lạt', 'Đà Nẵng', 'Nha Trang', 'Hải Phòng', 'Ajinomoto Admin', 'Công ty bán lẻ'"
+        },
+        {
+          "name": "invoice_number",
+          "type": "String",
+          "description": "Số hóa đơn liên quan đến đơn hàng. Example: 'ONLI-TRANS-16618', 'ONLI-TRANS-16957', 'ONLI-TRANS-16991', 'ONLI-TRANS-17010'"
+        },
+        {
+          "name": "promotion",
+          "type": "String",
+          "description": "Thông tin chương trình khuyến mãi áp dụng cho đơn hàng. Example: "
+        },
+        {
+          "name": "payment_mode",
+          "type": "String",
+          "description": "Phương thức hoặc chế độ thanh toán của đơn hàng. Example: 'cash'"
+        },
+        {
+          "name": "city",
+          "type": "String",
+          "description": "Tỉnh / thành phố của địa chỉ giao hàng. Example: 'Hồ Chí Minh', 'Hà Nội', 'Hải Phòng', 'Bình Dương', 'Đà Nẵng', 'Lâm Đồng', 'Khánh Hòa', 'Thành phố Hồ Chí Minh', 'Cần Thơ', 'Hồ chí minh'"
+        },
+        {
+          "name": "ward",
+          "type": "String",
+          "description": "Phường / xã của địa chỉ giao hàng. Example: 'Phường 3', 'Phường 27', 'Phường Tân Định', 'Phường Tân Phú', 'Phường Đa Kao', 'Xã Tân Dân', 'Xã Thủy Xuân Tiên', 'Phường Phước Bình', 'Xã Trầm Lộng', 'Xã Phú Mãn', 'Phường 12', 'Xã Vĩnh Lộc A', 'Phường 13', 'Phường 8', 'Phường 11', 'Phường Tân Thới Nhất', 'Phường Sơn Kỳ', 'Phường Trung Mỹ Tây', 'Phường Long Bình', 'Xã Đông Xuân'"
+        },
+        {
+          "name": "state",
+          "type": "String",
+          "description": "Bang / tỉnh của địa chỉ giao hàng. Example: 'Quận Gò Vấp', 'Quận Bình Thạnh', 'Quận 1', 'Quận 7', 'Huyện Phú Xuyên', 'Huyện Chương Mỹ', 'Thành Phố Thủ Đức', 'Huyện Ứng Hòa', 'Huyện Quốc Oai', 'Quận Tân Bình', 'Quận 11', 'Huyện Bình Chánh', 'Quận 10', 'Quận Phú Nhuận', 'Quận 12', 'Quận Tân Phú', 'Quận 6', 'Quận Long Biên', 'Quận 3', 'Quận Hoàng Mai'"
+        },
+        {
+          "name": "cf_total_items",
+          "type": "Float64",
+          "description": "Tổng số item được lưu trong custom field. Example: 1, 2, 3"
+        },
+        {
+          "name": "due_amount",
+          "type": "Float64",
+          "description": "Số tiền khách hàng còn phải thanh toán / công nợ còn lại. Example: 112500"
+        },
+        {
+          "name": "cf_total_quantity",
+          "type": "Float64",
+          "description": "Tổng số lượng sản phẩm được lưu trong custom field. Example: 1, 3, 5"
+        },
+        {
+          "name": "paid_amount",
+          "type": "Float64",
+          "description": "Số tiền khách hàng đã thanh toán. Example: 476430"
+        },
+        {
+          "name": "canceled",
+          "type": "UInt8",
+          "description": "Cờ xác định đơn hàng có bị hủy hay không. Example: 0, 1"
+        },
+        {
+          "name": "payment_methods",
+          "type": "Array(String)",
+          "description": "Danh sách phương thức thanh toán được sử dụng cho đơn hàng. Example: Momo, bank"
+        },
+        {
+          "name": "discount_codes",
+          "type": "Array(String)",
+          "description": "Danh sách mã giảm giá được áp dụng cho đơn hàng. Example: "
+        },
+        {
+          "name": "tags",
+          "type": "Array(String)",
+          "description": "Danh sách tag gán cho đơn hàng, dùng để phân loại hoặc lọc dữ liệu. Example: "
+        }
+      ]
+    },
+    {
+      "collection": "user_event_fecf6f8c0ce658734a5b730271977767",
+      "description": "Tập dữ liệu ghi nhận các sự kiện tương tác của khách hàng trên mọi kênh và hệ thống. Đây là behavioral log, phục vụ tính toán tần suất tương tác, recency, phân khúc khách hàng theo hành vi, đo lường marketing và kích hoạt automation.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Mã định danh duy nhất của sự kiện. Example: 'Created-00000690d4dbfe93c97476e53c287ba3', 'Created-0000119d654ef63780f293b5e196e733'"
+        },
+        {
+          "name": "org_id",
+          "type": "String",
+          "description": "Mã tổ chức / tenant sở hữu sự kiện. Example: 'fecf6f8c0ce658734a5b730271977767'"
+        },
+        {
+          "name": "version",
+          "type": "UInt8",
+          "description": "Phiên bản của bản ghi sự kiện. Example: 1"
+        },
+        {
+          "name": "source_id",
+          "type": "String",
+          "description": "Mã định danh nguồn phát sinh sự kiện. Example: '2fc5ec4c7dee9721aa0382970f828ddc_1761459524625', 'b819ce05d44c76142f5b'"
+        },
+        {
+          "name": "source",
+          "type": "String",
+          "description": "Nguồn hệ thống hoặc nền tảng phát sinh sự kiện. Example: 'ZaloOA_Event', 'ZaloOA', 'ZaloOA_MiniApp_Log', 'CustomerIdentity', 'WebTagging', 'DigitialGift_VietguysMobileTopup_V2', 'LeadInformation', 'Facebook_Event', 'M-O3IT8-O-KY8R3-M', 'PurchaseOrder'"
+        },
+        {
+          "name": "channel",
+          "type": "String",
+          "description": "Kênh mà qua đó sự kiện được phát sinh hoặc ghi nhận. Example: 'Online', 'topup', '', 'None'"
+        },
+        {
+          "name": "trigger_level",
+          "type": "String",
+          "description": "Cấp độ trigger của sự kiện. Example: 'Level1', 'Level3', 'Level2'"
+        },
+        {
+          "name": "event_name",
+          "type": "String",
+          "description": "Tên sự kiện, dùng để xác định loại hành vi xảy ra. Example: 'zoa user followed', 'zoa sent message', 'follow-oa', 'play-game', 'place-order', 'allow-user-info', 'submit', 'view-product', 'f1-join-campaign-success', 'allow-interact-oa', 'zma-exchange-gift', 'zoa user re-followed', 'join-campaign-success', 'reject-zalo-permission', 'click-play-now', 'preview-gift', 'complete-purchase', 'disallow-interact-oa', 'add-to-cart', 'begin-checkout'"
+        },
+        {
+          "name": "event_ctg",
+          "type": "String",
+          "description": "Danh mục cấp 1 của sự kiện. Example: 'UserInteraction', 'Transaction', 'User Interaction', 'Other'"
+        },
+        {
+          "name": "event_ctg2",
+          "type": "String",
+          "description": "Danh mục cấp 2 của sự kiện. Example: 'Zalo OA', 'PangoAct', 'N/A', 'VGS', 'Facebook Page', ''"
+        },
+        {
+          "name": "event_ctg3",
+          "type": "String",
+          "description": "Danh mục cấp 3 của sự kiện. Example: 'N/A', 'Zalo Mini App', 'topup', ''"
+        },
+        {
+          "name": "event_name_key",
+          "type": "String",
+          "description": "Key chuẩn hóa của tên sự kiện, dùng cho query, automation và phân tích. Example: 'TYN6WZ0OJ75HPBC83DCI', '1GK715QKU8S0Z56RSO2A', 'SUBMIT', 'PLAY-GAME', '7NKFY9TSHN2VN4Y5FYIX', '35MS0626CJZV8WN80OO2', 'vietguys-topup-webhook-failover-zbs-v2', 'MY0UE7H4BNZXEB0O9Y8L', '1US0MSEEPZXV0ORJL4P6', 'Q8KECJFRL61U0DOB7AAP', 'TD8BHFW5MY5XN68UOEJ1', 'FOLLOW-OA', 'a4010945e4bd924bc2a890a2effea0e6', 'IK9O7XHGHKR16Y8CCKH9', '4XKCDWWSNYBC2D3ZSAQJ', 'UPLOAD-FILES', 'PO6UMJVPZDMAKTWVFW2D', 'U9HA4TIRXBDF4YB8N7YP', 'REJECT-ZALO-PERMISSION', 'ALLOW-INTERACT-OA'"
+        },
+        {
+          "name": "event_label",
+          "type": "String",
+          "description": "Nhãn mô tả sự kiện. Example: 'oa_id: 1200529904595069275', 'tpl_id: 8718a604a24ba8c418d138b37870cc50 || tpl_name: #1 - Tin Mời user tham gia reward || msg_id: b819ce05d44c76142f5b || oa_id: 1200529904595069275 || system_id: 1200529904595069275', 'userAid: 5870234398225576736 | userName: Linh Hoang | userAvatar: https://s120-ava-talk.zadn.vn/8/8/2/0/48/120/1463b002d85ed0c16cc40c873187b7e7.jpg | appName: Đăng Ký Quà Tặng Ajinomoto'"
+        },
+        {
+          "name": "event_labels",
+          "type": "Array(String)",
+          "description": "Danh sách nhãn được gán cho sự kiện. Example: "
+        },
+        {
+          "name": "event_label2s",
+          "type": "Array(String)",
+          "description": "Danh sách nhãn thuộc cấp 2 của sự kiện. Example: "
+        },
+        {
+          "name": "event_label3s",
+          "type": "Array(String)",
+          "description": "Danh sách nhãn thuộc cấp 3 của sự kiện. Example: "
+        },
+        {
+          "name": "event_label_double",
+          "type": "Float64",
+          "description": "Giá trị dạng số liên quan đến event label. Example: 10000, 20000"
+        },
+        {
+          "name": "event_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm sự kiện xảy ra theo UTC. Là trường chính để phân tích hành vi theo thời gian, recency và khoảng thời gian. Example: 1779268357000, 1780884900000, 1757298649000"
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm bản ghi sự kiện được tạo vào hệ thống. Example: 1761459524000, 1755505830000"
+        },
+        {
+          "name": "condition",
+          "type": "String",
+          "description": "Điều kiện hoặc thông tin điều kiện liên quan đến sự kiện. Example: 'Created'"
+        },
+        {
+          "name": "note",
+          "type": "String",
+          "description": "Ghi chú bổ sung của sự kiện. Example: "
+        },
+        {
+          "name": "customer_id",
+          "type": "String",
+          "description": "Mã khách hàng đã đăng ký, dùng để liên kết sự kiện với customer profile. Example: "
+        },
+        {
+          "name": "email",
+          "type": "String",
+          "description": "Email của người dùng, dùng làm định danh khi có thông tin email. Example: 'nptuananh8@gmail.com'"
+        },
+        {
+          "name": "phone",
+          "type": "String",
+          "description": "Số điện thoại của người dùng, dùng làm định danh khi có thông tin phone. Example: 0787082933"
+        },
+        {
+          "name": "lead",
+          "type": "String",
+          "description": "Định danh lead liên quan đến sự kiện, phục vụ theo dõi hành trình của khách hàng tiềm năng. Example: 'fc6d7fc9ae75576c3b775d8cb69eb7a9'"
+        },
+        {
+          "name": "device_id",
+          "type": "String",
+          "description": "Mã thiết bị, dùng để theo dõi hành vi của người dùng ẩn danh. Example: "
+        },
+        {
+          "name": "fb_pid",
+          "type": "String",
+          "description": "Facebook Page ID hoặc định danh liên quan đến Facebook page. Example: 'fb.1.1728005564350.811097281363961157'"
+        },
+        {
+          "name": "fb_cid",
+          "type": "String",
+          "description": "Facebook Client ID / định danh client liên quan đến Facebook. Example: '8807579609331466', 'fb.1.1741619016374.IwY2xjawI73pVleHRuA2FlbQIxMQABHT-WyySpxwf4Re24b5I8eI443mF3tHWbfPyYPjqSxgOxKMfG9mJqYkOlyQ_aem_sZcr6duWFf0YS9U98GVSFA'"
+        },
+        {
+          "name": "zalo_oa_id",
+          "type": "String",
+          "description": "Mã Zalo Official Account liên quan đến sự kiện. Example: '1200529904595069275'"
+        },
+        {
+          "name": "zalo_user_id",
+          "type": "String",
+          "description": "Zalo User ID của người dùng. Example: "
+        },
+        {
+          "name": "zalo_user_app_id",
+          "type": "String",
+          "description": "Mã định danh người dùng trong một ứng dụng Zalo cụ thể. Example: '8469121596789993260'"
+        },
+        {
+          "name": "custom_field_99",
+          "type": "String",
+          "description": "Custom field dùng để lưu thông tin bổ sung chưa được chuẩn hóa. Example: "
+        }
+      ]
+    },
+    {
+      "collection": "zma_logs",
+      "description": "Ghi nhận toàn bộ hành vi và sự kiện chi tiết của người dùng trong Zalo Mini App. Là nguồn dữ liệu thô phục vụ phân tích hành vi, đo lường tương tác, theo dõi phiên sử dụng, phân tích nguồn marketing và xây dựng chiến dịch cá nhân hóa.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Mã định danh duy nhất của bản ghi log. Dùng để phân biệt từng log hoặc sự kiện cụ thể. Example: '38451622146514399', '58a92a6c73d8993127a79c8992c166cf-1786516708476', '3f936e18-a412-47d2-b31d-3a2d5ac6cdb9_1786515938725_allow-interact-oa'"
+        },
+        {
+          "name": "org_id",
+          "type": "String",
+          "description": "Mã định danh tổ chức / tenant, dùng để phân tách dữ liệu giữa các tổ chức. Example: 'fecf6f8c0ce658734a5b730271977767'"
+        },
+        {
+          "name": "version",
+          "type": "UInt64",
+          "description": "Phiên bản của bản ghi. Example: 1786515978284"
+        },
+        {
+          "name": "enabled_conn_id",
+          "type": "LowCardinality(String)",
+          "description": "ID của connection được kích hoạt. Example: '66b5cebf10f35a0001aacd5b'"
+        },
+        {
+          "name": "session_id",
+          "type": "Nullable(String)",
+          "description": "Mã định danh phiên làm việc hiện tại của người dùng. Example: 'b8df4d91-d904-4815-aa7e-879de5c10f9d'"
+        },
+        {
+          "name": "cdp_app_id",
+          "type": "LowCardinality(String)",
+          "description": "Mã định danh ứng dụng trên nền tảng CDP, dùng để xác định ứng dụng sinh ra log. Example: '3067408865942029233'"
+        },
+        {
+          "name": "zalo_app_id",
+          "type": "Nullable(String)",
+          "description": "Mã định danh App ID của ứng dụng trên nền tảng Zalo. Example: '3067408865942029233', 'bf119d66b2fd732cf93b2164ef1955ed-1739524457481'"
+        },
+        {
+          "name": "zalo_user_app_id",
+          "type": "String",
+          "description": "Mã định danh duy nhất của người dùng trong một ứng dụng Zalo cụ thể, dùng để theo dõi hành vi và liên kết dữ liệu người dùng. Example: '102465571524114491' "
+        },
+        {
+          "name": "app_type",
+          "type": "LowCardinality(String)",
+          "description": "Loại ứng dụng. Có thể bao gồm PangoForm, PangoWheel, PangoConnect, PangoScan, Pango1Touch, PangoSell, PangoReward."
+        },
+        {
+          "name": "zma_zone",
+          "type": "LowCardinality(String)",
+          "description": "Vùng / zone trong hệ thống ZMA mà ứng dụng hoặc người dùng đang hoạt động. Example: 'Private'"
+        },
+        {
+          "name": "dev_zalo_app_id",
+          "type": "Nullable(String)",
+          "description": "Zalo App ID dùng trong môi trường development. Example: '2227067197626841659'"
+        },
+        {
+          "name": "app_template_type",
+          "type": "Nullable(String)",
+          "description": "Mã hoặc loại template của ứng dụng. Example: 'Pango3rdParty', '3230288109092980035', '4446199182319379222'"
+        },
+        {
+          "name": "zoa_id",
+          "type": "LowCardinality(String)",
+          "description": "Mã định danh Zalo Official Account. Example: '1200529904595069275', '43644648852236591'"
+        },
+        {
+          "name": "zoa_user_id",
+          "type": "String",
+          "description": "Mã định danh người dùng trong Zalo Official Account. Example: '689952624298805303', '3278638304643710756'"
+        },
+        {
+          "name": "zoa_user_device_id",
+          "type": "Nullable(String)",
+          "description": "Mã thiết bị của người dùng Zalo Official Account. Example: '2b56592b173780e11ae9d99bd9b0967c', '00cd9103d6f69046c2e1c6d073a415fe'"
+        },
+        {
+          "name": "zoa_user_name",
+          "type": "Nullable(String)",
+          "description": "Tên người dùng trong Zalo Official Account. Example: 'Lê Tuấn Anh', 'Guest', 'Phạm Lâm',... (tên tiếng Việt hoặc tiếng Anh tùy vào ngữ cảnh)"
+        },
+        {
+          "name": "zoa_user_avatar",
+          "type": "Nullable(String)",
+          "description": "Link ảnh avatar của người dùng Zalo Official Account. Example: 'https://storage.googleapis.com/pangocdp-images/p-act/public/c9385ae058a24a129175d183ec46711e.png'"
+        },
+        {
+          "name": "user_id_by_foa",
+          "type": "UInt8",
+          "description": "Cờ xác định có sử dụng user ID từ hệ thống follow Zalo Official Account hay không. Example: 0, 1"
+        },
+        {
+          "name": "phone",
+          "type": "String",
+          "description": "Số điện thoại người dùng, dùng để liên kết với các dữ liệu khách hàng khác. Example: '0375479446', '0968229106'"
+        },
+        {
+          "name": "email",
+          "type": "Nullable(String)",
+          "description": "Địa chỉ email người dùng. Example: 'lethimyle@gmail.com'"
+        },
+        {
+          "name": "event_trigger",
+          "type": "Nullable(String)",
+          "description": "Sự kiện trigger kích hoạt hành động. Có thể dùng để xác định nguồn hoặc cơ chế phát sinh event. Example: 'UserEvent, 'AutoEvent'"
+        },
+        {
+          "name": "event_name",
+          "type": "LowCardinality(String)",
+          "description": "Tên sự kiện xảy ra, dùng để phân loại và phân tích loại hành vi. Example: 'zma-screen-view', 'open-app', 'follow-oa', 'play-game', 'view-product',... (tùy vào ngữ cảnh)"
+        },
+        {
+          "name": "event_ctg",
+          "type": "Nullable(String)",
+          "description": "Nhóm / category của sự kiện. Example: "
+        },
+        {
+          "name": "event_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm sự kiện xảy ra theo UTC. Dùng để phân tích thời gian tương tác và hành vi theo mốc hoặc khoảng thời gian. Example: 1785332366504, 1785322719760"
+        },
+        {
+          "name": "event_data",
+          "type": "Nullable(String)",
+          "description": "Dữ liệu chi tiết đi kèm sự kiện. Example: 'Ngon là được, không để ý lắm', 'Cũng quan tâm nhưng không quá khắt khe',... "
+        },
+        {
+          "name": "tid",
+          "type": "Nullable(String)",
+          "description": "Transaction ID nếu sự kiện có liên quan đến giao dịch. Example: {\"pango_rwRef\":\"t0XNGun\",\"pango_zmauserid\":\"941449793039159220\",\"screen\":\"racetrackInfo\"}, {\"pango_source_c\":\"Reward\",\"pango_medium_c\":\"Reward\",\"pango_campaign_c\":\"Reward\",\"pango_referrer\":\"PangoGift\"}"
+        },
+        {
+          "name": "cid",
+          "type": "Nullable(String)",
+          "description": "Client ID hoặc ID của visitor. Example: "
+        },
+        {
+          "name": "hour_key",
+          "type": "Nullable(String)",
+          "description": "Khóa theo giờ, dùng để phân tích hành vi theo khung giờ trong ngày. Example: '1', '2', '3',... (tùy vào ngữ cảnh)"
+        },
+        {
+          "name": "day_key",
+          "type": "Nullable(String)",
+          "description": "Khóa theo ngày, dùng để phân tích hành vi theo ngày trong tháng. Example: '1', '2', '3',... (tùy vào ngữ cảnh)"
+        },
+        {
+          "name": "utm_source",
+          "type": "Nullable(String)",
+          "description": "UTM source — nguồn truy cập. Example: 'BIG_C_HUE', 'zalo', 'Pouchen_DONG_NAI',..."
+        },
+        {
+          "name": "utm_medium",
+          "type": "Nullable(String)",
+          "description": "UTM medium — loại kênh truy cập, ví dụ email hoặc cpc. Example: 'Reward', 'Survey-thankyou', 'Message_2-2',..."
+        },
+        {
+          "name": "utm_campaign",
+          "type": "Nullable(String)",
+          "description": "UTM campaign — tên hoặc mã chiến dịch marketing. Example: 'zalo', 'event', 'gyoza',..."
+        },
+        {
+          "name": "utm_keyword",
+          "type": "Nullable(String)",
+          "description": "UTM keyword — từ khóa tìm kiếm dẫn đến lượt truy cập. Example: "
+        },
+        {
+          "name": "utm_content",
+          "type": "Nullable(String)",
+          "description": "UTM content — nội dung hoặc biến thể chi tiết của chiến dịch. Example: 'HCM', 'test', 'Saigon_center',..."
+        },
+        {
+          "name": "pango_form_id",
+          "type": "Nullable(String)",
+          "description": "ID của form Pango Form liên quan đến sự kiện. Example: "
+        },
+        {
+          "name": "pango_form_name",
+          "type": "Nullable(String)",
+          "description": "Tên của form Pango Form. Example: "
+        },
+        {
+          "name": "user_agent",
+          "type": "Nullable(String)",
+          "description": "Chuỗi User-Agent của trình duyệt hoặc ứng dụng gửi request. Example: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Zalo iOS/630 ZaloTheme/dark ZaloLanguage/vn'"
+        },
+        {
+          "name": "device",
+          "type": "Nullable(String)",
+          "description": "Tên hoặc thông tin thiết bị của người dùng. Example: 'Smartphone', 'Tablet'"
+        },
+        {
+          "name": "brw_type",
+          "type": "Nullable(String)",
+          "description": "Loại trình duyệt. Example: 'Mobile Browser'"
+        },
+        {
+          "name": "brw_name",
+          "type": "Nullable(String)",
+          "description": "Tên trình duyệt. Example: 'Chrome Mobile', Mobile Safari'"
+        },
+        {
+          "name": "brw_version",
+          "type": "Nullable(String)",
+          "description": "Phiên bản trình duyệt. Example: '131.0.6778.135'"
+        },
+        {
+          "name": "os_name",
+          "type": "Nullable(String)",
+          "description": "Tên hệ điều hành của thiết bị. Example: 'Android', 'iOS / iphone'"
+        },
+        {
+          "name": "os_producer",
+          "type": "Nullable(String)",
+          "description": "Nhà phát hành hệ điều hành. Example: 'Google, Inc.', 'Apple Inc.'"
+        },
+        {
+          "name": "os_version",
+          "type": "Nullable(String)",
+          "description": "Phiên bản đầy đủ của hệ điều hành. Example: '18.5', '17.6.1'"
+        },
+        {
+          "name": "os_version_mj",
+          "type": "Nullable(String)",
+          "description": "Phiên bản chính (major version) của hệ điều hành. Example: '8', '9',..."
+        },
+        {
+          "name": "retry",
+          "type": "UInt8",
+          "description": "Cờ xác định bản ghi có phải là bản ghi được retry hay không. Example: 0, 1"
+        },
+        {
+          "name": "retry_reason",
+          "type": "Nullable(String)",
+          "description": "Lý do bản ghi được retry, nếu có. Example: 'N/A', 'Network Error', 'timeout exceeded'"
+        },
+        {
+          "name": "screen_view",
+          "type": "Nullable(String)",
+          "description": "Tên màn hình hoặc trang đang được người dùng xem."
+        },
+        {
+          "name": "ignored_access_limitation",
+          "type": "UInt8",
+          "description": "Cờ xác định log có bỏ qua giới hạn truy cập hay không. Example: 0, 1"
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm bản ghi log được tạo trong hệ thống. Example: 1785332366574, 1785337758614"
+        }
+      ]
+    },
+    {
+      "collection": "engagement_activity_12m",
+      "description": "Bảng tổng hợp mức độ tương tác chi tiết của khách hàng trong 12 tháng gần nhất. Dùng để phân tích Frequency, Recency và phân khúc khách hàng dựa trên các loại hoạt động như survey, order, face-to-face và minigame. Dữ liệu được tổng hợp theo customer_id và các định danh chính của khách hàng.",
+      "fields": [
+        {
+          "name": "org_id",
+          "type": "String",
+          "description": "Mã tổ chức / tenant của khách hàng. Example: 'fecf6f8c0ce658734a5b730271977767'"
+        },
+        {
+          "name": "customer_id",
+          "type": "String",
+          "description": "Mã định danh khách hàng trong hệ thống CDP. Example: 'P1779278640126563013936107119'"
+        },
+        {
+          "name": "main_phone",
+          "type": "Nullable(String)",
+          "description": "Số điện thoại chính của khách hàng, dùng để liên kết với các nguồn dữ liệu tương tác. Example: '0903381385'"
+        },
+        {
+          "name": "main_email",
+          "type": "Nullable(String)",
+          "description": "Email chính của khách hàng. Example: 'noemail@gmail.com'"
+        },
+        {
+          "name": "main_zalo_user_id",
+          "type": "Nullable(String)",
+          "description": "Zalo User ID chính của khách hàng. Example: '8994763048777088375'"
+        },
+        {
+          "name": "survey_cnt_12m",
+          "type": "UInt32",
+          "description": "Tổng số lần khách hàng tham gia survey trong 12 tháng gần nhất.  Example: 1,2, 30,..."
+        },
+        {
+          "name": "order_cnt_12m",
+          "type": "UInt32",
+          "description": "Tổng số đơn hàng của khách hàng trong 12 tháng gần nhất. Example: 1,2,3,..."
+        },
+        {
+          "name": "f2f_cnt_12m",
+          "type": "UInt32",
+          "description": "Tổng số hoạt động face-to-face của khách hàng trong 12 tháng gần nhất. Example: 1,2,3,..."
+        },
+        {
+          "name": "minigame_cnt_12m",
+          "type": "UInt32",
+          "description": "Tổng số lần khách hàng tham gia minigame trong 12 tháng gần nhất. Example: 1,2,3,..."
+        },
+        {
+          "name": "frequency_12m",
+          "type": "UInt32",
+          "description": "Tổng tần suất hoạt động / tương tác của khách hàng trong 12 tháng gần nhất, được tổng hợp từ các loại activity. Example: 1,2,3,..."
+        },
+        {
+          "name": "last_activity_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm hoạt động gần nhất của khách hàng trong 12 tháng. Example: 1777973298000"
+        },
+        {
+          "name": "recency_days",
+          "type": "UInt16",
+          "description": "Số ngày kể từ hoạt động gần nhất của khách hàng. Giá trị càng nhỏ thể hiện khách hàng càng có hoạt động gần đây. Example: 30,70"
+        },
+        {
+          "name": "survey_months_12m",
+          "type": "Array(String)",
+          "description": "Danh sách các tháng trong 12 tháng gần nhất mà khách hàng có hoạt động survey. Example: "
+        },
+        {
+          "name": "order_months_12m",
+          "type": "Array(String)",
+          "description": "Danh sách các tháng trong 12 tháng gần nhất mà khách hàng có phát sinh đơn hàng. Example: "
+        },
+        {
+          "name": "f2f_months_12m",
+          "type": "Array(String)",
+          "description": "Danh sách các tháng trong 12 tháng gần nhất mà khách hàng có hoạt động face-to-face. Example: "
+        },
+        {
+          "name": "minigame_months_12m",
+          "type": "Array(String)",
+          "description": "Danh sách các tháng trong 12 tháng gần nhất mà khách hàng có tham gia minigame. Example: "
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm dữ liệu tổng hợp của khách hàng được cập nhật gần nhất. Example: 1784143805000, 1782086407000"
+        }
+      ]
+    }
+  ]
+}
