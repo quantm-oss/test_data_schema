@@ -1,0 +1,606 @@
+{
+  "collection": "unified_profile_model",
+  "description": "Tập dữ liệu hồ sơ khách hàng 360° được hợp nhất từ nhiều nguồn (CRM, E-commerce, Social, Mobile App). Lưu trữ toàn bộ thông tin định danh, nhân khẩu học, hành vi và lịch sử mua sắm để tạo Single Customer View, phục vụ phân tích, phân khúc, cá nhân hóa và tối ưu chiến dịch marketing đa kênh.",
+  "fields": [
+    {
+      "name": "id",
+      "type": "String",
+      "description": "ID document duy nhất của hồ sơ khách hàng trong Elasticsearch (khóa chính, tương đương rootUserId)."
+    },
+    {
+      "name": "orgId",
+      "type": "String",
+      "description": "ID tổ chức (tenant) – dùng để tách dữ liệu giữa các doanh nghiệp."
+    },
+    {
+      "name": "userId",
+      "type": "String",
+      "description": "ID nội bộ của khách hàng."
+    },
+    {
+      "name": "name",
+      "type": "String",
+      "description": "Họ tên đầy đủ của khách hàng."
+    },
+    {
+      "name": "firstName",
+      "type": "String",
+      "description": "Tên riêng."
+    },
+    {
+      "name": "lastName",
+      "type": "String",
+      "description": "Họ."
+    },
+    {
+      "name": "gender",
+      "type": "String",
+      "description": "Giới tính. Giá trị quan sát được: 'male', 'female', 'unknown' (phần lớn sample là 'unknown')."
+    },
+    {
+      "name": "birthday",
+      "type": "Long",
+      "description": "Ngày sinh đầy đủ (epoch millis), = 0 nếu chưa có dữ liệu."
+    },
+    {
+      "name": "birthdayDate",
+      "type": "Long",
+      "description": "Ngày sinh (1–31)."
+    },
+    {
+      "name": "birthdayMonth",
+      "type": "Long",
+      "description": "Tháng sinh (1–12), = 0 nếu chưa xác định."
+    },
+    {
+      "name": "birthYear",
+      "type": "Long",
+      "description": "Năm sinh."
+    },
+    {
+      "name": "ageGroup",
+      "type": "String",
+      "description": "Nhóm tuổi (ví dụ: 25–35)."
+    },
+    {
+      "name": "locale",
+      "type": "String",
+      "description": "Ngôn ngữ ưu tiên (vi, en,...)."
+    },
+    {
+      "name": "avatarUrl",
+      "type": "String",
+      "description": "URL ảnh đại diện (thường lấy từ ZaloProfile)."
+    },
+    {
+      "name": "customerType",
+      "type": "String",
+      "description": "Phân loại khách hàng (ví dụ: cá nhân/doanh nghiệp)."
+    },
+    {
+      "name": "address",
+      "type": "String",
+      "description": "Địa chỉ chi tiết."
+    },
+    {
+      "name": "city",
+      "type": "String",
+      "description": "Thành phố cư trú."
+    },
+    {
+      "name": "ward",
+      "type": "String",
+      "description": "Phường/xã cư trú."
+    },
+    {
+      "name": "countryCode",
+      "type": "String",
+      "description": "Mã quốc gia (ví dụ: '84' cho Việt Nam)."
+    },
+    {
+      "name": "mainEmail",
+      "type": "String",
+      "description": "Email chính."
+    },
+    {
+      "name": "mainPhone",
+      "type": "String",
+      "description": "Số điện thoại chính."
+    },
+    {
+      "name": "mainZaloUserId",
+      "type": "String",
+      "description": "Zalo UID."
+    },
+    {
+      "name": "mainZaloOAId",
+      "type": "String",
+      "description": "Zalo Official Account ID."
+    },
+    {
+      "name": "mainFacebookPsid",
+      "type": "String",
+      "description": "Facebook PSID."
+    },
+    {
+      "name": "mainFacebookPageId",
+      "type": "String (nullable)",
+      "description": "Facebook Page ID. Luôn là null trong sample."
+    },
+    {
+      "name": "preferredChannel",
+      "type": "String",
+      "description": "Kênh tương tác ưa thích."
+    },
+    {
+      "name": "systemCreated",
+      "type": "String",
+      "description": "Hệ thống nguồn tạo ra hồ sơ (ví dụ: 'PangoCDP')."
+    },
+    {
+      "name": "sources",
+      "type": "Array<String>",
+      "description": "Danh sách các nguồn dữ liệu đã hợp nhất vào hồ sơ này."
+    },
+    {
+      "name": "firstActivityAt",
+      "type": "Long",
+      "description": "Thời điểm hoạt động/tương tác đầu tiên (epoch millis). Luôn = 0 trong sample."
+    },
+    {
+      "name": "firstActivitySource",
+      "type": "String",
+      "description": "Nguồn của hoạt động đầu tiên. Rỗng trong sample."
+    },
+    {
+      "name": "firstActivityType",
+      "type": "String",
+      "description": "Loại hoạt động đầu tiên. Rỗng trong sample."
+    },
+    {
+      "name": "lastActivityAt",
+      "type": "Long",
+      "description": "Thời điểm hoạt động gần nhất (epoch millis)."
+    },
+    {
+      "name": "lastActivitySource",
+      "type": "String",
+      "description": "Nguồn của hoạt động gần nhất. Rỗng trong sample."
+    },
+    {
+      "name": "lastActivityType",
+      "type": "String",
+      "description": "Loại hoạt động gần nhất."
+    },
+    {
+      "name": "lastTouchedAt",
+      "type": "Long",
+      "description": "Thời điểm hồ sơ được 'chạm' (touch) gần nhất, thường do job hệ thống cập nhật."
+    },
+    {
+      "name": "activityInMonths",
+      "type": "Array<?>",
+      "description": "Danh sách các tháng có hoạt động."
+    },
+    {
+      "name": "firstPurchasedAt",
+      "type": "Long",
+      "description": "Thời gian đơn hàng đầu tiên (epoch millis), = 0 nếu chưa mua."
+    },
+    {
+      "name": "firstPurchasedAmount",
+      "type": "Double",
+      "description": "Giá trị đơn hàng đầu tiên. Chỉ phản ánh 1 giao dịch, không dùng để cộng dồn/tính tổng chi tiêu."
+    },
+    {
+      "name": "firstPurchasedStoreId",
+      "type": "String",
+      "description": "ID cửa hàng của đơn đầu tiên."
+    },
+    {
+      "name": "firstPurchasedProducts",
+      "type": "Array<String>",
+      "description": "Danh sách sản phẩm trong đơn đầu tiên."
+    },
+    {
+      "name": "lastPurchasedAt",
+      "type": "Long",
+      "description": "Thời gian đơn hàng gần nhất (epoch millis)."
+    },
+    {
+      "name": "lastPurchasedAmount",
+      "type": "Double",
+      "description": "Giá trị đơn hàng gần nhất. Chỉ phản ánh 1 giao dịch, không dùng để cộng dồn/tính tổng chi tiêu."
+    },
+    {
+      "name": "lastPurchasedStoreId",
+      "type": "String",
+      "description": "ID cửa hàng của đơn gần nhất."
+    },
+    {
+      "name": "lastPurchasedProducts",
+      "type": "Array<String>",
+      "description": "Danh sách sản phẩm trong đơn gần nhất."
+    },
+    {
+      "name": "lastPurchasedDays",
+      "type": "Long",
+      "description": "Số ngày kể từ lần mua gần nhất đến thời điểm hiện tại (recency, tính bằng ngày)."
+    },
+    {
+      "name": "totalPurchasedAmount",
+      "type": "Long",
+      "description": "Tổng giá trị đã mua (cộng dồn tất cả đơn hàng)."
+    },
+    {
+      "name": "totalPurchasedCount",
+      "type": "Long",
+      "description": "Tổng số đơn hàng đã mua."
+    },
+    {
+      "name": "avgPurchasedAmount",
+      "type": "Long",
+      "description": "Giá trị trung bình mỗi đơn hàng."
+    },
+    {
+      "name": "coreTagIds",
+      "type": "Array<String>",
+      "description": "Danh sách Tag chính gán cho khách hàng. Ví dụ: 'new_customer', 'high_value_customer'."
+    },
+    {
+      "name": "coreTagIdsAudit",
+      "type": "Map[String,Long]",
+      "description": "Map lưu mốc thời gian cấp/hết hạn của từng tag trong coreTagIds. Key động theo mẫu '<tagId>_issued_at' / '<tagId>_expired_at'."
+    },
+    {
+      "name": "coreTagIdsAudit.high_value_customer_pcx_issued_at",
+      "type": "Long",
+      "description": "Thời điểm tag high_value_customer được cấp cho khách hàng (epoch millis). "
+    },
+    {
+      "name": "coreTagIdsAudit.new_customer_pcx_issued_at",
+      "type": "Long",
+      "description": "Thời điểm tag new_customer được cấp cho khách hàng (epoch millis)."
+    },
+    {
+      "name": "coreTagIdsAudit.high_value_customer_pcx_expired_at",
+      "type": "Long",
+      "description": "Thời điểm tag high_value hết hạn (epoch millis)."
+    },
+    {
+      "name": "coreTagIdsAudit.new_customer_pcx_expired_at",
+      "type": "Long",
+      "description": "Thời điểm tag new_customer hết hạn (epoch millis)."
+    },
+    {
+      "name": "userSegmentKeys",
+      "type": "Array<String>",
+      "description": "Danh sách key của tất cả các segment mà khách hàng hiện đang thuộc về (ví dụ: 'PRODUCT-INTEREST_apple-product-enthusiasts-new'). Mỗi khách hàng thường thuộc 1–3 segment."
+    },
+    {
+      "name": "lastSegmentKeys",
+      "type": "Map[String,String]",
+      "description": "Giá trị segment/nhãn gần nhất theo từng nhóm logic phân khúc (key = tên logic, value = giá trị segment hiện tại)."
+    },
+    {
+      "name": "lastSegmentKeys.SocialCRM_AssignStore",
+      "type": "String",
+      "description": "Mã cửa hàng được phân công chăm sóc khách hàng (ví dụ: 'CSKH0001')."
+    },
+    {
+      "name": "lastSegmentKeys.SocialCRM_CustomerGroup",
+      "type": "String",
+      "description": "Nhóm khách hàng theo Social CRM (ví dụ: 'New_Customer', 'customer_loyalty'), có thể null."
+    },
+    {
+      "name": "lastSegmentKeys.PRODUCT_INTEREST",
+      "type": "String",
+      "description": "Phân khúc quan tâm sản phẩm hiện tại (ví dụ: 'apple_product_enthusiasts')."
+    },
+    {
+      "name": "lastSegmentKeys.Product Interest",
+      "type": "String",
+      "description": "Biến thể khác (đặt tên có khoảng trắng) của logic phân khúc quan tâm sản phẩm."
+    },
+    {
+      "name": "lastSegmentKeys.customer_lapsed",
+      "type": "String",
+      "description": "Cửa hàng/logic liên quan tới nhóm khách hàng ngừng hoạt động (lapsed customer)."
+    },
+    {
+      "name": "lastSegmentAt",
+      "type": "Map[String,Long]",
+      "description": "Thời điểm cập nhật gần nhất cho từng logic phân khúc/segment, key tương ứng 1-1 với lastSegmentKeys."
+    },
+    {
+      "name": "lastSegmentAt.SocialCRM_AssignStore",
+      "type": "Long",
+      "description": "Thời điểm phân công cửa hàng chăm sóc gần nhất (epoch millis)."
+    },
+    {
+      "name": "lastSegmentAt.PRODUCT_INTEREST",
+      "type": "Long",
+      "description": "Thời điểm cập nhật phân khúc quan tâm sản phẩm gần nhất (epoch millis)."
+    },
+    {
+      "name": "lastSegmentAt.SocialCRM_CustomerGroup",
+      "type": "Long",
+      "description": "Thời điểm cập nhật nhóm khách hàng Social CRM gần nhất (epoch millis)."
+    },
+    {
+      "name": "lastSegmentAt.Product Interest",
+      "type": "Long",
+      "description": "Thời điểm cập nhật (biến thể khác) phân khúc quan tâm sản phẩm."
+    },
+    {
+      "name": "lastSegmentAt.customer_lapsed",
+      "type": "Long",
+      "description": "Thời điểm cập nhật trạng thái khách hàng ngừng hoạt động gần nhất."
+    },
+    {
+      "name": "lastSegmentPrioritys",
+      "type": "Map[String,Long]",
+      "description": "Mức độ ưu tiên (số càng lớn/nhỏ tùy quy ước) của từng logic phân khúc, key tương ứng 1-1 với lastSegmentKeys."
+    },
+    {
+      "name": "lastSegmentPrioritys.SocialCRM_AssignStore",
+      "type": "Long",
+      "description": "Mức ưu tiên của phân khúc dùng để phân công khách hàng đến cửa hàng."
+    },
+    {
+      "name": "lastSegmentPrioritys.PRODUCT_INTEREST",
+      "type": "Long",
+      "description": "Mức ưu tiên thể hiện mức độ quan tâm của khách hàng đối với sản phẩm."
+    },
+    {
+      "name": "lastSegmentPrioritys.SocialCRM_CustomerGroup",
+      "type": "Long",
+      "description": "Mức ưu tiên của nhóm khách hàng Social CRM."
+    },
+    {
+      "name": "lastSegmentPrioritys.Product Interest",
+      "type": "Long",
+      "description": "Mức ưu tiên (biến thể khác) của phân khúc quan tâm sản phẩm."
+    },
+    {
+      "name": "lastSegmentPrioritys.customer_lapsed",
+      "type": "Long",
+      "description": "Mức ưu tiên của nhóm khách hàng ngừng hoạt động."
+    },
+    {
+      "name": "attributeInts",
+      "type": "Map[String,Long]",
+      "description": "Thuộc tính động kiểu số nguyên, chủ yếu liên quan Membership/Loyalty."
+    },
+    {
+      "name": "attributeInts.EarnPoint",
+      "type": "Long",
+      "description": "Số điểm đã tích lũy được (loyalty program), nguồn từ CustomerMembership."
+    },
+    {
+      "name": "attributeInts.LoyaltyPoint",
+      "type": "Long",
+      "description": "Số điểm loyalty hiện có của khách hàng, nguồn từ CustomerMembership."
+    },
+    {
+      "name": "attributeLongs",
+      "type": "Map[String,Long]",
+      "description": "Thuộc tính động kiểu thời gian/số nguyên lớn."
+    },
+    {
+      "name": "attributeLongs.MembershipIssuedAt",
+      "type": "Long",
+      "description": "Thời điểm cấp thẻ/hạng membership (epoch millis)."
+    },
+    {
+      "name": "attributeLongs.lastInteractOA",
+      "type": "Long",
+      "description": "Thời điểm tương tác Zalo OA gần nhất (epoch millis)."
+    },
+    {
+      "name": "attributeLongs.LastInteractedOA",
+      "type": "Long",
+      "description": "Biến thể khác (viết hoa 'Interacted') của thời điểm tương tác Zalo OA gần nhất."
+    },
+    {
+      "name": "attributeDoubles",
+      "type": "Map[String,Double]",
+      "description": "Thuộc tính động kiểu số thực. Luôn rỗng trong toàn bộ 300 sample."
+    },
+    {
+      "name": "attributeBooleans",
+      "type": "Map[String,Boolean]",
+      "description": "Thuộc tính động kiểu boolean. Luôn rỗng trong toàn bộ 300 sample."
+    },
+    {
+      "name": "attributeTimestamps",
+      "type": "Map[String,Long]",
+      "description": "Thuộc tính động kiểu timestamp riêng biệt với attributeLongs. Luôn rỗng trong toàn bộ 300 sample."
+    },
+    {
+      "name": "attributes",
+      "type": "Map[String,String]",
+      "description": "Thuộc tính động dạng chuỗi (key-value tự do), phục vụ mở rộng schema mà không cần thêm field cứng."
+    },
+    {
+      "name": "attributes.customerId",
+      "type": "String",
+      "description": "Mã khách hàng ở hệ thống nguồn (ví dụ CRM/POS), ví dụ: 'TCD004095998'."
+    },
+    {
+      "name": "attributes.MembershipLevel",
+      "type": "String",
+      "description": "Hạng thành viên (membership tier), ví dụ: 'Silver'."
+    },
+    {
+      "name": "attributes.followedOA",
+      "type": "String",
+      "description": "Trạng thái đã theo dõi Zalo OA hay chưa, giá trị dạng chuỗi 'true'/'false'."
+    },
+    {
+      "name": "membership",
+      "type": "Object (nullable)",
+      "description": "Thông tin chi tiết về gói/hạng thành viên. Luôn là null trong sample — thông tin membership thực tế nằm ở attributes.MembershipLevel và attributeInts/attributeLongs liên quan."
+    },
+    {
+      "name": "enrichmentModels",
+      "type": "Array<Map>",
+      "description": "Danh sách kết quả các mô hình làm giàu dữ liệu (enrichment) được tính cho khách hàng, ví dụ mô hình chấm điểm RFM ('erfm'). Có thể rỗng nếu khách hàng chưa được chạy mô hình."
+    },
+    {
+      "name": "enrichmentModels.model",
+      "type": "String",
+      "description": "Tên mô hình enrichment, ví dụ: 'erfm' (Extended RFM)."
+    },
+    {
+      "name": "enrichmentModels.erfm_recency",
+      "type": "Long",
+      "description": "Số ngày kể từ lần giao dịch/mua hàng gần nhất (Recency, đơn vị ngày)."
+    },
+    {
+      "name": "enrichmentModels.erfm_recency_score",
+      "type": "Long",
+      "description": "Điểm số Recency đã chuẩn hóa (thang điểm, ví dụ 1–5)."
+    },
+    {
+      "name": "enrichmentModels.erfm_frequency",
+      "type": "Long",
+      "description": "Tần suất giao dịch (Frequency) – số lần mua hàng."
+    },
+    {
+      "name": "enrichmentModels.erfm_frequency_score",
+      "type": "Long",
+      "description": "Điểm số Frequency đã chuẩn hóa."
+    },
+    {
+      "name": "enrichmentModels.erfm_monetary",
+      "type": "Long",
+      "description": "Tổng giá trị chi tiêu (Monetary), tính bằng VNĐ."
+    },
+    {
+      "name": "enrichmentModels.erfm_monetary_score",
+      "type": "Long",
+      "description": "Điểm số Monetary đã chuẩn hóa."
+    },
+    {
+      "name": "enrichmentModels.erfm_recency_event",
+      "type": "Long",
+      "description": "Số ngày kể từ sự kiện/tương tác gần nhất (khác với giao dịch mua hàng, ví dụ tương tác trên app/OA)."
+    },
+    {
+      "name": "enrichmentModels.erfm_recency_event_score",
+      "type": "Long",
+      "description": "Điểm số Recency của sự kiện đã chuẩn hóa."
+    },
+    {
+      "name": "enrichmentModels.erfm_frequency_event",
+      "type": "Long",
+      "description": "Tần suất sự kiện/tương tác."
+    },
+    {
+      "name": "enrichmentModels.erfm_frequency_event_score",
+      "type": "Long",
+      "description": "Điểm số Frequency của sự kiện đã chuẩn hóa."
+    },
+    {
+      "name": "enrichmentModels.expireAt",
+      "type": "Long",
+      "description": "Thời điểm kết quả mô hình hết hạn/cần tính lại (epoch millis)."
+    },
+    {
+      "name": "enrichmentModels.updatedAt",
+      "type": "Long",
+      "description": "Thời điểm mô hình được tính/cập nhật gần nhất (epoch millis)."
+    },
+    {
+      "name": "firstUpdatedSource",
+      "type": "String",
+      "description": "Nguồn cập nhật đầu tiên cho hồ sơ (ví dụ: 'PurchaseHistory', 'Customer', 'ZaloProfile', 'CRM')."
+    },
+    {
+      "name": "firstUpdatedSourceId",
+      "type": "String",
+      "description": "ID bản ghi tại nguồn cập nhật đầu tiên."
+    },
+    {
+      "name": "lastUpdatedSource",
+      "type": "String",
+      "description": "Nguồn cập nhật gần nhất cho hồ sơ (ví dụ: 'PurchaseHistory', 'CustomerMembership', 'ZaloProfile')."
+    },
+    {
+      "name": "lastUpdatedSourceId",
+      "type": "String",
+      "description": "ID bản ghi tại nguồn cập nhật gần nhất."
+    },
+    {
+      "name": "fieldSourceMap",
+      "type": "Map[String,String]",
+      "description": "Ghi nhận nguồn dữ liệu (hệ thống nào) đã cập nhật cho từng field cụ thể của hồ sơ. Key là tên field gốc (hoặc field lồng dạng '<map>.<subKey>'), value là tên nguồn (Customer, PurchaseHistory, CustomerMembership, ZaloProfile, CRM...)."
+    },
+    {
+      "name": "fieldSourceMap.<fieldName>",
+      "type": "String",
+      "description": "Nguồn đã ghi field <fieldName> gần nhất. Ví dụ: fieldSourceMap.name='PurchaseHistory', fieldSourceMap.gender='Customer', fieldSourceMap.avatarUrl='ZaloProfile'."
+    },
+    {
+      "name": "fieldSourceMap.attributes.<subKey>",
+      "type": "String",
+      "description": "Nguồn đã ghi field con của map 'attributes'. Ví dụ: fieldSourceMap.'attributes.customerId'='PurchaseHistory', fieldSourceMap.'attributes.MembershipLevel'='CustomerMembership'."
+    },
+    {
+      "name": "fieldSourceMap.attributeInts.<subKey>",
+      "type": "String",
+      "description": "Nguồn đã ghi field con của map 'attributeInts'. Ví dụ: fieldSourceMap.'attributeInts.LoyaltyPoint'='CustomerMembership'."
+    },
+    {
+      "name": "fieldSourceMap.attributeLongs.<subKey>",
+      "type": "String",
+      "description": "Nguồn đã ghi field con của map 'attributeLongs'. Ví dụ: fieldSourceMap.'attributeLongs.MembershipIssuedAt'='CustomerMembership'."
+    },
+    {
+      "name": "fieldUpdatedAt",
+      "type": "Map[String,Long]",
+      "description": "Thời điểm cập nhật gần nhất cho từng field cụ thể của hồ sơ (epoch millis). Cấu trúc key hoàn toàn tương ứng 1-1 với fieldSourceMap."
+    },
+    {
+      "name": "fieldUpdatedAt.<fieldName>",
+      "type": "Long",
+      "description": "Thời điểm field <fieldName> được cập nhật gần nhất."
+    },
+    {
+      "name": "fieldUpdatedAt.attributes.<subKey>",
+      "type": "Long",
+      "description": "Thời điểm field con của map 'attributes' được cập nhật gần nhất."
+    },
+    {
+      "name": "fieldUpdatedAt.attributeInts.<subKey>",
+      "type": "Long",
+      "description": "Thời điểm field con của map 'attributeInts' được cập nhật gần nhất."
+    },
+    {
+      "name": "fieldUpdatedAt.attributeLongs.<subKey>",
+      "type": "Long",
+      "description": "Thời điểm field con của map 'attributeLongs' được cập nhật gần nhất."
+    },
+    {
+      "name": "createdBy",
+      "type": "String",
+      "description": "ID người/hệ thống tạo record. Rỗng trong sample."
+    },
+    {
+      "name": "createdAt",
+      "type": "Long",
+      "description": "Thời điểm tạo record (epoch millis)."
+    },
+    {
+      "name": "updatedBy",
+      "type": "String",
+      "description": "ID người/hệ thống cập nhật record gần nhất. Rỗng trong sample."
+    },
+    {
+      "name": "updatedAt",
+      "type": "Long",
+      "description": "Thời điểm cập nhật record gần nhất (epoch millis)."
+    }
+  ]
+}
