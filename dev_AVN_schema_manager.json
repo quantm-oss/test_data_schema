@@ -573,19 +573,44 @@
           "description": "ID của connection được kích hoạt. Example: '66b5cebf10f35a0001aacd5b'"
         },
         {
+          "name": "session_id",
+          "type": "Nullable(String)",
+          "description": "Mã định danh phiên làm việc hiện tại của người dùng. Example: 'b8df4d91-d904-4815-aa7e-879de5c10f9d'"
+        },
+        {
           "name": "cdp_app_id",
           "type": "LowCardinality(String)",
           "description": "Mã định danh ứng dụng trên nền tảng CDP, dùng để xác định ứng dụng sinh ra log. Example: '3067408865942029233'"
         },
         {
+          "name": "zalo_app_id",
+          "type": "Nullable(String)",
+          "description": "Mã định danh App ID của ứng dụng trên nền tảng Zalo. Example: '3067408865942029233', 'bf119d66b2fd732cf93b2164ef1955ed-1739524457481'"
+        },
+        {
           "name": "zalo_user_app_id",
           "type": "String",
-          "description": "Mã định danh duy nhất của người dùng trong một ứng dụng Zalo cụ thể, dùng để theo dõi hành vi và liên kết dữ liệu người dùng. Example: '102465571524114491' "
+          "description": "Mã định danh duy nhất của người dùng trong một ứng dụng Zalo cụ thể, dùng để theo dõi hành vi và liên kết dữ liệu người dùng. Example: '102465571524114491'"
+        },
+        {
+          "name": "app_type",
+          "type": "LowCardinality(String)",
+          "description": "Loại ứng dụng. Có thể bao gồm PangoForm, PangoWheel, PangoConnect, PangoScan, Pango1Touch, PangoSell, PangoReward."
         },
         {
           "name": "zma_zone",
           "type": "LowCardinality(String)",
           "description": "Vùng / zone trong hệ thống ZMA mà ứng dụng hoặc người dùng đang hoạt động. Example: 'Private'"
+        },
+        {
+          "name": "dev_zalo_app_id",
+          "type": "Nullable(String)",
+          "description": "Zalo App ID dùng trong môi trường development. Example: '2227067197626841659'"
+        },
+        {
+          "name": "app_template_type",
+          "type": "Nullable(String)",
+          "description": "Mã hoặc loại template của ứng dụng. Example: 'Pango3rdParty', '3230288109092980035', '4446199182319379222'"
         },
         {
           "name": "zoa_id",
@@ -598,6 +623,21 @@
           "description": "Mã định danh người dùng trong Zalo Official Account. Example: '689952624298805303', '3278638304643710756'"
         },
         {
+          "name": "zoa_user_device_id",
+          "type": "Nullable(String)",
+          "description": "Mã thiết bị của người dùng Zalo Official Account. Example: '2b56592b173780e11ae9d99bd9b0967c', '00cd9103d6f69046c2e1c6d073a415fe'"
+        },
+        {
+          "name": "zoa_user_name",
+          "type": "Nullable(String)",
+          "description": "Tên người dùng trong Zalo Official Account. Example: 'Lê Tuấn Anh', 'Guest', 'Phạm Lâm',... (tên tiếng Việt hoặc tiếng Anh tùy vào ngữ cảnh)"
+        },
+        {
+          "name": "zoa_user_avatar",
+          "type": "Nullable(String)",
+          "description": "Link ảnh avatar của người dùng Zalo Official Account. Example: 'https://storage.googleapis.com/pangocdp-images/p-act/public/c9385ae058a24a129175d183ec46711e.png'"
+        },
+        {
           "name": "user_id_by_foa",
           "type": "UInt8",
           "description": "Cờ xác định có sử dụng user ID từ hệ thống follow Zalo Official Account hay không. Example: 0, 1"
@@ -608,14 +648,24 @@
           "description": "Số điện thoại người dùng, dùng để liên kết với các dữ liệu khách hàng khác. Example: '0375479446', '0968229106'"
         },
         {
+          "name": "email",
+          "type": "Nullable(String)",
+          "description": "Địa chỉ email người dùng. Example: 'lethimyle@gmail.com'"
+        },
+        {
+          "name": "event_trigger",
+          "type": "Nullable(String)",
+          "description": "Sự kiện trigger kích hoạt hành động. Có thể dùng để xác định nguồn hoặc cơ chế phát sinh event. Example: 'UserEvent', 'AutoEvent'"
+        },
+        {
           "name": "event_name",
           "type": "LowCardinality(String)",
           "description": "Tên sự kiện xảy ra, dùng để phân loại và phân tích loại hành vi. Example: 'zma-screen-view', 'open-app', 'follow-oa', 'play-game', 'view-product',... (tùy vào ngữ cảnh)"
         },
         {
-          "name": "event_data",
+          "name": "event_ctg",
           "type": "Nullable(String)",
-          "description": "Dữ liệu chi tiết đi kèm sự kiện. Example: 'Ngon là được, không để ý lắm', 'Cũng quan tâm nhưng không quá khắt khe',... "
+          "description": "Nhóm / category của sự kiện. Example: "
         },
         {
           "name": "event_at",
@@ -623,9 +673,124 @@
           "description": "Thời điểm sự kiện xảy ra theo UTC. Dùng để phân tích thời gian tương tác và hành vi theo mốc hoặc khoảng thời gian. Example: 1785332366504, 1785322719760"
         },
         {
+          "name": "event_data",
+          "type": "Nullable(String)",
+          "description": "Dữ liệu chi tiết đi kèm sự kiện. Example: 'Ngon là được, không để ý lắm', 'Cũng quan tâm nhưng không quá khắt khe',..."
+        },
+        {
+          "name": "tid",
+          "type": "Nullable(String)",
+          "description": "Transaction ID nếu sự kiện có liên quan đến giao dịch. Example: {\"pango_rwRef\":\"t0XNGun\",\"pango_zmauserid\":\"941449793039159220\",\"screen\":\"racetrackInfo\"}, {\"pango_source_c\":\"Reward\",\"pango_medium_c\":\"Reward\",\"pango_campaign_c\":\"Reward\",\"pango_referrer\":\"PangoGift\"}"
+        },
+        {
+          "name": "cid",
+          "type": "Nullable(String)",
+          "description": "Client ID hoặc ID của visitor. Example: "
+        },
+        {
+          "name": "hour_key",
+          "type": "Nullable(String)",
+          "description": "Khóa theo giờ, dùng để phân tích hành vi theo khung giờ trong ngày. Example: '1', '2', '3',... (tùy vào ngữ cảnh)"
+        },
+        {
+          "name": "day_key",
+          "type": "Nullable(String)",
+          "description": "Khóa theo ngày, dùng để phân tích hành vi theo ngày trong tháng. Example: '1', '2', '3',... (tùy vào ngữ cảnh)"
+        },
+        {
+          "name": "utm_source",
+          "type": "Nullable(String)",
+          "description": "UTM source — nguồn truy cập. Example: 'BIG_C_HUE', 'zalo', 'Pouchen_DONG_NAI',..."
+        },
+        {
+          "name": "utm_medium",
+          "type": "Nullable(String)",
+          "description": "UTM medium — loại kênh truy cập, ví dụ email hoặc cpc. Example: 'Reward', 'Survey-thankyou', 'Message_2-2',..."
+        },
+        {
+          "name": "utm_campaign",
+          "type": "Nullable(String)",
+          "description": "UTM campaign — tên hoặc mã chiến dịch marketing. Example: 'zalo', 'event', 'gyoza',..."
+        },
+        {
+          "name": "utm_keyword",
+          "type": "Nullable(String)",
+          "description": "UTM keyword — từ khóa tìm kiếm dẫn đến lượt truy cập. Example: "
+        },
+        {
+          "name": "utm_content",
+          "type": "Nullable(String)",
+          "description": "UTM content — nội dung hoặc biến thể chi tiết của chiến dịch. Example: 'HCM', 'test', 'Saigon_center',..."
+        },
+        {
+          "name": "pango_form_id",
+          "type": "Nullable(String)",
+          "description": "ID của form Pango Form liên quan đến sự kiện. Example: "
+        },
+        {
+          "name": "pango_form_name",
+          "type": "Nullable(String)",
+          "description": "Tên của form Pango Form. Example: "
+        },
+        {
+          "name": "user_agent",
+          "type": "Nullable(String)",
+          "description": "Chuỗi User-Agent của trình duyệt hoặc ứng dụng gửi request. Example: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Zalo iOS/630 ZaloTheme/dark ZaloLanguage/vn'"
+        },
+        {
+          "name": "device",
+          "type": "Nullable(String)",
+          "description": "Tên hoặc thông tin thiết bị của người dùng. Example: 'Smartphone', 'Tablet'"
+        },
+        {
+          "name": "brw_type",
+          "type": "Nullable(String)",
+          "description": "Loại trình duyệt. Example: 'Mobile Browser'"
+        },
+        {
+          "name": "brw_name",
+          "type": "Nullable(String)",
+          "description": "Tên trình duyệt. Example: 'Chrome Mobile', 'Mobile Safari'"
+        },
+        {
+          "name": "brw_version",
+          "type": "Nullable(String)",
+          "description": "Phiên bản trình duyệt. Example: '131.0.6778.135'"
+        },
+        {
+          "name": "os_name",
+          "type": "Nullable(String)",
+          "description": "Tên hệ điều hành của thiết bị. Example: 'Android', 'iOS / iphone'"
+        },
+        {
+          "name": "os_producer",
+          "type": "Nullable(String)",
+          "description": "Nhà phát hành hệ điều hành. Example: 'Google, Inc.', 'Apple Inc.'"
+        },
+        {
+          "name": "os_version",
+          "type": "Nullable(String)",
+          "description": "Phiên bản đầy đủ của hệ điều hành. Example: '18.5', '17.6.1'"
+        },
+        {
+          "name": "os_version_mj",
+          "type": "Nullable(String)",
+          "description": "Phiên bản chính (major version) của hệ điều hành. Example: '8', '9',..."
+        },
+        {
           "name": "retry",
           "type": "UInt8",
           "description": "Cờ xác định bản ghi có phải là bản ghi được retry hay không. Example: 0, 1"
+        },
+        {
+          "name": "retry_reason",
+          "type": "Nullable(String)",
+          "description": "Lý do bản ghi được retry, nếu có. Example: 'N/A', 'Network Error', 'timeout exceeded'"
+        },
+        {
+          "name": "screen_view",
+          "type": "Nullable(String)",
+          "description": "Tên màn hình hoặc trang đang được người dùng xem."
         },
         {
           "name": "ignored_access_limitation",
@@ -712,6 +877,21 @@
           "name": "updated_at",
           "type": "DateTime64(3, 'UTC')",
           "description": "Thời điểm dữ liệu tổng hợp của khách hàng được cập nhật gần nhất. Example: 1784143805000, 1782086407000"
+        },
+        {
+          "name": "main_phone",
+          "type": "Nullable(String)",
+          "description": "Số điện thoại chính của khách hàng, dùng để liên kết với các nguồn dữ liệu tương tác. Example: '0903381385'"
+        },
+        {
+          "name": "main_email",
+          "type": "Nullable(String)",
+          "description": "Email chính của khách hàng. Example: 'noemail@gmail.com'"
+        },
+        {
+          "name": "main_zalo_user_id",
+          "type": "Nullable(String)",
+          "description": "Zalo User ID chính của khách hàng. Example: '8994763048777088375'"
         }
       ]
     },
