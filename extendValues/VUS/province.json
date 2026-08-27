@@ -1,90 +1,97 @@
-[
-  {
-    "province_id": "8d16744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Đồng Nai"
-  },
-  {
-    "province_id": "a116744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Thành phố Hồ Chí Minh"
-  },
-  {
-    "province_id": "d716744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Thanh Hóa"
-  },
-  {
-    "province_id": "d916744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Thừa Thiên Huế"
-  },
-  {
-    "province_id": "e316744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Vĩnh Long"
-  },
-  {
-    "province_id": "9716744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Hà Nội"
-  },
-  {
-    "province_id": "c716744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Quảng Ngãi"
-  },
-  {
-    "province_id": "b916744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Nghệ An"
-  },
-  {
-    "province_id": "8f16744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Đồng Tháp"
-  },
-  {
-    "province_id": "8116744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Cần Thơ"
-  },
-  {
-    "province_id": "d116744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Tây Ninh"
-  },
-  {
-    "province_id": "8516744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Đà Nẵng"
-  },
-  {
-    "province_id": "9116744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Gia Lai"
-  },
-  {
-    "province_id": "6916744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "An Giang"
-  },
-  {
-    "province_id": "af16744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Lâm Đồng"
-  },
-  {
-    "province_id": "8716744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Đắk Lắk"
-  },
-  {
-    "province_id": "7f16744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Cà Mau"
-  },
-  {
-    "province_id": "a716744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Khánh Hòa"
-  },
-  {
-    "province_id": "7d16744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Bình Thuận"
-  },
-  {
-    "province_id": "c916744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Quảng Ninh"
-  },
-  {
-    "province_id": "7916744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Bình Dương"
-  },
-  {
-    "province_id": "db16744b-6ad3-ed11-a7c7-6045bd1f51e0",
-    "province_name": "Tiền Giang"
-  }
-]
+{
+  "table": "vconnext_lead",
+  "field": "provinceId",
+  "avoidFields": ["provinceName"],
+  "reason": "Cột provinceName trong bảng vconnext_lead là NULL toàn bộ, chỉ có provinceId chứa dữ liệu thực tế",
+  "instruction": "Khi lọc theo tỉnh/thành phố trên bảng vconnext_lead, BẮT BUỘC dùng field 'provinceId' với giá trị UUID từ bảng mapping bên dưới. TUYỆT ĐỐI KHÔNG dùng 'provinceName' vì cột này NULL trong database",
+  "mapping": [
+    {
+      "province_id": "8d16744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Đồng Nai"
+    },
+    {
+      "province_id": "a116744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Thành phố Hồ Chí Minh"
+    },
+    {
+      "province_id": "d716744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Thanh Hóa"
+    },
+    {
+      "province_id": "d916744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Thừa Thiên Huế"
+    },
+    {
+      "province_id": "e316744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Vĩnh Long"
+    },
+    {
+      "province_id": "9716744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Hà Nội"
+    },
+    {
+      "province_id": "c716744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Quảng Ngãi"
+    },
+    {
+      "province_id": "b916744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Nghệ An"
+    },
+    {
+      "province_id": "8f16744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Đồng Tháp"
+    },
+    {
+      "province_id": "8116744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Cần Thơ"
+    },
+    {
+      "province_id": "d116744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Tây Ninh"
+    },
+    {
+      "province_id": "8516744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Đà Nẵng"
+    },
+    {
+      "province_id": "9116744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Gia Lai"
+    },
+    {
+      "province_id": "6916744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "An Giang"
+    },
+    {
+      "province_id": "af16744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Lâm Đồng"
+    },
+    {
+      "province_id": "8716744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Đắk Lắk"
+    },
+    {
+      "province_id": "7f16744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Cà Mau"
+    },
+    {
+      "province_id": "a716744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Khánh Hòa"
+    },
+    {
+      "province_id": "7d16744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Bình Thuận"
+    },
+    {
+      "province_id": "c916744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Quảng Ninh"
+    },
+    {
+      "province_id": "7916744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Bình Dương"
+    },
+    {
+      "province_id": "db16744b-6ad3-ed11-a7c7-6045bd1f51e0",
+      "province_name": "Tiền Giang"
+    }
+  ]
+}
