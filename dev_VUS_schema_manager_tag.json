@@ -1,0 +1,919 @@
+{
+  "collections": [
+    {
+      "collection": "vconnext_user_profile",
+      "description": "Bảng lưu hồ sơ khách hàng hợp nhất (unified customer profile). Mỗi bản ghi đại diện cho một khách hàng hoặc người liên hệ chính, tập hợp thông tin nhận diện, liên hệ, nguồn phát sinh đầu tiên, địa chỉ, Owner quản lý, lịch sử chăm sóc và các chỉ số tổng hợp từ toàn bộ Lead thuộc hồ sơ đó. Một User Profile có thể sở hữu nhiều Lead và nhiều Student Profile. Mỗi Lead hoặc Student Profile chỉ thuộc về một User Profile tại một thời điểm. Khi câu hỏi liên quan đến thông tin khách hàng ở cấp tổng hợp/toàn cục — định danh, địa chỉ, owner phụ trách, trạng thái chăm sóc tổng hợp từ toàn bộ Lead, hoặc nguồn phát sinh đầu tiên của khách hàng — sử dụng bảng này.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Khóa định danh duy nhất của hồ sơ khách hàng trên NS."
+        },
+        {
+          "name": "phoneNumber",
+          "type": "String",
+          "description": "Số điện thoại liên hệ chính; 1 số điện thoại chỉ ứng với 1 user profile."
+        },
+        {
+          "name": "refProfileId",
+          "type": "String",
+          "description": "ID hồ sơ tương ứng trên CoreEdu/hệ thống nguồn."
+        },
+        {
+          "name": "fullName",
+          "type": "String",
+          "description": "Họ tên đầy đủ khách hàng/người liên hệ chính."
+        },
+        {
+          "name": "dob",
+          "type": "DateTime64(3)",
+          "description": "Ngày sinh, Unix ms GMT+0."
+        },
+        {
+          "name": "genderCode",
+          "type": "String",
+          "description": "Mã giới tính: 1 = Nam, 2 = Nữ."
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "description": "Địa chỉ liên hệ, free text."
+        },
+        {
+          "name": "emailAddress",
+          "type": "String",
+          "description": "Email liên hệ, free text."
+        },
+        {
+          "name": "mainContactChannel",
+          "type": "String",
+          "description": "Kênh liên hệ chính được ưu tiên. Ví dụ: Gọi điện thoại trực tiếp, Nhắn tin qua Zalo, None."
+        },
+        {
+          "name": "preferredContactTime",
+          "type": "String",
+          "description": "Khung giờ mong muốn được liên hệ. Ví dụ: 9:00 - 11:00 sáng, 6:00 - 8:00 tối, 3:00 - 5:00 chiều."
+        },
+        {
+          "name": "acceptOtp",
+          "type": "Bool",
+          "description": "Trạng thái chấp nhận/xác thực OTP."
+        },
+        {
+          "name": "provinceId",
+          "type": "String",
+          "description": "ID tỉnh/thành, free text/code."
+        },
+        {
+          "name": "wardId",
+          "type": "String",
+          "description": "ID phường/xã."
+        },
+        {
+          "name": "professionId",
+          "type": "String",
+          "description": "ID nghề nghiệp."
+        },
+        {
+          "name": "statusName",
+          "type": "String",
+          "description": "Trạng thái User Profile, thường là Active hoặc None."
+        },
+        {
+          "name": "recallLastTime",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm gần nhất được recall về Marketing Nurturing."
+        },
+        {
+          "name": "recallReason",
+          "type": "String",
+          "description": "Lý do recall, free text."
+        },
+        {
+          "name": "firstSource",
+          "type": "String",
+          "description": "Mã nguồn phát sinh đầu tiên của khách hàng."
+        },
+        {
+          "name": "ownerType",
+          "type": "String",
+          "description": "Loại đối tượng sở hữu: Role, Team hoặc User."
+        },
+        {
+          "name": "ownerRole",
+          "type": "String",
+          "description": "Role quản lý, free text."
+        },
+        {
+          "name": "ownerTeam",
+          "type": "String",
+          "description": "ID Team sở hữu."
+        },
+        {
+          "name": "ownerUser",
+          "type": "String",
+          "description": "Email nhân viên chăm sóc."
+        },
+        {
+          "name": "assignedOwnerAt",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm phân bổ Owner hiện tại."
+        },
+        {
+          "name": "careBys",
+          "type": "Array(String)",
+          "description": "Danh sách tài khoản đã tham gia chăm sóc."
+        },
+        {
+          "name": "lastCareBy",
+          "type": "String",
+          "description": "Người chăm sóc gần nhất."
+        },
+        {
+          "name": "lastCareDate",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm chăm sóc gần nhất."
+        },
+        {
+          "name": "firstSuccessfulContactAt",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm liên hệ thành công đầu tiên."
+        },
+        {
+          "name": "noCalls",
+          "type": "Int64",
+          "description": "Tổng số cuộc gọi."
+        },
+        {
+          "name": "careStatusCode",
+          "type": "String",
+          "description": "Mã trạng thái chăm sóc gần nhất, tổng hợp từ các Lead liên quan."
+        },
+        {
+          "name": "careStatusSubCode",
+          "type": "String",
+          "description": "Mã trạng thái chăm sóc chi tiết."
+        },
+        {
+          "name": "lastCareStatusLeadId",
+          "type": "String",
+          "description": "ID Lead được dùng để xác định trạng thái chăm sóc gần nhất."
+        },
+        {
+          "name": "createdBy",
+          "type": "String",
+          "description": "Tài khoản/service tạo bản ghi."
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm tạo, Unix ms GMT+0."
+        },
+        {
+          "name": "updatedBy",
+          "type": "String",
+          "description": "Tài khoản/service cập nhật gần nhất."
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm cập nhật gần nhất."
+        },
+        {
+          "name": "userCreatedBy",
+          "type": "String",
+          "description": "Người dùng nghiệp vụ tạo."
+        },
+        {
+          "name": "userCreatedAt",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm người dùng tạo."
+        },
+        {
+          "name": "userUpdatedBy",
+          "type": "String",
+          "description": "Người dùng nghiệp vụ cập nhật gần nhất."
+        },
+        {
+          "name": "userUpdatedAt",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm người dùng cập nhật gần nhất."
+        },
+        {
+          "name": "sourceChangeAt",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm thay đổi nguồn của hồ sơ."
+        }
+      ]
+    },
+    {
+      "collection": "vconnext_student",
+      "description": "Bảng lưu hồ sơ học tập của học viên, đồng bộ từ hệ thống giáo dục CoreEdu/CE. Có thể có một hoặc nhiều học viên thuộc về một User Profile. Mỗi bản ghi đại diện cho một Student Profile theo từng ngữ cảnh học tập, không mặc định đại diện cho một học viên duy nhất. Một học viên có thể có nhiều bản ghi nếu học nhiều chương trình khác nhau như ELT, ECA hoặc cả hai. Khi câu hỏi liên quan đến hồ sơ học tập, chương trình đang học, trạng thái học viên hoặc cơ sở học tập thì sử dụng bảng này.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Khóa định danh duy nhất của bảng học viên."
+        },
+        {
+          "name": "userProfileId",
+          "type": "String",
+          "description": "FK → vconnext_user_profile.id. Một Student Profile thuộc đúng một User Profile."
+        },
+        {
+          "name": "studentProfileId",
+          "type": "String",
+          "description": "ID học viên trên hệ thống giáo dục. Có thể lặp lại nếu học viên học nhiều chương trình. Đây là field mà vconnext_lead.studentId join vào."
+        },
+        {
+          "name": "studentCode",
+          "type": "String",
+          "description": "Mã nghiệp vụ nhận diện học viên. Có thể lặp lại theo chương trình."
+        },
+        {
+          "name": "studentStatus",
+          "type": "String",
+          "description": "Mã trạng thái học viên: 500000001 = Chưa học; 500000002 = Đang học; 500000003 = Bảo lưu; 500000004 = Tạm ngưng; 500000005 = Recycle Pending."
+        },
+        {
+          "name": "studentStatusName",
+          "type": "String",
+          "description": "Tên trạng thái học viên tương ứng: Chưa học, Đang học, Bảo lưu, Tạm ngưng, Recycle Pending."
+        },
+        {
+          "name": "fullName",
+          "type": "String",
+          "description": "Họ tên đầy đủ học viên."
+        },
+        {
+          "name": "phone",
+          "type": "String",
+          "description": "Số điện thoại liên hệ của học viên, tương ứng phone của User Profile."
+        },
+        {
+          "name": "programCatId",
+          "type": "String",
+          "description": "Mã danh mục chương trình hiện tại. dfd3d570-64d3-ed11-a7c7-000d3ac8f297 = ELT; ddd3d570-64d3-ed11-a7c7-000d3ac8f297 = ECA."
+        },
+        {
+          "name": "programCode",
+          "type": "Nullable(String)",
+          "description": "Mã chương trình học; chỉ tham gia khóa phân biệt đối với ECA."
+        },
+        {
+          "name": "studyCampusCodeId",
+          "type": "Nullable(String)",
+          "description": "Mã cơ sở đăng ký/đang học."
+        },
+        {
+          "name": "createdBy",
+          "type": "Nullable(String)",
+          "description": "Tài khoản/service tạo bản ghi."
+        },
+        {
+          "name": "createdAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm tạo bản ghi, GMT+0."
+        },
+        {
+          "name": "updatedBy",
+          "type": "Nullable(String)",
+          "description": "Tài khoản/service cập nhật gần nhất."
+        },
+        {
+          "name": "updatedAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm cập nhật gần nhất, GMT+0."
+        },
+        {
+          "name": "sourceChangeAt",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm thay đổi nguồn của bản ghi."
+        }
+      ]
+    },
+    {
+      "collection": "vconnext_lead",
+      "description": "Bảng lưu từng nhu cầu quan tâm, tư vấn hoặc đăng ký chương trình học của khách hàng. Mỗi dòng đại diện cho một Lead, theo dõi hành trình từ lúc tạo, chăm sóc, đặt lịch, đến trung tâm (Show), tư vấn, ghi danh (Sign/closed). Một User Profile có thể có nhiều Lead. Mỗi Lead thuộc duy nhất một User Profile thông qua userProfileId và có thể liên kết với một Student Profile thông qua studentId. Khi câu hỏi liên quan đến chương trình quan tâm, nguồn phát sinh của Lead, chiến dịch quảng cáo, lịch hẹn, Show/Sign, trạng thái chăm sóc Lead hoặc các thông tin riêng của một Lead thì sử dụng bảng này.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Khóa định danh duy nhất của Lead."
+        },
+        {
+          "name": "refCoreEduLeadId",
+          "type": "String",
+          "description": "ID Lead tương ứng trên CoreEdu."
+        },
+        {
+          "name": "userProfileId",
+          "type": "String",
+          "description": "Khóa ngoại → vconnext_user_profile.id. Bắt buộc, một Lead thuộc đúng một User Profile."
+        },
+        {
+          "name": "studentId",
+          "type": "Nullable(String)",
+          "description": "Khóa ngoại → vconnext_student.studentProfileId."
+        },
+        {
+          "name": "fullName",
+          "type": "String",
+          "description": "Họ tên đầy đủ của Lead."
+        },
+        {
+          "name": "contactPhone",
+          "type": "String",
+          "description": "Số điện thoại liên hệ/chăm sóc Lead."
+        },
+        {
+          "name": "dob",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Ngày sinh học viên."
+        },
+        {
+          "name": "genderCode",
+          "type": "Nullable(String)",
+          "description": "Mã giới tính: 1 = Nam, 2 = Nữ."
+        },
+        {
+          "name": "statusCode",
+          "type": "String",
+          "description": "Mã trạng thái Lead: 1 = NEW; 3 = QUALIFICATION; 500000000 = APPOINTMENT; 500000001 = SHOW; 500000002 = OFFER; 2 = CLOSED; 4 = CANCELED; 500000003 = DUPLICATED; 500000005 = IMPOTENTIAL; 500000007 = RECALL."
+        },
+        {
+          "name": "statusName",
+          "type": "String",
+          "description": "Tên trạng thái Lead tương ứng với statusCode."
+        },
+        {
+          "name": "lastChangeStatusAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm trạng thái Lead thay đổi gần nhất."
+        },
+        {
+          "name": "leadType",
+          "type": "String",
+          "description": "Mã loại Lead: 500000000 = New; 500000001 = Re; 500000002 = Recycle."
+        },
+        {
+          "name": "leadTypeName",
+          "type": "String",
+          "description": "Tên loại Lead tương ứng: New, Re, Recycle."
+        },
+        {
+          "name": "hotLead",
+          "type": "Nullable(Bool)",
+          "description": "Đánh dấu Lead ưu tiên cao."
+        },
+        {
+          "name": "archived",
+          "type": "Bool",
+          "description": "Lead ngừng chăm sóc do quá hạn nurturing."
+        },
+        {
+          "name": "careStatusGroup",
+          "type": "Nullable(String)",
+          "description": "Nhóm phân loại cấp cao của trạng thái chăm sóc: unConnected, unQualified, qualified."
+        },
+        {
+          "name": "careStatusId",
+          "type": "Nullable(String)",
+          "description": "Mã trạng thái chăm sóc chi tiết, chưa profiling."
+        },
+        {
+          "name": "careStatusSubId",
+          "type": "Nullable(String)",
+          "description": "Mã trạng thái chăm sóc chi tiết hơn, chưa profiling."
+        },
+        {
+          "name": "changeCareStatusAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm đổi trạng thái chăm sóc."
+        },
+        {
+          "name": "careBys",
+          "type": "Array(String)",
+          "description": "Danh sách tài khoản dạng email đã chăm sóc Lead."
+        },
+        {
+          "name": "lastCareBy",
+          "type": "Nullable(String)",
+          "description": "Email người chăm sóc gần nhất."
+        },
+        {
+          "name": "lastCareDate",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm chăm sóc gần nhất."
+        },
+        {
+          "name": "firstCareDate",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm chăm sóc lần đầu."
+        },
+        {
+          "name": "firstSuccessfulContactAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm liên hệ thành công đầu tiên."
+        },
+        {
+          "name": "noCalls",
+          "type": "Nullable(Int64)",
+          "description": "Tổng số cuộc gọi."
+        },
+        {
+          "name": "noCallsInMonth",
+          "type": "Nullable(Int64)",
+          "description": "Số cuộc gọi trong tháng hiện tại."
+        },
+        {
+          "name": "asaNote",
+          "type": "Nullable(String)",
+          "description": "Ghi chú của ASA, free text."
+        },
+        {
+          "name": "note",
+          "type": "Nullable(String)",
+          "description": "Ghi chú của TMK, free text."
+        },
+        {
+          "name": "appointmentDate",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm hẹn đến trung tâm/tư vấn."
+        },
+        {
+          "name": "appointmentCampusId",
+          "type": "Nullable(String)",
+          "description": "ID cơ sở hẹn."
+        },
+        {
+          "name": "showDate",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm thực tế đến trung tâm/tư vấn (Show)."
+        },
+        {
+          "name": "signDate",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm ký/ghi danh (Sign)."
+        },
+        {
+          "name": "consultingCampusId",
+          "type": "Nullable(String)",
+          "description": "ID cơ sở tư vấn."
+        },
+        {
+          "name": "programCatId",
+          "type": "String",
+          "description": "ID nhóm chương trình."
+        },
+        {
+          "name": "programCatName",
+          "type": "String",
+          "description": "Tên nhóm chương trình, ví dụ ELT hoặc ECA."
+        },
+        {
+          "name": "programId",
+          "type": "Nullable(String)",
+          "description": "ID chương trình cụ thể."
+        },
+        {
+          "name": "originalProgramId",
+          "type": "Nullable(String)",
+          "description": "Chương trình quan tâm ban đầu."
+        },
+        {
+          "name": "learningMode",
+          "type": "Nullable(String)",
+          "description": "Hình thức học: 1 = Online; 2 = Offline."
+        },
+        {
+          "name": "learningModeName",
+          "type": "Nullable(String)",
+          "description": "Tên hình thức học tương ứng với learningMode."
+        },
+        {
+          "name": "leadSourceId",
+          "type": "String",
+          "description": "ID nguồn phát sinh hiện tại."
+        },
+        {
+          "name": "leadSourceAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm ghi nhận nguồn hiện tại."
+        },
+        {
+          "name": "originalLeadSourceId",
+          "type": "Nullable(String)",
+          "description": "Nguồn phát sinh đầu tiên của Lead."
+        },
+        {
+          "name": "originalLeadSourceAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm ghi nhận nguồn đầu tiên."
+        },
+        {
+          "name": "channelCode",
+          "type": "String",
+          "description": "Mã kênh/hệ thống phát sinh Lead: 1 = Walk-in; 2 = ASA Inbound; 3 = TMK Outbound; 4 = ASA Outbound; 5 = TMK Inbound; 6 = Corporate Student."
+        },
+        {
+          "name": "channelCodeName",
+          "type": "Nullable(String)",
+          "description": "Tên kênh tạo Lead tương ứng với channelCode."
+        },
+        {
+          "name": "campaignId",
+          "type": "Nullable(String)",
+          "description": "ID chiến dịch marketing."
+        },
+        {
+          "name": "campaignDetailId",
+          "type": "Nullable(String)",
+          "description": "Mã chi tiết chiến dịch."
+        },
+        {
+          "name": "originalCampaignId",
+          "type": "Nullable(String)",
+          "description": "Chiến dịch gốc lúc tạo."
+        },
+        {
+          "name": "urlLeadForm",
+          "type": "Nullable(String)",
+          "description": "URL form phát sinh Lead."
+        },
+        {
+          "name": "utmSource",
+          "type": "Nullable(String)",
+          "description": "Nguồn traffic/kênh marketing được ghi nhận từ UTM, free text."
+        },
+        {
+          "name": "utmMedium",
+          "type": "Nullable(String)",
+          "description": "Phương tiện traffic UTM, free text."
+        },
+        {
+          "name": "utmCampaign",
+          "type": "Nullable(String)",
+          "description": "Tên/mã chiến dịch UTM, free text."
+        },
+        {
+          "name": "utmKeyword",
+          "type": "Nullable(String)",
+          "description": "Từ khóa quảng cáo/marketing được ghi nhận từ UTM. Có thể phát sinh thêm theo từng campaign, quảng cáo hoặc hoạt động marketing."
+        },
+        {
+          "name": "utmGclid",
+          "type": "Nullable(String)",
+          "description": "Google Click ID."
+        },
+        {
+          "name": "adsCampaignId",
+          "type": "Nullable(String)",
+          "description": "ID chiến dịch quảng cáo."
+        },
+        {
+          "name": "adsCampaignName",
+          "type": "Nullable(String)",
+          "description": "Tên chiến dịch quảng cáo, free text."
+        },
+        {
+          "name": "adsGroupId",
+          "type": "Nullable(String)",
+          "description": "ID nhóm quảng cáo."
+        },
+        {
+          "name": "adsGroupName",
+          "type": "Nullable(String)",
+          "description": "Tên nhóm quảng cáo, free text."
+        },
+        {
+          "name": "adsId",
+          "type": "Nullable(String)",
+          "description": "ID mẫu quảng cáo."
+        },
+        {
+          "name": "adsName",
+          "type": "Nullable(String)",
+          "description": "Tên mẫu quảng cáo, free text."
+        },
+        {
+          "name": "preferredCampusId",
+          "type": "Nullable(String)",
+          "description": "ID cơ sở ban đầu khách chọn."
+        },
+        {
+          "name": "provinceId",
+          "type": "Nullable(String)",
+          "description": "ID tỉnh/thành của Lead."
+        },
+        {
+          "name": "ownerType",
+          "type": "Nullable(String)",
+          "description": "Loại đối tượng sở hữu Lead: Role, User hoặc Team."
+        },
+        {
+          "name": "ownerRole",
+          "type": "Nullable(String)",
+          "description": "Role sở hữu Lead, free text."
+        },
+        {
+          "name": "ownerTeamId",
+          "type": "Nullable(String)",
+          "description": "ID Team sở hữu."
+        },
+        {
+          "name": "ownerUser",
+          "type": "Nullable(String)",
+          "description": "Email tài khoản User sở hữu."
+        },
+        {
+          "name": "tmkTeamShow",
+          "type": "Nullable(String)",
+          "description": "ID Team TMK ghi nhận tại bước Show."
+        },
+        {
+          "name": "tmkAgentShow",
+          "type": "Nullable(String)",
+          "description": "Email Agent TMK tại bước Show."
+        },
+        {
+          "name": "tmkTeamSign",
+          "type": "Nullable(String)",
+          "description": "ID Team TMK tại Sign."
+        },
+        {
+          "name": "tmkAgentSign",
+          "type": "Nullable(String)",
+          "description": "Email Agent TMK tại Sign."
+        },
+        {
+          "name": "preferredContactChannel",
+          "type": "Nullable(String)",
+          "description": "Kênh ưu tiên nhận liên hệ của Lead. Các giá trị nghiệp vụ chính gồm Gọi điện thoại trực tiếp và Nhắn tin qua Zalo; dữ liệu thực tế có thể chứa thêm tag như [Hot Lead]."
+        },
+        {
+          "name": "preferredContactTime",
+          "type": "Nullable(String)",
+          "description": "Khung giờ hoặc thời điểm mong muốn được liên hệ, có thể là khoảng thời gian, giờ cụ thể hoặc mô tả như sau 5h, sau 6h, ngoài giờ hành chính."
+        },
+        {
+          "name": "duplicatedCoreEduLeadId",
+          "type": "Nullable(String)",
+          "description": "ID Lead CoreEdu trùng."
+        },
+        {
+          "name": "duplicatedCoreEduStudentProfileId",
+          "type": "Nullable(String)",
+          "description": "ID Student Profile trùng."
+        },
+        {
+          "name": "duplicatedLeads",
+          "type": "Array(String)",
+          "description": "Danh sách ID các Lead bị trùng."
+        },
+        {
+          "name": "createdBy",
+          "type": "Nullable(String)",
+          "description": "Tài khoản/service tạo bản ghi."
+        },
+        {
+          "name": "createdAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm tạo Lead."
+        },
+        {
+          "name": "updatedBy",
+          "type": "Nullable(String)",
+          "description": "Tài khoản/service cập nhật gần nhất."
+        },
+        {
+          "name": "updatedAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm cập nhật gần nhất."
+        },
+        {
+          "name": "userCreatedBy",
+          "type": "Nullable(String)",
+          "description": "Người dùng nghiệp vụ tạo."
+        },
+        {
+          "name": "userCreatedAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm người dùng tạo."
+        },
+        {
+          "name": "userUpdatedBy",
+          "type": "Nullable(String)",
+          "description": "Người dùng nghiệp vụ cập nhật gần nhất."
+        },
+        {
+          "name": "userUpdatedAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm người dùng cập nhật gần nhất."
+        },
+        {
+          "name": "userTeamCreatedBy",
+          "type": "Nullable(String)",
+          "description": "Team của người tạo Lead."
+        },
+        {
+          "name": "departmentCreatedBy",
+          "type": "Nullable(String)",
+          "description": "Phòng ban của người tạo Lead, ví dụ CRM_DMK, CRM_TMK, CRM_ASA."
+        },
+        {
+          "name": "sourceChangeAt",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm thay đổi nguồn của Lead."
+        }
+      ]
+    },
+    {
+      "collection": "user_event_504b01de4dbc2847ec40c97d0c8e9466",
+      "description": "Tập dữ liệu ghi nhận toàn bộ sự kiện tương tác của khách hàng trên mọi kênh và hệ thống (behavioral log). Mỗi bản ghi đại diện cho một lần tương tác cụ thể như hành vi mua hàng, khảo sát, đổi điểm, click quảng cáo, truy cập Mini App hoặc các hoạt động khác. Dữ liệu được thu thập từ website, mobile app, POS, CRM, Facebook, Zalo và các tích hợp API. Khi câu hỏi liên quan đến hành vi hoặc sự kiện tương tác cụ thể trên các kênh thì sử dụng bảng này.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Khóa định danh duy nhất (primary key)."
+        },
+        {
+          "name": "sourceId",
+          "type": "String",
+          "description": "Mã định danh nguồn sinh sự kiện, dùng khử trùng lặp."
+        },
+        {
+          "name": "source",
+          "type": "String",
+          "description": "Hệ thống/ứng dụng phát sinh sự kiện. Ví dụ ZaloOA_Event, ZaloOA_MiniApp_Log, ZaloOA, CustomerMembership, CustomerJourneyEvent, UserEvent."
+        },
+        {
+          "name": "channel",
+          "type": "String",
+          "description": "Nơi người dùng thực hiện hành động: Online hoặc Offline."
+        },
+        {
+          "name": "triggerLevel",
+          "type": "String",
+          "description": "Nhóm sự kiện cấp 1: Level1, Level2, Level3."
+        },
+        {
+          "name": "eventName",
+          "type": "String",
+          "description": "Tên tiếng Việt mô tả hành động, free text, hiển thị trên CRM/timeline."
+        },
+        {
+          "name": "eventCategory",
+          "type": "String",
+          "description": "Nhóm sự kiện cấp 2. Ví dụ Other, UserInteraction, Customer Service, UserIdentity."
+        },
+        {
+          "name": "eventCategory2",
+          "type": "String",
+          "description": "Nhóm sự kiện cấp 3. Ví dụ CoreEdu Data, Zalo OA, PangoAct, N/A."
+        },
+        {
+          "name": "eventCategory3",
+          "type": "String",
+          "description": "Nhóm sự kiện cấp 3 bổ sung. Ví dụ N/A, Zalo Mini App."
+        },
+        {
+          "name": "email",
+          "type": "String",
+          "description": "Email khách hàng tại thời điểm sự kiện."
+        },
+        {
+          "name": "phone",
+          "type": "String",
+          "description": "Số điện thoại khách hàng tại thời điểm sự kiện."
+        },
+        {
+          "name": "fbPageId",
+          "type": "String",
+          "description": "Facebook Page ID."
+        },
+        {
+          "name": "lead",
+          "type": "String",
+          "description": "Mã/thông tin nhận diện Lead tiềm năng chưa có customer_id chính thức."
+        },
+        {
+          "name": "eventLabels",
+          "type": "Array(String)",
+          "description": "Danh sách loại đối tượng liên quan sự kiện, cùng index với eventLabel2s và eventLabel3s."
+        },
+        {
+          "name": "eventLabel2s",
+          "type": "Array(String)",
+          "description": "Danh sách loại đối tượng liên quan sự kiện, nhãn cấp 2, cùng index với eventLabels."
+        },
+        {
+          "name": "eventLabel3s",
+          "type": "Array(String)",
+          "description": "Danh sách loại đối tượng liên quan sự kiện, nhãn cấp 3, cùng index với eventLabels."
+        },
+        {
+          "name": "eventAt",
+          "type": "DateTime",
+          "description": "Thời điểm sự kiện thực sự xảy ra, UTC, độ chính xác mili-giây."
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "description": "Thời điểm ghi bản ghi vào hệ thống."
+        }
+      ]
+    },
+    {
+      "collection": "activity_log",
+      "description": "Bảng lưu nhật ký hoạt động (activity log) phát sinh trên Lead hoặc User Profile, bao gồm thay đổi trạng thái chăm sóc, cuộc gọi, đặt lịch hẹn và các sự kiện nghiệp vụ liên quan.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Khóa định danh duy nhất của hoạt động (primary key)."
+        },
+        {
+          "name": "leadId",
+          "type": "Nullable(String)",
+          "description": "ID Lead liên quan đến hoạt động."
+        },
+        {
+          "name": "profileId",
+          "type": "Nullable(String)",
+          "description": "ID User Profile liên quan đến hoạt động."
+        },
+        {
+          "name": "logType",
+          "type": "Nullable(String)",
+          "description": "Xác định đối tượng hoặc nhóm nghiệp vụ phát sinh Activity. Ví dụ CALL, FUNNEL, NOTE, APPOINTMENT, MESSAGE, OWNER_ALLOCATION, CREATE_LEAD, OWNER_REASSIGNED."
+        },
+        {
+          "name": "logSubType",
+          "type": "Nullable(String)",
+          "description": "Xác định hành động hoặc sự kiện cụ thể đã phát sinh."
+        },
+        {
+          "name": "callId",
+          "type": "Nullable(String)",
+          "description": "ID cuộc gọi tương ứng 3CX."
+        },
+        {
+          "name": "recordingUrl",
+          "type": "Nullable(String)",
+          "description": "Đường dẫn file ghi âm cuộc gọi."
+        },
+        {
+          "name": "talkingTime",
+          "type": "Nullable(Float64)",
+          "description": "Tổng thời gian hai bên kết nối và đàm thoại, tính bằng giây."
+        },
+        {
+          "name": "totalTimeCall",
+          "type": "Nullable(Float64)",
+          "description": "Tổng thời gian từ lúc bắt đầu đến khi kết thúc cuộc gọi, tính bằng giây."
+        },
+        {
+          "name": "disposition",
+          "type": "Nullable(String)",
+          "description": "Kết quả nghiệp vụ sau cuộc gọi: Answered = Đã kết nối; NoAnswer = Không trả lời; Busy = Máy bận; Denied = Bị từ chối; Cancel = Đã hủy; Error Sip = Lỗi Sip."
+        },
+        {
+          "name": "createdAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm Activity được tạo, định dạng ISO 8601 GMT+0."
+        },
+        {
+          "name": "createdBy",
+          "type": "Nullable(String)",
+          "description": "Tài khoản người dùng hoặc service tạo Activity."
+        },
+        {
+          "name": "updatedAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm Activity được cập nhật gần nhất, định dạng ISO 8601 GMT+0."
+        },
+        {
+          "name": "updatedBy",
+          "type": "Nullable(String)",
+          "description": "Tài khoản người dùng hoặc service cập nhật Activity gần nhất."
+        },
+        {
+          "name": "department",
+          "type": "Nullable(String)",
+          "description": "Phòng ban của account thao tác tương ứng."
+        },
+        {
+          "name": "teamId",
+          "type": "Nullable(String)",
+          "description": "Team của account thao tác tương ứng."
+        },
+        {
+          "name": "sourceChangeAt",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm bản ghi nguồn thay đổi, dùng để theo dõi/đồng bộ dữ liệu (CDC timestamp)."
+        }
+      ]
+    }
+  ]
+}
