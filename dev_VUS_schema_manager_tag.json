@@ -914,6 +914,163 @@
           "description": "Thời điểm bản ghi nguồn thay đổi, dùng để theo dõi/đồng bộ dữ liệu (CDC timestamp). Example: 1780070950711"
         }
       ]
+    },
+    {
+      "collection": "intent_and_sentiment",
+      "description": "Lưu kết quả phân tích NLP từ hội thoại khách hàng, bao gồm phân loại intent, phân tích sentiment và trích xuất entities phục vụ tư vấn, thu lead, chăm sóc và follow-up.",
+      "fields": [
+            {
+            "name": "id",
+            "type": "String",
+            "description": "Mã duy nhất của kết quả phân tích Intent và Sentiment. Example: '1c1d787e531f0a0e094046c66e0899df'"
+            },
+            {
+            "name": "refId",
+            "type": "String",
+            "description": "Mã tham chiếu bản ghi từ hệ thống nguồn, dùng để dedup và đối chiếu khi đồng bộ dữ liệu phân tích intent và sentiment. Example: '567a33b4694ede460f3c54fe56108e0a'"
+            },
+            {
+            "name": "phone",
+            "type": "String",
+            "description": "Số điện thoại của khách hàng, dùng để liên kết bản ghi phân tích với hồ sơ khách hàng trong CDP. Example: '0705124366'"
+            },
+            {
+            "name": "customerId",
+            "type": "Nullable(String)",
+            "description": "Mã khách hàng nội bộ trong hệ thống, dùng để liên kết với hồ sơ customer profile. Example: (không có)"
+            },
+            {
+            "name": "email",
+            "type": "String",
+            "description": "Email của khách hàng, được lưu trực tiếp để hỗ trợ truy vấn và xử lý lead mà không cần join thêm dữ liệu. Example: 'example@gmail.com'"
+            },
+            {
+            "name": "createdAt",
+            "type": "DateTime64(3, 'UTC')",
+            "description": "Thời điểm tạo bản ghi trong hệ thống, dùng cho audit log và đồng bộ incremental. Example: 1788447299450"
+            },
+            {
+            "name": "updatedAt",
+            "type": "DateTime64(3, 'UTC')",
+            "description": "Thời điểm cập nhật gần nhất của bản ghi, dùng để phát hiện và đồng bộ dữ liệu thay đổi. Example: 1788447299450"
+            },
+            {
+            "name": "datasource",
+            "type": "LowCardinality(Nullable(String))",
+            "description": "Nguồn tạo hoặc cung cấp dữ liệu. Example: PCX"
+            },
+            {
+            "name": "tags",
+            "type": "Array(String)",
+            "description": "Danh sách nhãn dùng để phân loại trạng thái hoặc nguồn xử lý dữ liệu. Example: 'excel', 'auto', 'reviewed'"
+            },
+            {
+            "name": "modelCreatedAt",
+            "type": "DateTime64(3, 'UTC')",
+            "description": "Thời điểm bản ghi được tạo trong data model, có thể khác createdAt khi dữ liệu được import từ hệ thống bên ngoài. Example: 1788447299450"
+            },
+            {
+            "name": "modelUpdatedAt",
+            "type": "DateTime64(3, 'UTC')",
+            "description": "Thời điểm bản ghi được cập nhật gần nhất trong data model. Example: 1788447299450"
+            },
+            {
+            "name": "fbPid",
+            "type": "Nullable(String)",
+            "description": "Facebook Page-Scoped ID của khách hàng, dùng để liên kết khách hàng với hội thoại Facebook Messenger. Example: (không có)"
+            },
+            {
+            "name": "zaloUAId",
+            "type": "Nullable(String)",
+            "description": "Zalo User ID của khách hàng, dùng để liên kết hội thoại Zalo với hồ sơ CDP và hỗ trợ gửi thông báo hoặc phản hồi. Example: (không có)"
+            },
+            {
+            "name": "zoUid",
+            "type": "Nullable(String)",
+            "description": "ID định danh của khách hàng trong hệ thống bên ngoài như hệ thống chat hoặc CRM, dùng để đối chiếu dữ liệu cross-system. Example: (không có)"
+            },
+            {
+            "name": "channel",
+            "type": "LowCardinality(Nullable(String))",
+            "description": "Kênh giao tiếp nơi hội thoại diễn ra. Example: Zalo,..."
+            },
+            {
+            "name": "conversationId",
+            "type": "Nullable(String)",
+            "description": "Mã định danh duy nhất của cuộc hội thoại, dùng để nhóm các tin nhắn và liên kết với nội dung hội thoại đầy đủ. Example: (không có)"
+            },
+            {
+            "name": "recordType",
+            "type": "LowCardinality(Nullable(String))",
+            "description": "Loại kết quả phân tích NLP. 'intent' biểu diễn nhu cầu hoặc mục tiêu hành động; 'sentiment' biểu diễn cảm xúc chủ đạo của khách hàng. Example: 'intent', 'sentiment'"
+            },
+            {
+            "name": "intentKey",
+            "type": "LowCardinality(Nullable(String))",
+            "description": "Mã intent được AI phân loại, sử dụng định dạng snake_case. Field này áp dụng chủ yếu cho bản ghi có recordType là intent. Example: 'ielts_course_information', 'ielts_course_fee', 'ielts_registration', ..."
+            },
+            {
+            "name": "profileId",
+            "type": "Nullable(String)",
+            "description": "Mã hồ sơ khách hàng trong hệ thống phân tích hoặc CRM, dùng để liên kết kết quả NLP với customer profile. Example: (không có)"
+            },
+            {
+            "name": "category",
+            "type": "LowCardinality(Nullable(String))",
+            "description": "Nhóm nghiệp vụ cấp cao của intent, dùng để gom các intent có cùng mục đích và hỗ trợ phân tích xu hướng. Example: 'course_information', 'consultation', 'registration', 'complaint'"
+            },
+            {
+            "name": "description",
+            "type": "Nullable(String)",
+            "description": "Mô tả ngắn gọn bằng ngôn ngữ tự nhiên về nhu cầu, yêu cầu hoặc vấn đề của khách hàng được AI tổng hợp từ lời khách hàng. Example: (không có)"
+            },
+            {
+            "name": "rawPayload",
+            "type": "Nullable(String)",
+            "description": "Toàn bộ kết quả phân tích NLP được lưu dưới dạng JSON string. Payload có thể bao gồm success, message, sentiment, intents, entities và userInputLanguage. Example: (không có)"
+            },
+            {
+            "name": "entities",
+            "type": "Array(Nullable(String))",
+            "description": "Danh sách thông tin có cấu trúc được trích xuất trực tiếp từ lời khách hàng để làm rõ intent, sentiment và hỗ trợ xử lý lead. Example: courseInterest, learnerName, relationshipToLearner, targetLevel, currentLevel, learningGoal, preferredSchedule, preferredLocation, budgetRange, consultationRequest, callbackRequest, registrationIntent, appointmentRequest, followUpRequest, contactMethod, urgencyLevel, decisionStage"
+            },
+            {
+            "name": "confidence",
+            "type": "Nullable(Float64)",
+            "description": "Độ tin cậy của kết quả AI, có giá trị từ 0 đến 1. Giá trị càng gần 1 càng thể hiện AI chắc chắn về intent hoặc sentiment được phân loại. Example: 0 đến 1"
+            },
+            {
+            "name": "conversationAt",
+            "type": "Nullable(DateTime64(3, 'UTC'))",
+            "description": "Thời điểm bắt đầu cuộc hội thoại, dùng để phân tích nhu cầu theo thời gian và đo thời gian phản hồi. Example: 1788447299450"
+            },
+            {
+            "name": "detectedAt",
+            "type": "Nullable(DateTime64(3, 'UTC'))",
+            "description": "Thời điểm hệ thống AI nhận được và bắt đầu phân tích hội thoại, dùng để đo độ trễ xử lý NLP. Example: 1788447299450"
+            },
+            {
+            "name": "expiredAt",
+            "type": "Nullable(DateTime64(3, 'UTC'))",
+            "description": "Thời điểm kết quả phân tích hết hiệu lực. TTL có thể là 1h, 4h, 7d, 30d hoặc 90d tùy mức độ tạm thời hay lâu dài của intent, sentiment và thông tin lead. Example: 1h, 4h, 7d, 30d, 90d"
+            },
+            {
+            "name": "objectModel",
+            "type": "Nullable(String)",
+            "description": "object model. Example: M-JZVSO-O-3AQNO-M"
+            },
+            {
+            "name": "createdBy",
+            "type": "Nullable(String)",
+            "description": "tài khoản tạo. Example: 'System'"
+            },
+            {
+            "name": "updatedBy",
+            "type": "Nullable(String)",
+            "description": "tài khoản cập nhật. Example: 1788447299450 [⚠️ giá trị ví dụ này giống định dạng timestamp, không giống tên tài khoản như createdBy='System' — cần bạn xác nhận đây có đúng là ví dụ thật hay là lỗi copy nhầm]"
+            }
+      ]
     }
   ]
 }
+
