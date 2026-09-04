@@ -4,915 +4,287 @@
       "collection": "vconnext_user_profile",
       "description": "Bảng lưu hồ sơ khách hàng hợp nhất (unified customer profile). Mỗi bản ghi đại diện cho một khách hàng hoặc người liên hệ chính, tập hợp thông tin nhận diện, liên hệ, nguồn phát sinh đầu tiên, địa chỉ, Owner quản lý, lịch sử chăm sóc và các chỉ số tổng hợp từ toàn bộ Lead thuộc hồ sơ đó. Một User Profile có thể sở hữu nhiều Lead và nhiều Student Profile. Mỗi Lead hoặc Student Profile chỉ thuộc về một User Profile tại một thời điểm.",
       "fields": [
-        {
-          "name": "id",
-          "type": "String",
-          "description": "Khóa định danh duy nhất của hồ sơ khách hàng trên NS. Example: 'P178822116829872937878529228496155'"
-        },
-        {
-          "name": "phoneNumber",
-          "type": "String",
-          "description": "Số điện thoại liên hệ chính; 1 số điện thoại chỉ ứng với 1 user profile. Example: '0972845001'"
-        },
-        {
-          "name": "refProfileId",
-          "type": "String",
-          "description": "ID hồ sơ tương ứng trên CoreEdu/hệ thống nguồn. Example: '9470bfb0-0c4b-f111-bec6-70a8a5495111'"
-        },
-        {
-          "name": "fullName",
-          "type": "String",
-          "description": "Họ tên đầy đủ khách hàng/người liên hệ chính. Example: 'PH_0947330260'"
-        },
-        {
-          "name": "dob",
-          "type": "DateTime64(3)",
-          "description": "Ngày sinh, Unix ms GMT+0. Example: 1510297200000"
-        },
-        {
-          "name": "genderCode",
-          "type": "String",
-          "description": "Mã giới tính; 1 = Nam, 2 = Nữ. Example: '1'"
-        },
-        {
-          "name": "address",
-          "type": "String",
-          "description": "Địa chỉ liên hệ, free text. Example: '371 Ấp 6, Xã Bình Mỹ, HCM'"
-        },
-        {
-          "name": "emailAddress",
-          "type": "String",
-          "description": "Email liên hệ, free text. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "mainContactChannel",
-          "type": "String",
-          "description": "Kênh liên hệ chính được ưu tiên. Example: 'Gọi điện thoại trực tiếp'"
-        },
-        {
-          "name": "preferredContactTime",
-          "type": "String",
-          "description": "Khung giờ mong muốn được liên hệ. Example: '9:00 - 11:00 sáng'"
-        },
-        {
-          "name": "acceptOtp",
-          "type": "Bool",
-          "description": "Trạng thái chấp nhận/xác thực OTP. Example: true"
-        },
-        {
-          "name": "provinceId",
-          "type": "String",
-          "description": "ID tỉnh/thành, free text/code. Example: 'c716744b-6ad3-ed11-a7c7-6045bd1f51e0'"
-        },
-        {
-          "name": "wardId",
-          "type": "String",
-          "description": "ID phường/xã. Example: '3937744b-6ad3-ed11-a7c7-6045bd1f51e0'"
-        },
-        {
-          "name": "professionId",
-          "type": "String",
-          "description": "ID nghề nghiệp. Example: 'e559dfe8-7ee2-ed11-8847-000d3ac8f297'"
-        },
-        {
-          "name": "statusName",
-          "type": "String",
-          "description": "Trạng thái hồ sơ; 'Active' hoặc None. Example: 'Active'"
-        },
-        {
-          "name": "recallLastTime",
-          "type": "DateTime64(3)",
-          "description": "Thời điểm gần nhất được recall về Marketing Nurturing. Example: 1780422916373"
-        },
-        {
-          "name": "recallReason",
-          "type": "String",
-          "description": "Lý do recall, free text. Example: 'R.ByFile_prodMigrate'"
-        },
-        {
-          "name": "firstSource",
-          "type": "String",
-          "description": "Mã nguồn đầu tiên. Example: '80fee096-b9e5-ed11-8847-000d3aa22dd5'"
-        },
-        {
-          "name": "ownerType",
-          "type": "String",
-          "description": "Loại đối tượng sở hữu: Role/Team/User. Example: 'Team'"
-        },
-        {
-          "name": "ownerRole",
-          "type": "String",
-          "description": "Role quản lý, free text. Example: 'CRM_TMK'"
-        },
-        {
-          "name": "ownerTeam",
-          "type": "String",
-          "description": "ID Team sở hữu. Example: 'MKT_HCM-TMK-HCM_1'"
-        },
-        {
-          "name": "ownerUser",
-          "type": "String",
-          "description": "Email nhân viên chăm sóc. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "assignedOwnerAt",
-          "type": "DateTime64(3)",
-          "description": "Thời điểm phân bổ Owner hiện tại. Example: 1780424734875"
-        },
-        {
-          "name": "careBys",
-          "type": "Array(String)",
-          "description": "Danh sách tài khoản đã tham gia chăm sóc. Example: ['example@gmail.com', 'example1@gmail.com']"
-        },
-        {
-          "name": "lastCareBy",
-          "type": "String",
-          "description": "Người chăm sóc gần nhất. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "lastCareDate",
-          "type": "DateTime64(3)",
-          "description": "Thời điểm chăm sóc gần nhất. Example: 1756344918000"
-        },
-        {
-          "name": "firstSuccessfulContactAt",
-          "type": "DateTime64(3)",
-          "description": "Thời điểm liên hệ thành công đầu tiên. Example: 1781163074875"
-        },
-        {
-          "name": "noCalls",
-          "type": "Int64",
-          "description": "Tổng số cuộc gọi. Example: 1"
-        },
-        {
-          "name": "careStatusCode",
-          "type": "String",
-          "description": "Mã trạng thái chăm sóc gần nhất, tổng hợp từ Lead liên quan. Example: 'ee181bfe-89d3-ed11-a7c7-6045bd1bacd6'"
-        },
-        {
-          "name": "careStatusSubCode",
-          "type": "String",
-          "description": "Mã trạng thái chăm sóc chi tiết. Example: 'b1863619-b697-ee11-be36-000d3ac2eb55'"
-        },
-        {
-          "name": "lastCareStatusLeadId",
-          "type": "String",
-          "description": "ID Lead dùng để xác định trạng thái chăm sóc gần nhất. Example: 'L178005342622851922336596710705682'"
-        },
-        {
-          "name": "createdBy",
-          "type": "String",
-          "description": "Tài khoản/service tạo bản ghi. Example: 'pcx-vus-migration-acc'"
-        },
-        {
-          "name": "createdAt",
-          "type": "DateTime64(3)",
-          "description": "Thời điểm tạo, Unix ms GMT+0. Example: 1780032849171"
-        },
-        {
-          "name": "updatedBy",
-          "type": "String",
-          "description": "Tài khoản/service cập nhật gần nhất. Example: 'pcx-ce-acc'"
-        },
-        {
-          "name": "updatedAt",
-          "type": "DateTime64(3)",
-          "description": "Thời điểm cập nhật gần nhất. Example: 1780032083417"
-        },
-        {
-          "name": "userCreatedBy",
-          "type": "String",
-          "description": "Người dùng nghiệp vụ tạo. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "userCreatedAt",
-          "type": "DateTime64(3)",
-          "description": "Thời điểm người dùng tạo. Example: 1780032083417"
-        },
-        {
-          "name": "userUpdatedBy",
-          "type": "String",
-          "description": "Người dùng nghiệp vụ cập nhật gần nhất. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "userUpdatedAt",
-          "type": "DateTime64(3)",
-          "description": "Thời điểm người dùng cập nhật gần nhất. Example: 1780032083417"
-        },
-        {
-          "name": "sourceChangeAt",
-          "type": "DateTime64(3)",
-          "description": "Thời điểm thay đổi nguồn của hồ sơ. Example: 1780032083417"
-        }
+        {"name": "id", "type": "String", "description": "Khóa định danh duy nhất của hồ sơ khách hàng trên NS. Example: 'P178822116829872937878529228496155'"},
+        {"name": "phoneNumber", "type": "String", "description": "Số điện thoại liên hệ chính; 1 số điện thoại chỉ ứng với 1 user profile. Example: '0972845001'"},
+        {"name": "refProfileId", "type": "String", "description": "ID hồ sơ tương ứng trên CoreEdu/hệ thống nguồn. Example: '9470bfb0-0c4b-f111-bec6-70a8a5495111'"},
+        {"name": "fullName", "type": "String", "description": "Họ tên đầy đủ khách hàng/người liên hệ chính. Example: 'PH_0947330260'"},
+        {"name": "dob", "type": "DateTime64(3)", "description": "Ngày sinh, Unix ms GMT+0. Example: 1510297200000"},
+        {"name": "genderCode", "type": "String", "description": "Mã giới tính; 1 = Nam, 2 = Nữ. Example: '1'"},
+        {"name": "address", "type": "String", "description": "Địa chỉ liên hệ, free text. Example: '371 Ấp 6, Xã Bình Mỹ, HCM'"},
+        {"name": "emailAddress", "type": "String", "description": "Email liên hệ, free text. Example: 'example@gmail.com'"},
+        {"name": "mainContactChannel", "type": "String", "description": "Kênh liên hệ chính được ưu tiên. Example: 'Gọi điện thoại trực tiếp'"},
+        {"name": "preferredContactTime", "type": "String", "description": "Khung giờ mong muốn được liên hệ. Example: '9:00 - 11:00 sáng'"},
+        {"name": "acceptOtp", "type": "Bool", "description": "Trạng thái chấp nhận/xác thực OTP. Example: true"},
+        {"name": "provinceId", "type": "String", "description": "ID tỉnh/thành, free text/code. Example: 'c716744b-6ad3-ed11-a7c7-6045bd1f51e0'"},
+        {"name": "wardId", "type": "String", "description": "ID phường/xã. Example: '3937744b-6ad3-ed11-a7c7-6045bd1f51e0'"},
+        {"name": "professionId", "type": "String", "description": "ID nghề nghiệp. Example: 'e559dfe8-7ee2-ed11-8847-000d3ac8f297'"},
+        {"name": "statusName", "type": "String", "description": "Trạng thái hồ sơ; 'Active' hoặc None. Example: 'Active'"},
+        {"name": "recallLastTime", "type": "DateTime64(3)", "description": "Thời điểm gần nhất được recall về Marketing Nurturing. Example: 1780422916373"},
+        {"name": "recallReason", "type": "String", "description": "Lý do recall, free text. Example: 'R.ByFile_prodMigrate'"},
+        {"name": "firstSource", "type": "String", "description": "Mã nguồn đầu tiên. Example: '80fee096-b9e5-ed11-8847-000d3aa22dd5'"},
+        {"name": "ownerType", "type": "String", "description": "Loại đối tượng sở hữu: Role/Team/User. Example: 'Team'"},
+        {"name": "ownerRole", "type": "String", "description": "Role quản lý, free text. Example: 'CRM_TMK'"},
+        {"name": "ownerTeam", "type": "String", "description": "ID Team sở hữu. Example: 'MKT_HCM-TMK-HCM_1'"},
+        {"name": "ownerUser", "type": "String", "description": "Email nhân viên chăm sóc. Example: 'example@gmail.com'"},
+        {"name": "assignedOwnerAt", "type": "DateTime64(3)", "description": "Thời điểm phân bổ Owner hiện tại. Example: 1780424734875"},
+        {"name": "careBys", "type": "Array(String)", "description": "Danh sách tài khoản đã tham gia chăm sóc. Example: ['example@gmail.com', 'example1@gmail.com']"},
+        {"name": "lastCareBy", "type": "String", "description": "Người chăm sóc gần nhất. Example: 'example@gmail.com'"},
+        {"name": "lastCareDate", "type": "DateTime64(3)", "description": "Thời điểm chăm sóc gần nhất. Example: 1756344918000"},
+        {"name": "firstSuccessfulContactAt", "type": "DateTime64(3)", "description": "Thời điểm liên hệ thành công đầu tiên. Example: 1781163074875"},
+        {"name": "noCalls", "type": "Int64", "description": "Tổng số cuộc gọi. Example: 1"},
+        {"name": "careStatusCode", "type": "String", "description": "Mã trạng thái chăm sóc gần nhất, tổng hợp từ Lead liên quan. Example: 'ee181bfe-89d3-ed11-a7c7-6045bd1bacd6'"},
+        {"name": "careStatusSubCode", "type": "String", "description": "Mã trạng thái chăm sóc chi tiết. Example: 'b1863619-b697-ee11-be36-000d3ac2eb55'"},
+        {"name": "lastCareStatusLeadId", "type": "String", "description": "ID Lead dùng để xác định trạng thái chăm sóc gần nhất. Example: 'L178005342622851922336596710705682'"},
+        {"name": "createdBy", "type": "String", "description": "Tài khoản/service tạo bản ghi. Example: 'pcx-vus-migration-acc'"},
+        {"name": "createdAt", "type": "DateTime64(3)", "description": "Thời điểm tạo, Unix ms GMT+0. Example: 1780032849171"},
+        {"name": "updatedBy", "type": "String", "description": "Tài khoản/service cập nhật gần nhất. Example: 'pcx-ce-acc'"},
+        {"name": "updatedAt", "type": "DateTime64(3)", "description": "Thời điểm cập nhật gần nhất. Example: 1780032083417"},
+        {"name": "userCreatedBy", "type": "String", "description": "Người dùng nghiệp vụ tạo. Example: 'example@gmail.com'"},
+        {"name": "userCreatedAt", "type": "DateTime64(3)", "description": "Thời điểm người dùng tạo. Example: 1780032083417"},
+        {"name": "userUpdatedBy", "type": "String", "description": "Người dùng nghiệp vụ cập nhật gần nhất. Example: 'example@gmail.com'"},
+        {"name": "userUpdatedAt", "type": "DateTime64(3)", "description": "Thời điểm người dùng cập nhật gần nhất. Example: 1780032083417"},
+        {"name": "sourceChangeAt", "type": "DateTime64(3)", "description": "Thời điểm thay đổi nguồn của hồ sơ. Example: 1780032083417"}
       ]
     },
     {
       "collection": "vconnext_student",
       "description": "Bảng lưu hồ sơ học tập của học viên, đồng bộ từ hệ thống giáo dục (CoreEdu/CE). Có thể có một hoặc nhiều học viên thuộc về 1 hồ sơ khách hàng. Mỗi bản ghi đại diện cho một Student Profile theo từng ngữ cảnh học tập; một học viên có thể có nhiều bản ghi nếu học nhiều chương trình khác nhau.",
       "fields": [
-        {
-          "name": "id",
-          "type": "String",
-          "description": "Khóa định danh duy nhất của bảng học viên. Example: '0002e0ebf132f043331559de47dec834'"
-        },
-        {
-          "name": "userProfileId",
-          "type": "String",
-          "description": "FK → vconnext_user_profile.id. 1 Student Profile thuộc đúng 1 User Profile. Example: 'P178003046159576963240951217646268'"
-        },
-        {
-          "name": "studentProfileId",
-          "type": "String",
-          "description": "ID học viên trên hệ thống giáo dục. Có thể lặp lại nếu học viên học nhiều chương trình. Đây là field mà vconnext_lead.studentId join vào. Example: '3228f340-3f94-ef11-8a69-000d3ac74ebf'"
-        },
-        {
-          "name": "studentCode",
-          "type": "String",
-          "description": "Mã nghiệp vụ nhận diện học viên. Có thể lặp lại theo chương trình. Example: 'S4G6Q221846'"
-        },
-        {
-          "name": "studentStatus",
-          "type": "String",
-          "description": "Mã trạng thái học viên. 500000001 = Chưa học; 500000002 = Đang học; 500000003 = Bảo lưu; 500000004 = Tạm ngưng; 500000005 = Recycle Pending. Example: '500000002'"
-        },
-        {
-          "name": "studentStatusName",
-          "type": "String",
-          "description": "Tên hiển thị tương ứng với mã studentStatus. Example: 'Đang học'"
-        },
-        {
-          "name": "fullName",
-          "type": "String",
-          "description": "Họ tên đầy đủ học viên. Example: 'TÊN IN HOA VIỆT NAM'"
-        },
-        {
-          "name": "phone",
-          "type": "String",
-          "description": "Số điện thoại liên hệ của học viên, tương ứng phone của user profile. Example: '0388885221'"
-        },
-        {
-          "name": "programCatId",
-          "type": "String",
-          "description": "Mã danh mục chương trình hiện tại. dfd3d570-64d3-ed11-a7c7-000d3ac8f297 = ELT; ddd3d570-64d3-ed11-a7c7-000d3ac8f297 = ECA. Example: 'dfd3d570-64d3-ed11-a7c7-000d3ac8f297'"
-        },
-        {
-          "name": "programCode",
-          "type": "Nullable(String)",
-          "description": "Mã chương trình học — chỉ tham gia khóa phân biệt với ECA. Example: '8dc8a2da-92d3-ed11-a7c7-000d3ac8f297'"
-        },
-        {
-          "name": "studyCampusCodeId",
-          "type": "Nullable(String)",
-          "description": "Mã cơ sở đăng ký/đang học. Example: '7bf955a8-d3d2-ed11-a7c7-6045bd1f51e0'"
-        },
-        {
-          "name": "createdBy",
-          "type": "Nullable(String)",
-          "description": "Tài khoản/service tạo bản ghi. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "createdAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm tạo, GMT+0. Example: 1730043695000"
-        },
-        {
-          "name": "updatedBy",
-          "type": "Nullable(String)",
-          "description": "Tài khoản/service cập nhật gần nhất. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "updatedAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm cập nhật gần nhất, GMT+0. Example: 1730043695000"
-        },
-        {
-          "name": "sourceChangeAt",
-          "type": "DateTime64(3)",
-          "description": "Thời điểm thay đổi nguồn của bản ghi. Example: 1733347471000"
-        }
+        {"name": "id", "type": "String", "description": "Khóa định danh duy nhất của bảng học viên. Example: '0002e0ebf132f043331559de47dec834'"},
+        {"name": "userProfileId", "type": "String", "description": "FK → vconnext_user_profile.id. 1 Student Profile thuộc đúng 1 User Profile. Example: 'P178003046159576963240951217646268'"},
+        {"name": "studentProfileId", "type": "String", "description": "ID học viên trên hệ thống giáo dục. Có thể lặp lại nếu học viên học nhiều chương trình. Đây là field mà vconnext_lead.studentId join vào. Example: '3228f340-3f94-ef11-8a69-000d3ac74ebf'"},
+        {"name": "studentCode", "type": "String", "description": "Mã nghiệp vụ nhận diện học viên. Có thể lặp lại theo chương trình. Example: 'S4G6Q221846'"},
+        {"name": "studentStatus", "type": "String", "description": "Mã trạng thái học viên. 500000001 = Chưa học; 500000002 = Đang học; 500000003 = Bảo lưu; 500000004 = Tạm ngưng; 500000005 = Recycle Pending. Example: '500000002'"},
+        {"name": "studentStatusName", "type": "String", "description": "Tên hiển thị tương ứng với mã studentStatus. Example: 'Đang học'"},
+        {"name": "fullName", "type": "String", "description": "Họ tên đầy đủ học viên. Example: 'TÊN IN HOA VIỆT NAM'"},
+        {"name": "phone", "type": "String", "description": "Số điện thoại liên hệ của học viên, tương ứng phone của user profile. Example: '0388885221'"},
+        {"name": "programCatId", "type": "String", "description": "Mã danh mục chương trình hiện tại. dfd3d570-64d3-ed11-a7c7-000d3ac8f297 = ELT; ddd3d570-64d3-ed11-a7c7-000d3ac8f297 = ECA. Example: 'dfd3d570-64d3-ed11-a7c7-000d3ac8f297'"},
+        {"name": "programCode", "type": "Nullable(String)", "description": "Mã chương trình học — chỉ tham gia khóa phân biệt với ECA. Example: '8dc8a2da-92d3-ed11-a7c7-000d3ac8f297'"},
+        {"name": "studyCampusCodeId", "type": "Nullable(String)", "description": "Mã cơ sở đăng ký/đang học. Example: '7bf955a8-d3d2-ed11-a7c7-6045bd1f51e0'"},
+        {"name": "createdBy", "type": "Nullable(String)", "description": "Tài khoản/service tạo bản ghi. Example: 'example@gmail.com'"},
+        {"name": "createdAt", "type": "Nullable(DateTime64(3))", "description": "Thời điểm tạo, GMT+0. Example: 1730043695000"},
+        {"name": "updatedBy", "type": "Nullable(String)", "description": "Tài khoản/service cập nhật gần nhất. Example: 'example@gmail.com'"},
+        {"name": "updatedAt", "type": "Nullable(DateTime64(3))", "description": "Thời điểm cập nhật gần nhất, GMT+0. Example: 1730043695000"},
+        {"name": "sourceChangeAt", "type": "DateTime64(3)", "description": "Thời điểm thay đổi nguồn của bản ghi. Example: 1733347471000"}
       ]
     },
     {
       "collection": "vconnext_lead",
       "description": "Bảng lưu từng nhu cầu quan tâm, tư vấn hoặc đăng ký chương trình học của khách hàng. Mỗi dòng đại diện cho một Lead, theo dõi hành trình từ lúc tạo, chăm sóc, đặt lịch, đến trung tâm (Show), tư vấn, ghi danh (Sign/closed).",
       "fields": [
-        {
-          "name": "id",
-          "type": "String",
-          "description": "Khóa định danh duy nhất của Lead. Example: 'L178821732864554040273930302575434'"
-        },
-        {
-          "name": "refCoreEduLeadId",
-          "type": "String",
-          "description": "ID Lead tương ứng trên CoreEdu. Example: '120b1764-e2e6-ed11-8848-000d3ac8f297'"
-        },
-        {
-          "name": "userProfileId",
-          "type": "String",
-          "description": "Khoá ngoại → vconnext_user_profile.id. Bắt buộc, 1 Lead thuộc đúng 1 User Profile. Example: 'P178003360043550040620388662807311'"
-        },
-        {
-          "name": "studentId",
-          "type": "Nullable(String)",
-          "description": "Khoá ngoại → vconnext_student.studentProfileId. Example: '87f3da37-c3df-ed11-a7c7-6045bd1bacd6'"
-        },
-        {
-          "name": "fullName",
-          "type": "String",
-          "description": "Họ tên đầy đủ của lead. Example: 'TÊN IN HOA VIỆT NAM'"
-        },
-        {
-          "name": "contactPhone",
-          "type": "String",
-          "description": "Số điện thoại liên hệ/chăm sóc Lead. Example: '0389637123'"
-        },
-        {
-          "name": "dob",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Ngày sinh học viên. Example: 1444374000000"
-        },
-        {
-          "name": "genderCode",
-          "type": "Nullable(String)",
-          "description": "1 = Nam, 2 = Nữ. Example: '1'"
-        },
-        {
-          "name": "statusCode",
-          "type": "String",
-          "description": "Mã trạng thái Lead hiện tại. 1 = NEW; 3 = QUALIFICATION; 500000000 = APPOINTMENT; 500000001 = SHOW; 500000002 = OFFER; 2 = CLOSED; 4 = CANCELED; 500000003 = DUPLICATED; 500000005 = IMPOTENTIAL; 500000007 = RECALL. Example: '3'"
-        },
-        {
-          "name": "statusName",
-          "type": "String",
-          "description": "Tên trạng thái Lead tương ứng với statusCode. Example: 'QUALIFICATION'"
-        },
-        {
-          "name": "lastChangeStatusAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm trạng thái Lead thay đổi gần nhất. Example: 1785757233778"
-        },
-        {
-          "name": "leadType",
-          "type": "String",
-          "description": "Mã loại Lead. 500000000 = New; 500000001 = Re; 500000002 = Recycle. Example: '500000000'"
-        },
-        {
-          "name": "leadTypeName",
-          "type": "String",
-          "description": "Tên loại Lead tương ứng với leadType. Example: 'New'"
-        },
-        {
-          "name": "hotLead",
-          "type": "Nullable(Bool)",
-          "description": "Đánh dấu Lead ưu tiên cao. Example: true"
-        },
-        {
-          "name": "archived",
-          "type": "Bool",
-          "description": "Lead ngừng chăm sóc do quá hạn nurturing. Example: false"
-        },
-        {
-          "name": "careStatusGroup",
-          "type": "Nullable(String)",
-          "description": "Nhóm phân loại cấp cao của trạng thái chăm sóc. Example: 'qualified'"
-        },
-        {
-          "name": "careStatusId",
-          "type": "Nullable(String)",
-          "description": "Mã trạng thái chăm sóc chi tiết, chưa profiling. Example: 'ee181bfe-89d3-ed11-a7c7-6045bd1bacd6'"
-        },
-        {
-          "name": "careStatusSubId",
-          "type": "Nullable(String)",
-          "description": "Mã trạng thái chăm sóc chi tiết hơn, chưa profiling. Example: 'b1863619-b697-ee11-be36-000d3ac2eb55'"
-        },
-        {
-          "name": "changeCareStatusAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm đổi trạng thái chăm sóc. Example: 1780125727969"
-        },
-        {
-          "name": "careBys",
-          "type": "Array(String)",
-          "description": "Danh sách tài khoản dạng email đã chăm sóc Lead. Example: ['example@gmail.com', 'example1@gmail.com']"
-        },
-        {
-          "name": "lastCareBy",
-          "type": "Nullable(String)",
-          "description": "Email người chăm sóc gần nhất. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "lastCareDate",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm chăm sóc gần nhất. Example: 1720813084000"
-        },
-        {
-          "name": "firstCareDate",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm chăm sóc lần đầu. Example: 1770733197000"
-        },
-        {
-          "name": "firstSuccessfulContactAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm liên hệ thành công đầu tiên. Example: 1780733867146"
-        },
-        {
-          "name": "noCalls",
-          "type": "Nullable(Int64)",
-          "description": "Tổng số cuộc gọi. Example: 1"
-        },
-        {
-          "name": "noCallsInMonth",
-          "type": "Nullable(Int64)",
-          "description": "Số cuộc gọi trong tháng hiện tại. Example: 1"
-        },
-        {
-          "name": "asaNote",
-          "type": "Nullable(String)",
-          "description": "Ghi chú của ASA, free text. Example: 'free text'"
-        },
-        {
-          "name": "note",
-          "type": "Nullable(String)",
-          "description": "Ghi chú của TMK, free text. Example: 'free text'"
-        },
-        {
-          "name": "appointmentDate",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm hẹn đến trung tâm/tư vấn. Example: 1702407600000"
-        },
-        {
-          "name": "appointmentCampusId",
-          "type": "Nullable(String)",
-          "description": "ID cơ sở hẹn. Example: 'aff955a8-d3d2-ed11-a7c7-6045bd1bacd6'"
-        },
-        {
-          "name": "showDate",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm thực tế đến trung tâm/tư vấn (Show). Example: 1782094349000"
-        },
-        {
-          "name": "signDate",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm ký/ghi danh (Sign). Example: 1780141966000"
-        },
-        {
-          "name": "consultingCampusId",
-          "type": "Nullable(String)",
-          "description": "ID cơ sở tư vấn. Example: 'abf955a8-d3d2-ed11-a7c7-6045bd1bacd6'"
-        },
-        {
-          "name": "programCatId",
-          "type": "String",
-          "description": "ID nhóm chương trình. Example: 'dfd3d570-64d3-ed11-a7c7-000d3ac8f297'"
-        },
-        {
-          "name": "programCatName",
-          "type": "String",
-          "description": "Tên nhóm chương trình, ví dụ ELT, ECA. Example: 'ELT'"
-        },
-        {
-          "name": "programId",
-          "type": "Nullable(String)",
-          "description": "ID chương trình cụ thể. Example: 'b998152e-e1a6-ef11-b8e8-000d3aa21d12'"
-        },
-        {
-          "name": "originalProgramId",
-          "type": "Nullable(String)",
-          "description": "Chương trình quan tâm ban đầu (ID). Example: 'b998152e-e1a6-ef11-b8e8-000d3aa21d12'"
-        },
-        {
-          "name": "learningMode",
-          "type": "Nullable(String)",
-          "description": "Hình thức học; 1 = Online, 2 = Offline. Example: '2'"
-        },
-        {
-          "name": "learningModeName",
-          "type": "Nullable(String)",
-          "description": "Tên hình thức học tương ứng learningMode. Example: 'Offline'"
-        },
-        {
-          "name": "leadSourceId",
-          "type": "String",
-          "description": "ID nguồn phát sinh hiện tại. Example: '7c2a25d9-7fd3-ed11-a7c7-000d3ac8f297'"
-        },
-        {
-          "name": "leadSourceAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm ghi nhận nguồn hiện tại. Example: 1780263112182"
-        },
-        {
-          "name": "originalLeadSourceId",
-          "type": "Nullable(String)",
-          "description": "Nguồn phát sinh đầu tiên (ID). Example: '7c2a25d9-7fd3-ed11-a7c7-000d3ac8f297'"
-        },
-        {
-          "name": "originalLeadSourceAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm ghi nhận nguồn đầu tiên. Example: 1780263112182"
-        },
-        {
-          "name": "channelCode",
-          "type": "String",
-          "description": "Mã kênh/hệ thống phát sinh Lead. 1 = Walk-in; 2 = ASA Inbound; 3 = TMK Outbound; 4 = ASA Outbound; 5 = TMK Inbound; 6 = Corporate Student. Example: '3'"
-        },
-        {
-          "name": "channelCodeName",
-          "type": "Nullable(String)",
-          "description": "Tên kênh tạo Lead tương ứng với channelCode. Example: 'TMK Outbound'"
-        },
-        {
-          "name": "campaignId",
-          "type": "Nullable(String)",
-          "description": "ID chiến dịch marketing. Example: '3b4cc542-99d3-ed11-a7c7-000d3ac8f297'"
-        },
-        {
-          "name": "campaignDetailId",
-          "type": "Nullable(String)",
-          "description": "Mã chi tiết chiến dịch. Example: '6836e39f-5ed4-ed11-a7c7-6045bd1bacd6'"
-        },
-        {
-          "name": "originalCampaignId",
-          "type": "Nullable(String)",
-          "description": "Chiến dịch gốc lúc tạo. Example: 'a9e4b81b-a229-f011-8c4e-6045bd1b7864'"
-        },
-        {
-          "name": "urlLeadForm",
-          "type": "Nullable(String)",
-          "description": "URL form phát sinh Lead. Example: 'a9e4b81b-a229-f011-8c4e-6045bd1b7864'"
-        },
-        {
-          "name": "utmSource",
-          "type": "Nullable(String)",
-          "description": "Nguồn traffic/kênh marketing được ghi nhận từ UTM, free text. Example: 'Google'"
-        },
-        {
-          "name": "utmMedium",
-          "type": "Nullable(String)",
-          "description": "Phương tiện traffic UTM, free text. Example: 'PMax'"
-        },
-        {
-          "name": "utmCampaign",
-          "type": "Nullable(String)",
-          "description": "Tên/mã chiến dịch UTM, free text. Example: 'zalo-lead-form'"
-        },
-        {
-          "name": "utmKeyword",
-          "type": "Nullable(String)",
-          "description": "Từ khóa quảng cáo/marketing được ghi nhận từ UTM, free text. Example: 'đăngkýtiếnganh'"
-        },
-        {
-          "name": "utmGclid",
-          "type": "Nullable(String)",
-          "description": "Google Click ID. Example: 'EAIaIQobChMI08PhzK7biAMVdYfpBR0s4AehEAEYASAAEgIfUfD_BwE'"
-        },
-        {
-          "name": "adsCampaignId",
-          "type": "Nullable(String)",
-          "description": "ID chiến dịch quảng cáo. Example: '1861801908729057'"
-        },
-        {
-          "name": "adsCampaignName",
-          "type": "Nullable(String)",
-          "description": "Tên chiến dịch quảng cáo, free text. Example: 'Performance_Lead_Form_Ho Chi Minh_Kids_TT_080526'"
-        },
-        {
-          "name": "adsGroupId",
-          "type": "Nullable(String)",
-          "description": "ID nhóm quảng cáo. Example: '120240922569060706'"
-        },
-        {
-          "name": "adsGroupName",
-          "type": "Nullable(String)",
-          "description": "Tên nhóm quảng cáo, free text. Example: 'KIDS_Interest'"
-        },
-        {
-          "name": "adsId",
-          "type": "Nullable(String)",
-          "description": "ID mẫu quảng cáo. Example: '120240922569120706'"
-        },
-        {
-          "name": "adsName",
-          "type": "Nullable(String)",
-          "description": "Tên mẫu quảng cáo, free text. Example: 'Video_Apr_Kids_Promotion_Hocphihemoi'"
-        },
-        {
-          "name": "preferredCampusId",
-          "type": "Nullable(String)",
-          "description": "ID cơ sở ban đầu khách chọn. Example: '60339819-d205-ee11-8f6e-6045bd1bacd6'"
-        },
-        {
-          "name": "provinceId",
-          "type": "Nullable(String)",
-          "description": "ID tỉnh/thành của Lead. Example: '9716744b-6ad3-ed11-a7c7-6045bd1f51e0'"
-        },
-        {
-          "name": "ownerType",
-          "type": "Nullable(String)",
-          "description": "Loại đối tượng sở hữu Lead: Role, Team hoặc User. Example: 'User'"
-        },
-        {
-          "name": "ownerRole",
-          "type": "Nullable(String)",
-          "description": "Role sở hữu Lead, free text. Example: 'CRM_TMK'"
-        },
-        {
-          "name": "ownerTeamId",
-          "type": "Nullable(String)",
-          "description": "ID Team sở hữu. Example: 'MKT_HCM-TMK-PROVINCE_1'"
-        },
-        {
-          "name": "ownerUser",
-          "type": "Nullable(String)",
-          "description": "Email tài khoản User sở hữu. Example: 'lethicamquyen@vus-etsc.edu.vn'"
-        },
-        {
-          "name": "tmkTeamShow",
-          "type": "Nullable(String)",
-          "description": "ID Team TMK ghi nhận tại bước Show. Example: 'MKT_HCM-TMK-PROVINCE_1'"
-        },
-        {
-          "name": "tmkAgentShow",
-          "type": "Nullable(String)",
-          "description": "Email Agent TMK tại bước Show. Example: 'thanhthuytest@vus-etsc.edu.vn'"
-        },
-        {
-          "name": "tmkTeamSign",
-          "type": "Nullable(String)",
-          "description": "ID Team TMK tại Sign. Example: 'TMK_Leader'"
-        },
-        {
-          "name": "tmkAgentSign",
-          "type": "Nullable(String)",
-          "description": "Email Agent TMK tại Sign. Example: 'testemail@vus-etsc.edu.vn'"
-        },
-        {
-          "name": "preferredContactChannel",
-          "type": "Nullable(String)",
-          "description": "Kênh ưu tiên nhận liên hệ của Lead, free text. Example: 'Gọi điện thoại trực tiếp'"
-        },
-        {
-          "name": "preferredContactTime",
-          "type": "Nullable(String)",
-          "description": "Khung giờ hoặc thời điểm mong muốn được liên hệ. Example: '9:00 - 11:00 sáng'"
-        },
-        {
-          "name": "duplicatedCoreEduLeadId",
-          "type": "Nullable(String)",
-          "description": "ID Lead CoreEdu trùng. Example: '3942a0b9-0d8c-f111-8077-00224858f349'"
-        },
-        {
-          "name": "duplicatedCoreEduStudentProfileId",
-          "type": "Nullable(String)",
-          "description": "ID Student Profile trùng. Example: '0dfd6f49-9b54-f011-bec2-6045bd1b7864'"
-        },
-        {
-          "name": "duplicatedLeads",
-          "type": "Array(String)",
-          "description": "Danh sách Lead trùng. Example: ['L178566485900077301773993455839395', 'L178566485900077301773993455839392']"
-        },
-        {
-          "name": "createdBy",
-          "type": "Nullable(String)",
-          "description": "Tài khoản/service tạo bản ghi. Example: 'pcx-vus-migration-acc'"
-        },
-        {
-          "name": "createdAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm tạo Lead. Example: 1780051468394"
-        },
-        {
-          "name": "updatedBy",
-          "type": "Nullable(String)",
-          "description": "Tài khoản/service cập nhật gần nhất. Example: 'pcx-ce-acc'"
-        },
-        {
-          "name": "updatedAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm cập nhật gần nhất. Example: 1780051468394"
-        },
-        {
-          "name": "userCreatedBy",
-          "type": "Nullable(String)",
-          "description": "Người dùng nghiệp vụ tạo. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "userCreatedAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm người dùng tạo. Example: 1657501364000"
-        },
-        {
-          "name": "userUpdatedBy",
-          "type": "Nullable(String)",
-          "description": "Người dùng nghiệp vụ cập nhật gần nhất. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "userUpdatedAt",
-          "type": "Nullable(String)",
-          "description": "Thời điểm người dùng cập nhật gần nhất. Example: 'userUpdatedAt'"
-        },
-        {
-          "name": "userTeamCreatedBy",
-          "type": "Nullable(String)",
-          "description": "Team của người tạo Lead. Example: 'DMK_HCM_HO'"
-        },
-        {
-          "name": "departmentCreatedBy",
-          "type": "Nullable(String)",
-          "description": "Phòng ban của người tạo Lead. Example: 'CRM_TMK'"
-        },
-        {
-          "name": "sourceChangeAt",
-          "type": "DateTime64(3)",
-          "description": "Thời điểm thay đổi nguồn của Lead. Example: 1785014759683"
-        }
+        {"name": "id", "type": "String", "description": "Khóa định danh duy nhất của Lead. Example: 'L178821732864554040273930302575434'"},
+        {"name": "refCoreEduLeadId", "type": "String", "description": "ID Lead tương ứng trên CoreEdu. Example: '120b1764-e2e6-ed11-8848-000d3ac8f297'"},
+        {"name": "userProfileId", "type": "String", "description": "Khoá ngoại → vconnext_user_profile.id. Bắt buộc, 1 Lead thuộc đúng 1 User Profile. Example: 'P178003360043550040620388662807311'"},
+        {"name": "studentId", "type": "Nullable(String)", "description": "Khoá ngoại → vconnext_student.studentProfileId. Example: '87f3da37-c3df-ed11-a7c7-6045bd1bacd6'"},
+        {"name": "fullName", "type": "String", "description": "Họ tên đầy đủ của lead. Example: 'TÊN IN HOA VIỆT NAM'"},
+        {"name": "contactPhone", "type": "String", "description": "Số điện thoại liên hệ/chăm sóc Lead. Example: '0389637123'"},
+        {"name": "dob", "type": "Nullable(DateTime64(3))", "description": "Ngày sinh học viên. Example: 1444374000000"},
+        {"name": "genderCode", "type": "Nullable(String)", "description": "1 = Nam, 2 = Nữ. Example: '1'"},
+        {"name": "statusCode", "type": "String", "description": "Mã trạng thái Lead hiện tại. 1 = NEW; 3 = QUALIFICATION; 500000000 = APPOINTMENT; 500000001 = SHOW; 500000002 = OFFER; 2 = CLOSED; 4 = CANCELED; 500000003 = DUPLICATED; 500000005 = IMPOTENTIAL; 500000007 = RECALL. Example: '3'"},
+        {"name": "statusName", "type": "String", "description": "Tên trạng thái Lead tương ứng với statusCode. Example: 'QUALIFICATION'"},
+        {"name": "lastChangeStatusAt", "type": "Nullable(DateTime64(3))", "description": "Thời điểm trạng thái Lead thay đổi gần nhất. Example: 1785757233778"},
+        {"name": "leadType", "type": "String", "description": "Mã loại Lead. 500000000 = New; 500000001 = Re; 500000002 = Recycle. Example: '500000000'"},
+        {"name": "leadTypeName", "type": "String", "description": "Tên loại Lead tương ứng với leadType. Example: 'New'"},
+        {"name": "hotLead", "type": "Nullable(Bool)", "description": "Đánh dấu Lead ưu tiên cao. Example: true"},
+        {"name": "archived", "type": "Bool", "description": "Lead ngừng chăm sóc do quá hạn nurturing. Example: false"},
+        {"name": "careStatusGroup", "type": "Nullable(String)", "description": "Nhóm phân loại cấp cao của trạng thái chăm sóc. Example: 'qualified'"},
+        {"name": "careStatusId", "type": "Nullable(String)", "description": "Mã trạng thái chăm sóc chi tiết, chưa profiling. Example: 'ee181bfe-89d3-ed11-a7c7-6045bd1bacd6'"},
+        {"name": "careStatusSubId", "type": "Nullable(String)", "description": "Mã trạng thái chăm sóc chi tiết hơn, chưa profiling. Example: 'b1863619-b697-ee11-be36-000d3ac2eb55'"},
+        {"name": "changeCareStatusAt", "type": "Nullable(DateTime64(3))", "description": "Thời điểm đổi trạng thái chăm sóc. Example: 1780125727969"},
+        {"name": "careBys", "type": "Array(String)", "description": "Danh sách tài khoản dạng email đã chăm sóc Lead. Example: ['example@gmail.com', 'example1@gmail.com']"},
+        {"name": "lastCareBy", "type": "Nullable(String)", "description": "Email người chăm sóc gần nhất. Example: 'example@gmail.com'"},
+        {"name": "lastCareDate", "type": "Nullable(DateTime64(3))", "description": "Thời điểm chăm sóc gần nhất. Example: 1720813084000"},
+        {"name": "firstCareDate", "type": "Nullable(DateTime64(3))", "description": "Thời điểm chăm sóc lần đầu. Example: 1770733197000"},
+        {"name": "firstSuccessfulContactAt", "type": "Nullable(DateTime64(3))", "description": "Thời điểm liên hệ thành công đầu tiên. Example: 1780733867146"},
+        {"name": "noCalls", "type": "Nullable(Int64)", "description": "Tổng số cuộc gọi. Example: 1"},
+        {"name": "noCallsInMonth", "type": "Nullable(Int64)", "description": "Số cuộc gọi trong tháng hiện tại. Example: 1"},
+        {"name": "asaNote", "type": "Nullable(String)", "description": "Ghi chú của ASA, free text. Example: 'free text'"},
+        {"name": "note", "type": "Nullable(String)", "description": "Ghi chú của TMK, free text. Example: 'free text'"},
+        {"name": "appointmentDate", "type": "Nullable(DateTime64(3))", "description": "Thời điểm hẹn đến trung tâm/tư vấn. Example: 1702407600000"},
+        {"name": "appointmentCampusId", "type": "Nullable(String)", "description": "ID cơ sở hẹn. Example: 'aff955a8-d3d2-ed11-a7c7-6045bd1bacd6'"},
+        {"name": "showDate", "type": "Nullable(DateTime64(3))", "description": "Thời điểm thực tế đến trung tâm/tư vấn (Show). Example: 1782094349000"},
+        {"name": "signDate", "type": "Nullable(DateTime64(3))", "description": "Thời điểm ký/ghi danh (Sign). Example: 1780141966000"},
+        {"name": "consultingCampusId", "type": "Nullable(String)", "description": "ID cơ sở tư vấn. Example: 'abf955a8-d3d2-ed11-a7c7-6045bd1bacd6'"},
+        {"name": "programCatId", "type": "String", "description": "ID nhóm chương trình. Example: 'dfd3d570-64d3-ed11-a7c7-000d3ac8f297'"},
+        {"name": "programCatName", "type": "String", "description": "Tên nhóm chương trình, ví dụ ELT, ECA. Example: 'ELT'"},
+        {"name": "programId", "type": "Nullable(String)", "description": "ID chương trình cụ thể. Example: 'b998152e-e1a6-ef11-b8e8-000d3aa21d12'"},
+        {"name": "originalProgramId", "type": "Nullable(String)", "description": "Chương trình quan tâm ban đầu (ID). Example: 'b998152e-e1a6-ef11-b8e8-000d3aa21d12'"},
+        {"name": "learningMode", "type": "Nullable(String)", "description": "Hình thức học; 1 = Online, 2 = Offline. Example: '2'"},
+        {"name": "learningModeName", "type": "Nullable(String)", "description": "Tên hình thức học tương ứng learningMode. Example: 'Offline'"},
+        {"name": "leadSourceId", "type": "String", "description": "ID nguồn phát sinh hiện tại. Example: '7c2a25d9-7fd3-ed11-a7c7-000d3ac8f297'"},
+        {"name": "leadSourceAt", "type": "Nullable(DateTime64(3))", "description": "Thời điểm ghi nhận nguồn hiện tại. Example: 1780263112182"},
+        {"name": "originalLeadSourceId", "type": "Nullable(String)", "description": "Nguồn phát sinh đầu tiên (ID). Example: '7c2a25d9-7fd3-ed11-a7c7-000d3ac8f297'"},
+        {"name": "originalLeadSourceAt", "type": "Nullable(DateTime64(3))", "description": "Thời điểm ghi nhận nguồn đầu tiên. Example: 1780263112182"},
+        {"name": "channelCode", "type": "String", "description": "Mã kênh/hệ thống phát sinh Lead. 1 = Walk-in; 2 = ASA Inbound; 3 = TMK Outbound; 4 = ASA Outbound; 5 = TMK Inbound; 6 = Corporate Student. Example: '3'"},
+        {"name": "channelCodeName", "type": "Nullable(String)", "description": "Tên kênh tạo Lead tương ứng với channelCode. Example: 'TMK Outbound'"},
+        {"name": "campaignId", "type": "Nullable(String)", "description": "ID chiến dịch marketing. Example: '3b4cc542-99d3-ed11-a7c7-000d3ac8f297'"},
+        {"name": "campaignDetailId", "type": "Nullable(String)", "description": "Mã chi tiết chiến dịch. Example: '6836e39f-5ed4-ed11-a7c7-6045bd1bacd6'"},
+        {"name": "originalCampaignId", "type": "Nullable(String)", "description": "Chiến dịch gốc lúc tạo. Example: 'a9e4b81b-a229-f011-8c4e-6045bd1b7864'"},
+        {"name": "urlLeadForm", "type": "Nullable(String)", "description": "URL form phát sinh Lead. Example: 'a9e4b81b-a229-f011-8c4e-6045bd1b7864'"},
+        {"name": "utmSource", "type": "Nullable(String)", "description": "Nguồn traffic/kênh marketing được ghi nhận từ UTM, free text. Example: 'Google'"},
+        {"name": "utmMedium", "type": "Nullable(String)", "description": "Phương tiện traffic UTM, free text. Example: 'PMax'"},
+        {"name": "utmCampaign", "type": "Nullable(String)", "description": "Tên/mã chiến dịch UTM, free text. Example: 'zalo-lead-form'"},
+        {"name": "utmKeyword", "type": "Nullable(String)", "description": "Từ khóa quảng cáo/marketing được ghi nhận từ UTM, free text. Example: 'đăngkýtiếnganh'"},
+        {"name": "utmGclid", "type": "Nullable(String)", "description": "Google Click ID. Example: 'EAIaIQobChMI08PhzK7biAMVdYfpBR0s4AehEAEYASAAEgIfUfD_BwE'"},
+        {"name": "adsCampaignId", "type": "Nullable(String)", "description": "ID chiến dịch quảng cáo. Example: '1861801908729057'"},
+        {"name": "adsCampaignName", "type": "Nullable(String)", "description": "Tên chiến dịch quảng cáo, free text. Example: 'Performance_Lead_Form_Ho Chi Minh_Kids_TT_080526'"},
+        {"name": "adsGroupId", "type": "Nullable(String)", "description": "ID nhóm quảng cáo. Example: '120240922569060706'"},
+        {"name": "adsGroupName", "type": "Nullable(String)", "description": "Tên nhóm quảng cáo, free text. Example: 'KIDS_Interest'"},
+        {"name": "adsId", "type": "Nullable(String)", "description": "ID mẫu quảng cáo. Example: '120240922569120706'"},
+        {"name": "adsName", "type": "Nullable(String)", "description": "Tên mẫu quảng cáo, free text. Example: 'Video_Apr_Kids_Promotion_Hocphihemoi'"},
+        {"name": "preferredCampusId", "type": "Nullable(String)", "description": "ID cơ sở ban đầu khách chọn. Example: '60339819-d205-ee11-8f6e-6045bd1bacd6'"},
+        {"name": "provinceId", "type": "Nullable(String)", "description": "ID tỉnh/thành của Lead. Example: '9716744b-6ad3-ed11-a7c7-6045bd1f51e0'"},
+        {"name": "ownerType", "type": "Nullable(String)", "description": "Loại đối tượng sở hữu Lead: Role, Team hoặc User. Example: 'User'"},
+        {"name": "ownerRole", "type": "Nullable(String)", "description": "Role sở hữu Lead, free text. Example: 'CRM_TMK'"},
+        {"name": "ownerTeamId", "type": "Nullable(String)", "description": "ID Team sở hữu. Example: 'MKT_HCM-TMK-PROVINCE_1'"},
+        {"name": "ownerUser", "type": "Nullable(String)", "description": "Email tài khoản User sở hữu. Example: 'lethicamquyen@vus-etsc.edu.vn'"},
+        {"name": "tmkTeamShow", "type": "Nullable(String)", "description": "ID Team TMK ghi nhận tại bước Show. Example: 'MKT_HCM-TMK-PROVINCE_1'"},
+        {"name": "tmkAgentShow", "type": "Nullable(String)", "description": "Email Agent TMK tại bước Show. Example: 'thanhthuytest@vus-etsc.edu.vn'"},
+        {"name": "tmkTeamSign", "type": "Nullable(String)", "description": "ID Team TMK tại Sign. Example: 'TMK_Leader'"},
+        {"name": "tmkAgentSign", "type": "Nullable(String)", "description": "Email Agent TMK tại Sign. Example: 'testemail@vus-etsc.edu.vn'"},
+        {"name": "preferredContactChannel", "type": "Nullable(String)", "description": "Kênh ưu tiên nhận liên hệ của Lead, free text. Example: 'Gọi điện thoại trực tiếp'"},
+        {"name": "preferredContactTime", "type": "Nullable(String)", "description": "Khung giờ hoặc thời điểm mong muốn được liên hệ. Example: '9:00 - 11:00 sáng'"},
+        {"name": "duplicatedCoreEduLeadId", "type": "Nullable(String)", "description": "ID Lead CoreEdu trùng. Example: '3942a0b9-0d8c-f111-8077-00224858f349'"},
+        {"name": "duplicatedCoreEduStudentProfileId", "type": "Nullable(String)", "description": "ID Student Profile trùng. Example: '0dfd6f49-9b54-f011-bec2-6045bd1b7864'"},
+        {"name": "duplicatedLeads", "type": "Array(String)", "description": "Danh sách Lead trùng. Example: ['L178566485900077301773993455839395', 'L178566485900077301773993455839392']"},
+        {"name": "createdBy", "type": "Nullable(String)", "description": "Tài khoản/service tạo bản ghi. Example: 'pcx-vus-migration-acc'"},
+        {"name": "createdAt", "type": "Nullable(DateTime64(3))", "description": "Thời điểm tạo Lead. Example: 1780051468394"},
+        {"name": "updatedBy", "type": "Nullable(String)", "description": "Tài khoản/service cập nhật gần nhất. Example: 'pcx-ce-acc'"},
+        {"name": "updatedAt", "type": "Nullable(DateTime64(3))", "description": "Thời điểm cập nhật gần nhất. Example: 1780051468394"},
+        {"name": "userCreatedBy", "type": "Nullable(String)", "description": "Người dùng nghiệp vụ tạo. Example: 'example@gmail.com'"},
+        {"name": "userCreatedAt", "type": "Nullable(DateTime64(3))", "description": "Thời điểm người dùng tạo. Example: 1657501364000"},
+        {"name": "userUpdatedBy", "type": "Nullable(String)", "description": "Người dùng nghiệp vụ cập nhật gần nhất. Example: 'example@gmail.com'"},
+        {"name": "userUpdatedAt", "type": "Nullable(String)", "description": "Thời điểm người dùng cập nhật gần nhất. Example: 'userUpdatedAt'"},
+        {"name": "userTeamCreatedBy", "type": "Nullable(String)", "description": "Team của người tạo Lead. Example: 'DMK_HCM_HO'"},
+        {"name": "departmentCreatedBy", "type": "Nullable(String)", "description": "Phòng ban của người tạo Lead. Example: 'CRM_TMK'"},
+        {"name": "sourceChangeAt", "type": "DateTime64(3)", "description": "Thời điểm thay đổi nguồn của Lead. Example: 1785014759683"}
       ]
     },
     {
       "collection": "user_event_504b01de4dbc2847ec40c97d0c8e9466",
       "description": "Tập dữ liệu ghi nhận toàn bộ sự kiện tương tác của khách hàng trên mọi kênh và hệ thống (behavioral log). Mỗi bản ghi đại diện cho một lần tương tác cụ thể — hành vi mua hàng, khảo sát, đổi điểm, click quảng cáo, truy cập Mini App... Dữ liệu thu thập từ website, mobile app, POS, CRM, mạng xã hội (Facebook, Zalo), tích hợp API.",
       "fields": [
-        {
-          "name": "id",
-          "type": "String",
-          "description": "Khóa định danh duy nhất (primary key). Example: 'Changed-000051e13f09b9eab76980bab0e50d40-1754576288267'"
-        },
-        {
-          "name": "sourceId",
-          "type": "String",
-          "description": "Mã định danh nguồn sinh sự kiện, dùng khử trùng lặp. Example: 'bcc9459c74d312b83589096e1770f63a'"
-        },
-        {
-          "name": "source",
-          "type": "String",
-          "description": "Hệ thống/ứng dụng phát sinh sự kiện. Example: 'ZaloOA_Event'"
-        },
-        {
-          "name": "channel",
-          "type": "String",
-          "description": "Nơi người dùng thực hiện hành động. Example: 'Online'"
-        },
-        {
-          "name": "triggerLevel",
-          "type": "String",
-          "description": "Nhóm sự kiện cấp 1. Example: 'Level1'"
-        },
-        {
-          "name": "eventName",
-          "type": "String",
-          "description": "Tên tiếng Việt mô tả hành động, free text, hiển thị trên CRM/timeline. Example: 'Tên sự kiện'"
-        },
-        {
-          "name": "eventCategory",
-          "type": "String",
-          "description": "Nhóm sự kiện cấp 2. Example: 'UserInteraction'"
-        },
-        {
-          "name": "eventCategory2",
-          "type": "String",
-          "description": "Nhóm sự kiện cấp 3. Example: 'Zalo OA'"
-        },
-        {
-          "name": "eventCategory3",
-          "type": "String",
-          "description": "Nhóm sự kiện cấp 3 bổ sung. Example: 'Zalo Mini App'"
-        },
-        {
-          "name": "email",
-          "type": "String",
-          "description": "Email khách hàng tại thời điểm sự kiện. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "phone",
-          "type": "String",
-          "description": "Số điện thoại khách hàng tại thời điểm sự kiện. Example: '0388418742'"
-        },
-        {
-          "name": "fbPageId",
-          "type": "String",
-          "description": "Facebook Page ID. Example: 'fb.2.1788094625135.769663531599786847'"
-        },
-        {
-          "name": "lead",
-          "type": "String",
-          "description": "Mã/thông tin nhận diện lead tiềm năng chưa có customer_id chính thức. Example: '502991939edf44c9aaeb55d2e0cce074'"
-        },
-        {
-          "name": "eventLabels",
-          "type": "Array(String)",
-          "description": "Danh sách loại đối tượng liên quan sự kiện, cùng index với eventLabel2s/3s. Example: ['value1', 'value2']"
-        },
-        {
-          "name": "eventLabel2s",
-          "type": "Array(String)",
-          "description": "Danh sách loại đối tượng liên quan sự kiện, nhãn cấp 2, cùng index với eventLabels. Example: ['value1', 'value2']"
-        },
-        {
-          "name": "eventLabel3s",
-          "type": "Array(String)",
-          "description": "Danh sách loại đối tượng liên quan sự kiện, nhãn cấp 3, cùng index với eventLabels. Example: ['value1', 'value2']"
-        },
-        {
-          "name": "eventAt",
-          "type": "DateTime",
-          "description": "Thời điểm sự kiện thực sự xảy ra, UTC, độ chính xác mili-giây. Example: 1760603902000"
-        },
-        {
-          "name": "createdAt",
-          "type": "DateTime",
-          "description": "Thời điểm ghi bản ghi vào hệ thống. Example: 1760603902000"
-        }
+        {"name": "id", "type": "String", "description": "Khóa định danh duy nhất (primary key). Example: 'Changed-000051e13f09b9eab76980bab0e50d40-1754576288267'"},
+        {"name": "sourceId", "type": "String", "description": "Mã định danh nguồn sinh sự kiện, dùng khử trùng lặp. Example: 'bcc9459c74d312b83589096e1770f63a'"},
+        {"name": "source", "type": "String", "description": "Hệ thống/ứng dụng phát sinh sự kiện. Example: 'ZaloOA_Event'"},
+        {"name": "channel", "type": "String", "description": "Nơi người dùng thực hiện hành động. Example: 'Online'"},
+        {"name": "triggerLevel", "type": "String", "description": "Nhóm sự kiện cấp 1. Example: 'Level1'"},
+        {"name": "eventName", "type": "String", "description": "free text. Example: 'placement_test_complete'"},
+        {"name": "eventCategory", "type": "String", "description": "Nhóm sự kiện cấp 2. Example: 'UserInteraction'"},
+        {"name": "eventCategory2", "type": "String", "description": "Nhóm sự kiện cấp 3. Example: 'Zalo OA'"},
+        {"name": "eventCategory3", "type": "String", "description": "Nhóm sự kiện cấp 3 bổ sung. Example: 'Zalo Mini App'"},
+        {"name": "email", "type": "String", "description": "Email khách hàng tại thời điểm sự kiện. Example: 'example@gmail.com'"},
+        {"name": "phone", "type": "String", "description": "Số điện thoại khách hàng tại thời điểm sự kiện. Example: '0388418742'"},
+        {"name": "fbPageId", "type": "String", "description": "Facebook Page ID. Example: 'fb.2.1788094625135.769663531599786847'"},
+        {"name": "lead", "type": "String", "description": "Mã/thông tin nhận diện lead tiềm năng chưa có customer_id chính thức. Example: '502991939edf44c9aaeb55d2e0cce074'"},
+        {"name": "eventLabels", "type": "Array(String)", "description": "Danh sách loại đối tượng liên quan sự kiện, cùng index với eventLabel2s/3s. Example: ['value1', 'value2']"},
+        {"name": "eventLabel2s", "type": "Array(String)", "description": "Danh sách loại đối tượng liên quan sự kiện, nhãn cấp 2, cùng index với eventLabels. Example: ['testProgram:ielts', 'value2']"},
+        {"name": "eventLabel3s", "type": "Array(String)", "description": "Danh sách loại đối tượng liên quan sự kiện, nhãn cấp 3, cùng index với eventLabels. Example: ['value1', 'value2']"},
+        {"name": "eventAt", "type": "DateTime", "description": "Thời điểm sự kiện thực sự xảy ra, UTC, độ chính xác mili-giây. Example: 1760603902000"},
+        {"name": "createdAt", "type": "DateTime", "description": "Thời điểm ghi bản ghi vào hệ thống. Example: 1760603902000"}
       ]
     },
     {
       "collection": "activity_log",
       "description": "Bảng lưu nhật ký hoạt động (activity log) phát sinh trên Lead / User Profile, bao gồm thay đổi trạng thái chăm sóc, cuộc gọi, đặt lịch hẹn và các sự kiện nghiệp vụ liên quan.",
       "fields": [
-        {
-          "name": "id",
-          "type": "String",
-          "description": "Khóa định danh duy nhất của hoạt động (primary key). Example: '04eb133070883176debd3a887a59124a'"
-        },
-        {
-          "name": "leadId",
-          "type": "Nullable(String)",
-          "description": "ID Lead liên quan đến hoạt động. Example: 'L178005114547928499816707029227025'"
-        },
-        {
-          "name": "profileId",
-          "type": "Nullable(String)",
-          "description": "ID User Profile liên quan đến hoạt động. Example: 'P178002962747286966277092394523014'"
-        },
-        {
-          "name": "logType",
-          "type": "Nullable(String)",
-          "description": "Xác định đối tượng hoặc nhóm nghiệp vụ phát sinh Activity. Example: 'CALL'"
-        },
-        {
-          "name": "logSubType",
-          "type": "Nullable(String)",
-          "description": "Xác định hành động hoặc sự kiện cụ thể đã phát sinh. Example: 'CALL'"
-        },
-        {
-          "name": "callId",
-          "type": "Nullable(String)",
-          "description": "ID cuộc gọi tương ứng 3CX. Example: '00002E3E-EA22-40BE-B072-DBDDDD87911E'"
-        },
-        {
-          "name": "recordingUrl",
-          "type": "Nullable(String)",
-          "description": "Đường dẫn file ghi âm cuộc gọi. Example: 'https://3cx-vus.ringbot.co:5001/re...'"
-        },
-        {
-          "name": "talkingTime",
-          "type": "Nullable(Float64)",
-          "description": "Tổng thời gian hai bên kết nối và đàm thoại, tính bằng giây. Example: 1"
-        },
-        {
-          "name": "totalTimeCall",
-          "type": "Nullable(Float64)",
-          "description": "Tổng thời gian từ lúc bắt đầu đến khi kết thúc cuộc gọi, tính bằng giây. Example: 1"
-        },
-        {
-          "name": "disposition",
-          "type": "Nullable(String)",
-          "description": "Kết quả nghiệp vụ được ghi nhận sau cuộc gọi. Các giá trị gồm Answered, NoAnswer, Busy, Denied, Cancel, Error Sip. Example: 'Answered'"
-        },
-        {
-          "name": "createdAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm Activity được tạo, định dạng ISO 8601 GMT+0. Example: 1781163601539"
-        },
-        {
-          "name": "createdBy",
-          "type": "Nullable(String)",
-          "description": "Tài khoản người dùng hoặc service tạo Activity. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "updatedAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm Activity được cập nhật gần nhất, định dạng ISO 8601 GMT+0. Example: 1781163601539"
-        },
-        {
-          "name": "updatedBy",
-          "type": "Nullable(String)",
-          "description": "Tài khoản người dùng hoặc service cập nhật Activity gần nhất. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "department",
-          "type": "Nullable(String)",
-          "description": "Phòng ban của account thao tác tương ứng. Example: 'CRM_TMK'"
-        },
-        {
-          "name": "teamId",
-          "type": "Nullable(String)",
-          "description": "Team của account thao tác tương ứng. Example: 'DMK_HCM_AREA_4_CLUSTER_8'"
-        },
-        {
-          "name": "sourceChangeAt",
-          "type": "DateTime64(3)",
-          "description": "Thời điểm bản ghi nguồn thay đổi, dùng để theo dõi/đồng bộ dữ liệu (CDC timestamp). Example: 1780070950711"
-        }
+        {"name": "id", "type": "String", "description": "Khóa định danh duy nhất của hoạt động (primary key). Example: '04eb133070883176debd3a887a59124a'"},
+        {"name": "leadId", "type": "Nullable(String)", "description": "ID Lead liên quan đến hoạt động. Example: 'L178005114547928499816707029227025'"},
+        {"name": "profileId", "type": "Nullable(String)", "description": "ID User Profile liên quan đến hoạt động. Example: 'P178002962747286966277092394523014'"},
+        {"name": "logType", "type": "Nullable(String)", "description": "Xác định đối tượng hoặc nhóm nghiệp vụ phát sinh Activity. Example: 'CALL'"},
+        {"name": "logSubType", "type": "Nullable(String)", "description": "Xác định hành động hoặc sự kiện cụ thể đã phát sinh. Example: 'CALL'"},
+        {"name": "callId", "type": "Nullable(String)", "description": "ID cuộc gọi tương ứng 3CX. Example: '00002E3E-EA22-40BE-B072-DBDDDD87911E'"},
+        {"name": "recordingUrl", "type": "Nullable(String)", "description": "Đường dẫn file ghi âm cuộc gọi. Example: 'https://3cx-vus.ringbot.co:5001/re...'"},
+        {"name": "talkingTime", "type": "Nullable(Float64)", "description": "Tổng thời gian hai bên kết nối và đàm thoại, tính bằng giây. Example: 1"},
+        {"name": "totalTimeCall", "type": "Nullable(Float64)", "description": "Tổng thời gian từ lúc bắt đầu đến khi kết thúc cuộc gọi, tính bằng giây. Example: 1"},
+        {"name": "disposition", "type": "Nullable(String)", "description": "Kết quả nghiệp vụ được ghi nhận sau cuộc gọi. Các giá trị gồm Answered, NoAnswer, Busy, Denied, Cancel, Error Sip. Example: 'Answered'"},
+        {"name": "createdAt", "type": "Nullable(DateTime64(3))", "description": "Thời điểm Activity được tạo, định dạng ISO 8601 GMT+0. Example: 1781163601539"},
+        {"name": "createdBy", "type": "Nullable(String)", "description": "Tài khoản người dùng hoặc service tạo Activity. Example: 'example@gmail.com'"},
+        {"name": "updatedAt", "type": "Nullable(DateTime64(3))", "description": "Thời điểm Activity được cập nhật gần nhất, định dạng ISO 8601 GMT+0. Example: 1781163601539"},
+        {"name": "updatedBy", "type": "Nullable(String)", "description": "Tài khoản người dùng hoặc service cập nhật Activity gần nhất. Example: 'example@gmail.com'"},
+        {"name": "department", "type": "Nullable(String)", "description": "Phòng ban của account thao tác tương ứng. Example: 'CRM_TMK'"},
+        {"name": "teamId", "type": "Nullable(String)", "description": "Team của account thao tác tương ứng. Example: 'DMK_HCM_AREA_4_CLUSTER_8'"},
+        {"name": "sourceChangeAt", "type": "DateTime64(3)", "description": "Thời điểm bản ghi nguồn thay đổi, dùng để theo dõi/đồng bộ dữ liệu (CDC timestamp). Example: 1780070950711"}
+      ]
+    },
+    {
+      "collection": "customer_tagging_504b01de4dbc2847ec40c97d0c8e9466",
+      "description": "Bảng lưu trữ chi tiết về việc gắn tag và áp dụng rule cho khách hàng. Dùng khi solution nói về: lịch sử/log gắn tag cho khách hàng; trạng thái tag hiện tại (VD: active); kênh gắn tag (Phone, email, zalo...); độ tin cậy (confidence) của tag/rule; chi tiết mở rộng theo tag (dạng key-value động: text, số, boolean, ngày, danh sách); request/batch xử lý tagging.",
+      "fields": [
+        {"name": "id", "type": "UUID", "description": "Khóa định danh duy nhất (primary key). Example: '83f07765-9de9-45e4-a05a-1ee693a99fc3'"},
+        {"name": "dslResultId", "type": "String", "description": "ID kết quả từ DSL (query/engine). Example: '75b91c02-ab8a-4462-8a45-a2e25f4cea08'"},
+        {"name": "tagId", "type": "String", "description": "ID của tag. Example: 'kids_less_than_6_year_old_new'"},
+        {"name": "ruleId", "type": "String", "description": "ID của rule. Example: 'Tag_AgeGroup_Lead_Under6'"},
+        {"name": "status", "type": "LowCardinality(String)", "description": "Trạng thái hiện tại. Data thực tế quan sát. Example: 'active'"},
+        {"name": "customerId", "type": "String", "description": "Mã khách hàng liên quan. Liên kết với customer_unified.id. Example: 'L178005085074666724231524398596137'"},
+        {"name": "channelType", "type": "LowCardinality(String)", "description": "Loại kênh. Example: 'UserId'"},
+        {"name": "channelId", "type": "String", "description": "ID của kênh. Example: 'L178005085329148731307100231571384'"},
+        {"name": "identifyStatus", "type": "LowCardinality(String)", "description": "Trạng thái định danh khách hàng. Example: 'identified'"},
+        {"name": "tagCategory", "type": "LowCardinality(String)", "description": "Nhóm phân loại tag. Example: 'Program'"},
+        {"name": "tagSubCategory", "type": "LowCardinality(Nullable(String))", "description": "Phân loại phụ của tag, nullable. Example: 'Program'"},
+        {"name": "sourceType", "type": "LowCardinality(String)", "description": "Kiểu nguồn dữ liệu. Example: 'dsl_result_504b01de4dbc2847ec40c97d0c8e9466'"},
+        {"name": "sourceIds", "type": "Array(String)", "description": "Danh sách ID nguồn dữ liệu. Example: ['L178005085074666724231524398596137', 'L178005085074666724231524398596132']"},
+        {"name": "detailString", "type": "Map(String, String)", "description": "Thông tin chi tiết dạng text key-value động. Example: '{fullName=NGUYỄN BẢO QUỐC, id=L178005085074666724231524398596137}'"},
+        {"name": "detailDate", "type": "Map(String, String)", "description": "Thông tin chi tiết dạng ngày (lưu String), key động. Example: '{createdAt=2026-07-14 00:26:21.870, updatedAt=2026-07-14 00:26:21.870}'"},
+        {"name": "createdAt", "type": "DateTime64(3, 'UTC')", "description": "Thời điểm tạo. Example: 1787725847837"},
+        {"name": "expiredAt", "type": "DateTime64(3, 'UTC')", "description": "Thời điểm hết hạn. Example: 1787725847837"},
+        {"name": "createdBy", "type": "String", "description": "Người/hệ thống tạo. Example: 'pconn_schedule_job_trigger'"},
+        {"name": "lastTouchedAt", "type": "DateTime64(3, 'UTC')", "description": "Lần cuối cùng được cập nhật/đụng tới. Example: 1787725847837"},
+        {"name": "requestId", "type": "String", "description": "Mã request gốc. Example: 'TagFinal_JTLe6f588de803b4d3bc7d4c522bc65317d'"},
+        {"name": "requestBatch", "type": "Int64", "description": "Batch request ID. Example: 10"},
+        {"name": "tagRuleUserKey", "type": "String", "description": "Khóa user từ rule gắn tag. Example: 'kids_less_than_6_year_old_new:Tag_AgeGroup_Lead_Under6:L178005085329148731307100231571384'"},
+        {"name": "tagRuleSrcUserKey", "type": "String", "description": "Khóa user nguồn ban đầu từ rule. Example: 'kids_less_than_6_year_old_new:Tag_AgeGroup_Lead_Under6:L178005085329148731307100231571384:L178005085329148731307100231571384'"}
+      ]
+    },
+    {
+      "collection": "customer_unified_504b01de4dbc2847ec40c97d0c8e9466",
+      "description": "Bảng IDENTITY MERGE HISTORY. Track root user IDs qua merge operations. Ít khi query trực tiếp trong Master DSL — chủ yếu dùng cho audit/traceability. Nếu solution không rõ ràng về merge history, KHÔNG chọn bảng này. Với DSL Task, bảng này dùng chung với customer_tagging_504b01de4dbc2847ec40c97d0c8e9466 để join/xác định danh tính khách hàng.",
+      "fields": [
+        {"name": "id", "type": "String", "description": "Khóa định danh duy nhất (primary key). Example: '5b06abaa109bec451aed5c90ce88bde0'"},
+        {"name": "rootId", "type": "String", "description": "User ID gốc. Example: 'P178839508734204418928128306501221'"},
+        {"name": "curRootId", "type": "String", "description": "CustomerId chính (master ID) đại diện cho khách hàng. Được dùng join với customer_tagging_{orgId}.customerId. Example: 'P178002889803810539849374542739424'"},
+        {"name": "source", "type": "LowCardinality(String)", "description": "Nguồn dữ liệu gốc. Đa số: Customer, PurchaseHistory, ZaloProfile, CustomerMembership (>99%); hiếm: SocialCRM, CRM, Import, chuỗi rỗng; rất hiếm (<10 records) là giá trị composite lạ do lỗi ghi nhận, KHÔNG coi là format chuẩn. Example: 'Phone:0916371038:VConnextUserProfile'"},
+        {"name": "name", "type": "Nullable(String)", "description": "Tên hoặc định danh khách hàng. Chỉ ~0.016% NULL. Example: 'PH_0988479635'"},
+        {"name": "partial", "type": "Bool", "description": "Đánh dấu bản ghi chưa đầy đủ dữ liệu. 100% false trong sample hiện tại. Example: false"},
+        {"name": "merged", "type": "Bool", "description": "Trạng thái bản ghi đã được merge vào bản khác hay chưa. Chủ yếu false (~99.83%), một phần nhỏ true (~0.17%). Example: false"},
+        {"name": "createdAt", "type": "DateTime64(3, 'UTC')", "description": "Thời điểm tạo. Example: 1787482952014"},
+        {"name": "updatedAt", "type": "DateTime64(3, 'UTC')", "description": "Thời điểm sửa. Example: 1787482952014"}
+      ]
+    },
+    {
+      "collection": "intent_and_sentiment",
+      "description": "Lưu kết quả phân tích NLP từ hội thoại khách hàng, bao gồm phân loại intent, phân tích sentiment và trích xuất entities phục vụ tư vấn, thu lead, chăm sóc và follow-up.",
+      "fields": [
+        {"name": "id", "type": "String", "description": "Mã duy nhất của kết quả phân tích Intent và Sentiment. Example: '1c1d787e531f0a0e094046c66e0899df'"},
+        {"name": "refId", "type": "String", "description": "Mã tham chiếu bản ghi từ hệ thống nguồn, dùng để dedup và đối chiếu khi đồng bộ dữ liệu phân tích intent và sentiment. Example: '567a33b4694ede460f3c54fe56108e0a'"},
+        {"name": "phone", "type": "String", "description": "Số điện thoại của khách hàng, dùng để liên kết bản ghi phân tích với hồ sơ khách hàng trong CDP. Example: '0705124366'"},
+        {"name": "customerId", "type": "Nullable(String)", "description": "Mã khách hàng nội bộ trong hệ thống, dùng để liên kết với hồ sơ customer profile. Example: null"},
+        {"name": "email", "type": "String", "description": "Email của khách hàng, được lưu trực tiếp để hỗ trợ truy vấn và xử lý lead mà không cần join thêm dữ liệu. Example: 'example@gmail.com'"},
+        {"name": "createdAt", "type": "DateTime64(3, 'UTC')", "description": "Thời điểm tạo bản ghi trong hệ thống, dùng cho audit log và đồng bộ incremental. Example: 1788447299450"},
+        {"name": "updatedAt", "type": "DateTime64(3, 'UTC')", "description": "Thời điểm cập nhật gần nhất của bản ghi, dùng để phát hiện và đồng bộ dữ liệu thay đổi. Example: 1788447299450"},
+        {"name": "datasource", "type": "LowCardinality(Nullable(String))", "description": "Nguồn tạo hoặc cung cấp dữ liệu. Example: 'PCX'"},
+        {"name": "tags", "type": "Array(String)", "description": "Danh sách nhãn dùng để phân loại trạng thái hoặc nguồn xử lý dữ liệu. Example: ['excel', 'auto', 'reviewed']"},
+        {"name": "modelCreatedAt", "type": "DateTime64(3, 'UTC')", "description": "Thời điểm bản ghi được tạo trong data model, có thể khác createdAt khi dữ liệu được import từ hệ thống bên ngoài. Example: 1788447299450"},
+        {"name": "modelUpdatedAt", "type": "DateTime64(3, 'UTC')", "description": "Thời điểm bản ghi được cập nhật gần nhất trong data model. Example: 1788447299450"},
+        {"name": "fbPid", "type": "Nullable(String)", "description": "Facebook Page-Scoped ID của khách hàng, dùng để liên kết khách hàng với hội thoại Facebook Messenger. Example: null"},
+        {"name": "zaloUAId", "type": "Nullable(String)", "description": "Zalo User ID của khách hàng, dùng để liên kết hội thoại Zalo với hồ sơ CDP và hỗ trợ gửi thông báo hoặc phản hồi. Example: null"},
+        {"name": "zoUid", "type": "Nullable(String)", "description": "ID định danh của khách hàng trong hệ thống bên ngoài như hệ thống chat hoặc CRM, dùng để đối chiếu dữ liệu cross-system. Example: null"},
+        {"name": "channel", "type": "LowCardinality(Nullable(String))", "description": "Kênh giao tiếp nơi hội thoại diễn ra. Example: 'Zalo Inbox'"},
+        {"name": "conversationId", "type": "Nullable(String)", "description": "Mã định danh duy nhất của cuộc hội thoại, dùng để nhóm các tin nhắn và liên kết với nội dung hội thoại đầy đủ. Example: null"},
+        {"name": "recordType", "type": "LowCardinality(Nullable(String))", "description": "Loại kết quả phân tích NLP. 'intent' biểu diễn nhu cầu hoặc mục tiêu hành động; 'sentiment' biểu diễn cảm xúc chủ đạo của khách hàng. Example: 'intent'"},
+        {"name": "intentKey", "type": "LowCardinality(Nullable(String))", "description": "Mã intent được AI phân loại, sử dụng định dạng snake_case. Field này áp dụng chủ yếu cho bản ghi có recordType là intent. Example: 'ielts_course_information'"},
+        {"name": "profileId", "type": "Nullable(String)", "description": "Mã hồ sơ khách hàng trong hệ thống phân tích hoặc CRM, dùng để liên kết kết quả NLP với customer profile. Example: null"},
+        {"name": "category", "type": "LowCardinality(Nullable(String))", "description": "Nhóm nghiệp vụ cấp cao của intent, dùng để gom các intent có cùng mục đích và hỗ trợ phân tích xu hướng. Example: 'course_information'"},
+        {"name": "description", "type": "Nullable(String)", "description": "Mô tả ngắn gọn bằng ngôn ngữ tự nhiên về nhu cầu, yêu cầu hoặc vấn đề của khách hàng được AI tổng hợp từ lời khách hàng. Example: null"},
+        {"name": "rawPayload", "type": "Nullable(String)", "description": "Toàn bộ kết quả phân tích NLP được lưu dưới dạng JSON string. Payload có thể bao gồm success, message, sentiment, intents, entities và userInputLanguage. Example: null"},
+        {"name": "entities", "type": "Array(Nullable(String))", "description": "Danh sách thông tin có cấu trúc được trích xuất trực tiếp từ lời khách hàng để làm rõ intent, sentiment và hỗ trợ xử lý lead. Example: ['courseInterest', 'learnerName']"},
+        {"name": "confidence", "type": "Nullable(Float64)", "description": "Độ tin cậy của kết quả AI, có giá trị từ 0 đến 1. Giá trị càng gần 1 càng thể hiện AI chắc chắn về intent hoặc sentiment được phân loại. Example: 0.92"},
+        {"name": "conversationAt", "type": "Nullable(DateTime64(3, 'UTC'))", "description": "Thời điểm bắt đầu cuộc hội thoại, dùng để phân tích nhu cầu theo thời gian và đo thời gian phản hồi. Example: 1788447299450"},
+        {"name": "detectedAt", "type": "Nullable(DateTime64(3, 'UTC'))", "description": "Thời điểm hệ thống AI nhận được và bắt đầu phân tích hội thoại, dùng để đo độ trễ xử lý NLP. Example: 1788447299450"},
+        {"name": "expiredAt", "type": "Nullable(DateTime64(3, 'UTC'))", "description": "Thời điểm kết quả phân tích hết hiệu lực. TTL có thể là 1h, 4h, 7d, 30d hoặc 90d tùy mức độ tạm thời hay lâu dài của intent, sentiment và thông tin lead. Example: 1788447299450"},
+        {"name": "objectModel", "type": "Nullable(String)", "description": "object model. Example: 'M-JZVSO-O-3AQNO-M'"},
+        {"name": "createdBy", "type": "Nullable(String)", "description": "tài khoản tạo. Example: 'System'"},
+        {"name": "updatedBy", "type": "Nullable(String)", "description": "tài khoản cập nhật. Example: 1788447299450"}
       ]
     }
   ]
