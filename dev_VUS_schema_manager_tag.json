@@ -1030,11 +1030,6 @@
             "description": "Toàn bộ kết quả phân tích NLP được lưu dưới dạng JSON string. Payload có thể bao gồm success, message, sentiment, intents, entities và userInputLanguage. Example: (không có)"
             },
             {
-            "name": "entities",
-            "type": "Array(Nullable(String))",
-            "description": "Danh sách thông tin có cấu trúc được trích xuất trực tiếp từ lời khách hàng để làm rõ intent, sentiment và hỗ trợ xử lý lead. Example: courseInterest, learnerName, relationshipToLearner, targetLevel, currentLevel, learningGoal, preferredSchedule, preferredLocation, budgetRange, consultationRequest, callbackRequest, registrationIntent, appointmentRequest, followUpRequest, contactMethod, urgencyLevel, decisionStage"
-            },
-            {
             "name": "confidence",
             "type": "Nullable(Float64)",
             "description": "Độ tin cậy của kết quả AI, có giá trị từ 0 đến 1. Giá trị càng gần 1 càng thể hiện AI chắc chắn về intent hoặc sentiment được phân loại. Example: 0 đến 1"
