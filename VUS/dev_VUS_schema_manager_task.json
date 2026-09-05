@@ -286,6 +286,67 @@
         {"name": "createdBy", "type": "Nullable(String)", "description": "tài khoản tạo. Example: 'System'"},
         {"name": "updatedBy", "type": "Nullable(String)", "description": "tài khoản cập nhật. Example: 1788447299450"}
       ]
+    },
+    {
+      "collection": "customer_profile_504b01de4dbc2847ec40c97d0c8e9466",
+      "description": "Bảng hồ sơ khách hàng, lưu trữ thông tin định danh, nhân khẩu học, lịch sử mua hàng, hoạt động, thuộc tính, tag, label, phân đoạn và thông tin audit của khách hàng.",
+      "fields": [
+        {"name": "id", "type": "String", "description": "Mã định danh duy nhất của hồ sơ khách hàng."},
+        {"name": "userId", "type": "String", "description": "Mã người dùng hoặc khách hàng trong hệ thống nguồn."},
+        {"name": "name", "type": "String", "description": "Họ và tên đầy đủ của khách hàng. Example: 'PH_0973226619', 'PH_NGUYỄN HOÀNG YẾN NHI'."},
+        {"name": "gender", "type": "String", "description": "Giới tính của khách hàng. Example: 'male', 'female'."},
+        {"name": "birthday", "type": "Long", "description": "Ngày sinh của khách hàng dưới dạng timestamp."},
+        {"name": "birthdayDate", "type": "Int", "description": "Ngày sinh của khách hàng theo ngày trong tháng. Example: 1, 2, ..."},
+        {"name": "birthdayMonth", "type": "Int", "description": "Tháng sinh của khách hàng. Example: 1, 2, ..."},
+        {"name": "birthYear", "type": "Int", "description": "Năm sinh của khách hàng. Example: 1980."},
+        {"name": "mainPhone", "type": "String", "description": "Số điện thoại chính của khách hàng. Example: '0946094391'."},
+        {"name": "address", "type": "String", "description": "Địa chỉ của khách hàng dưới dạng freetext. Example: 'TP HCM'."},
+        {"name": "locationDetectedAt", "type": "Long", "description": "Thời điểm phát hiện hoặc cập nhật vị trí của khách hàng."},
+        {"name": "firstPurchasedAt", "type": "Long", "description": "Thời điểm khách hàng mua hàng lần đầu."},
+        {"name": "firstPurchasedAmount", "type": "Double", "description": "Giá trị của đơn hàng đầu tiên."},
+        {"name": "firstPurchasedProducts", "type": "Array[String]", "description": "Danh sách sản phẩm trong đơn hàng đầu tiên. Example: ['example', 'example', ...]."},
+        {"name": "lastPurchasedStoreId", "type": "String", "description": "Mã cửa hàng của lần mua hàng gần nhất."},
+        {"name": "lastPurchasedAt", "type": "Long", "description": "Thời điểm khách hàng mua hàng gần nhất."},
+        {"name": "lastPurchasedAmount", "type": "Double", "description": "Giá trị của đơn hàng gần nhất."},
+        {"name": "lastPurchasedProducts", "type": "Array[String]", "description": "Danh sách sản phẩm trong đơn hàng gần nhất. Example: ['example', 'example', ...]."},
+        {"name": "firstSeenAt", "type": "Long", "description": "Thời điểm hệ thống ghi nhận khách hàng lần đầu."},
+        {"name": "lastActivityAt", "type": "Long", "description": "Thời điểm hoạt động gần nhất của khách hàng."},
+        {"name": "attributes", "type": "Array[String]", "description": "Tập thuộc tính mở rộng dạng key-value string. Example: ['example', 'example', ...]."},
+        {"name": "attributeInts", "type": "Array[Int]", "description": "Tập thuộc tính mở rộng dạng key-int."},
+        {"name": "attributeLongs", "type": "Array[Long]", "description": "Tập thuộc tính mở rộng dạng key-long. Example: [number1, number2, ...]."},
+        {"name": "coreTagIds", "type": "Array[String]", "description": "Danh sách ID tag lõi của khách hàng. Example: ['example', 'example', ...]."},
+        {"name": "coreLabelIds", "type": "Array[String]", "description": "Danh sách ID label lõi của khách hàng. Example: ['example', 'example', ...]."},
+        {"name": "coreTagIdsAudit", "type": "Array[Long]", "description": "Audit thời điểm gán tag lõi tương ứng theo từng tag ID. Example: [number1, number2, ...]."},
+        {"name": "coreLabelIdsAudit", "type": "Array[Long]", "description": "Audit thời điểm gán label lõi tương ứng theo từng label ID. Example: [number1, number2, ...]."},
+        {"name": "lastUpdatedSource", "type": "String", "description": "Nguồn cập nhật gần nhất của bản ghi. Example: 'VConnextUserProfile'."},
+        {"name": "firstUpdatedSource", "type": "String", "description": "Nguồn cập nhật đầu tiên của bản ghi. Example: 'VConnextUserProfile'."},
+        {"name": "fieldSourceMap", "type": "Array[String]", "description": "Bản đồ nguồn cập nhật tương ứng theo từng field. Example: ['example', 'example', ...]."},
+        {"name": "fieldUpdatedAt", "type": "Array[Long]", "description": "Bản đồ thời điểm cập nhật tương ứng theo từng field. Example: [number1, number2, ...]."},
+        {"name": "lastSegmentKeys", "type": "Array[String]", "description": "Danh sách key phân đoạn gần nhất theo từng segment. Example: ['example', 'example', ...]."},
+        {"name": "lastSegmentPrioritys", "type": "Map<String, Integer>", "description": "Map lưu độ ưu tiên của từng segment gần nhất."},
+        {"name": "lastSegmentAt", "type": "Array[Long]", "description": "Thời điểm gán segment gần nhất tương ứng theo từng segment. Example: [number1, number2, ...]."},
+        {"name": "systemCreated", "type": "String", "description": "Thông tin về hệ thống tạo bản ghi. Example: 'PangoCDP'."},
+        {"name": "updatedBy", "type": "String", "description": "Người hoặc hệ thống thực hiện cập nhật gần nhất. Dạng freetext."},
+        {"name": "updatedAt", "type": "Long", "description": "Thời điểm cập nhật gần nhất của bản ghi."},
+        {"name": "createdBy", "type": "String", "description": "Người hoặc hệ thống tạo bản ghi. Dạng freetext."},
+        {"name": "createdAt", "type": "Long", "description": "Thời điểm tạo bản ghi."},
+        {"name": "lastTouchedAt", "type": "Long", "description": "Thời điểm bản ghi được chạm hoặc truy cập lần cuối."}
+      ]
+    },
+    {
+      "collection": "lead_entity_504b01de4dbc2847ec40c97d0c8e9466",
+      "description": "Bảng lưu trữ thông tin lead entity, bao gồm thông tin định danh, entity gốc, thông tin liên hệ và thông tin thời gian tạo/cập nhật.",
+      "fields": [
+        {"name": "id", "type": "String", "description": "Định danh duy nhất của lead entity. Example: 'P178002889803744099292167015971596'."},
+        {"name": "rootId", "type": "String", "description": "Định danh entity gốc. Example: 'L178005078453650393879894755462235'."},
+        {"name": "curRootId", "type": "String", "description": "Định danh entity gốc hiện tại. Example: 'L178005078453650393879894755462235'."},
+        {"name": "name", "type": "Nullable(String)", "description": "Tên của lead entity. Example: 'LÊ VĂN A'."},
+        {"name": "phone", "type": "String", "description": "Số điện thoại của lead. Example: '0124587552'."},
+        {"name": "email", "type": "Nullable(String)", "description": "Email của lead. Example: 'test@gmail.com'."},
+        {"name": "source", "type": "LowCardinality(String)", "description": "Nguồn tạo hoặc đồng bộ lead entity."},
+        {"name": "createdAt", "type": "DateTime64(3, 'UTC')", "description": "Thời điểm tạo lead entity. Example: '1787731461476'."},
+        {"name": "updatedAt", "type": "DateTime64(3, 'UTC')", "description": "Thời điểm cập nhật lead entity gần nhất. Example: '1787731461476'."}
+      ]
     }
   ]
 }
