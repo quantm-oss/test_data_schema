@@ -1050,11 +1050,6 @@
             "description": "Thời điểm hệ thống AI nhận được và bắt đầu phân tích hội thoại, dùng để đo độ trễ xử lý NLP. Example: 1788447299450"
             },
             {
-            "name": "expiredAt",
-            "type": "Nullable(DateTime64(3, 'UTC'))",
-            "description": "Thời điểm kết quả phân tích hết hiệu lực. TTL có thể là 1h, 4h, 7d, 30d hoặc 90d tùy mức độ tạm thời hay lâu dài của intent, sentiment và thông tin lead. Example: 1h, 4h, 7d, 30d, 90d"
-            },
-            {
             "name": "objectModel",
             "type": "Nullable(String)",
             "description": "object model. Example: M-JZVSO-O-3AQNO-M"
