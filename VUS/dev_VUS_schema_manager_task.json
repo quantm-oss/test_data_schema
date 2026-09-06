@@ -227,7 +227,6 @@
         {"name": "detailString", "type": "Map(String, String)", "description": "Thông tin chi tiết dạng text key-value động. Example: '{fullName=NGUYỄN BẢO QUỐC, id=L178005085074666724231524398596137}'"},
         {"name": "detailDate", "type": "Map(String, String)", "description": "Thông tin chi tiết dạng ngày (lưu String), key động. Example: '{createdAt=2026-07-14 00:26:21.870, updatedAt=2026-07-14 00:26:21.870}'"},
         {"name": "createdAt", "type": "DateTime64(3, 'UTC')", "description": "Thời điểm tạo. Example: 1787725847837"},
-        {"name": "expiredAt", "type": "DateTime64(3, 'UTC')", "description": "Thời điểm hết hạn. Example: 1787725847837"},
         {"name": "createdBy", "type": "String", "description": "Người/hệ thống tạo. Example: 'pconn_schedule_job_trigger'"},
         {"name": "lastTouchedAt", "type": "DateTime64(3, 'UTC')", "description": "Lần cuối cùng được cập nhật/đụng tới. Example: 1787725847837"},
         {"name": "requestId", "type": "String", "description": "Mã request gốc. Example: 'TagFinal_JTLe6f588de803b4d3bc7d4c522bc65317d'"},
@@ -281,7 +280,6 @@
         {"name": "confidence", "type": "Nullable(Float64)", "description": "Độ tin cậy của kết quả AI, có giá trị từ 0 đến 1. Giá trị càng gần 1 càng thể hiện AI chắc chắn về intent hoặc sentiment được phân loại. Example: 0.92"},
         {"name": "conversationAt", "type": "Nullable(DateTime64(3, 'UTC'))", "description": "Thời điểm bắt đầu cuộc hội thoại, dùng để phân tích nhu cầu theo thời gian và đo thời gian phản hồi. Example: 1788447299450"},
         {"name": "detectedAt", "type": "Nullable(DateTime64(3, 'UTC'))", "description": "Thời điểm hệ thống AI nhận được và bắt đầu phân tích hội thoại, dùng để đo độ trễ xử lý NLP. Example: 1788447299450"},
-        {"name": "expiredAt", "type": "Nullable(DateTime64(3, 'UTC'))", "description": "Thời điểm kết quả phân tích hết hiệu lực. TTL có thể là 1h, 4h, 7d, 30d hoặc 90d tùy mức độ tạm thời hay lâu dài của intent, sentiment và thông tin lead. Example: 1788447299450"},
         {"name": "objectModel", "type": "Nullable(String)", "description": "object model. Example: 'M-JZVSO-O-3AQNO-M'"},
         {"name": "createdBy", "type": "Nullable(String)", "description": "tài khoản tạo. Example: 'System'"},
         {"name": "updatedBy", "type": "Nullable(String)", "description": "tài khoản cập nhật. Example: 1788447299450"}
