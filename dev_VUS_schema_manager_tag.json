@@ -925,6 +925,11 @@
             "description": "Mã duy nhất của kết quả phân tích Intent và Sentiment. Example: '1c1d787e531f0a0e094046c66e0899df'"
             },
             {
+              "name": "entities",
+              "type": "Array(Nullable(String))",
+              "description": "Danh sách thông tin có cấu trúc được trích xuất trực tiếp từ lời khách hàng để làm rõ intent, sentiment và hỗ trợ xử lý lead. Example: 'courseInterest', 'learnerName', 'relationshipToLearner', 'targetLevel', 'currentLevel', 'learningGoal', 'preferredSchedule', 'preferredLocation', 'budgetRange', 'consultationRequest', 'callbackRequest', 'registrationIntent', 'appointmentRequest', 'followUpRequest', 'contactMethod', 'urgencyLevel', 'decisionStage'"
+            },
+            {
             "name": "refId",
             "type": "String",
             "description": "Mã tham chiếu bản ghi từ hệ thống nguồn, dùng để dedup và đối chiếu khi đồng bộ dữ liệu phân tích intent và sentiment. Example: '567a33b4694ede460f3c54fe56108e0a'"
