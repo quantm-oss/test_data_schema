@@ -127,6 +127,16 @@
     { "name": "activityInMonths.recencyDays", "type": "Long", "description": "Số ngày liên quan đến độ gần của hoạt động gần nhất." },
     { "name": "attributes.loyaltyCode", "type": "String", "description": "Mã thành viên hoặc mã loyalty của khách hàng." },
     { "name": "attributes.vip", "type": "String", "description": "Thông tin xác định trạng thái và hàng VIP của khách hàng." },
-    { "name": "attributes.interests", "type": "String", "description": "Thông tin về sở thích hoặc nhóm mối quan tâm của khách hàng." }
+    { "name": "attributes.interests", "type": "String", "description": "Thông tin về sở thích hoặc nhóm mối quan tâm của khách hàng." },
+    { "name": "attributes.MembershipLevel", "type": "String", "description": "Hạng thành viên (membership tier) của khách hàng, ví dụ Gold/Silver/Diamond." },
+    { "name": "attributes.customerId", "type": "String", "description": "Mã định danh khách hàng theo hệ thống CRM/POS nội bộ (khác với 'id' hệ thống unified profile)." },
+    { "name": "attributes.followedOA", "type": "String", "description": "Trạng thái đã follow Zalo Official Account hay chưa, giá trị dạng chuỗi 'true'/'false'." },
+    { "name": "attributeInts.LoyaltyPoint", "type": "Integer", "description": "Số điểm loyalty hiện có của khách hàng." },
+    { "name": "attributeInts.EarnPoint", "type": "Integer", "description": "Số điểm tích lũy (earn point) khách hàng đã kiếm được." },
+    { "name": "attributeLongs.MembershipIssuedAt", "type": "Long", "description": "Thời điểm cấp thẻ/hạng membership cho khách hàng, lưu dạng epoch millis." },
+    { "name": "attributeLongs.lastInteractOA", "type": "Long", "description": "Thời điểm tương tác Zalo Official Account gần nhất của khách hàng, lưu dạng epoch millis." },
+    { "name": "userSegmentKeys", "type": "Array<String>", "description": "Danh sách key của tất cả các segment mà khách hàng hiện đang thuộc về." },
+    { "name": "lastSegmentKeys.PRODUCT_INTEREST", "type": "String", "description": "Phân khúc sản phẩm khách hàng đang quan tâm, cập nhật gần nhất theo logic segment PRODUCT_INTEREST." },
+    { "name": "lastSegmentKeys.SocialCRM_CustomerGroup", "type": "String", "description": "Nhóm khách hàng theo phân loại Social CRM, cập nhật gần nhất theo logic segment SocialCRM_CustomerGroup." }
   ]
 }
