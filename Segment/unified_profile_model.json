@@ -126,7 +126,7 @@
     { "name": "activityInMonths.lastAt", "type": "Long", "description": "Thời điểm hoạt động gần nhất trong khoảng thời gian tương ứng." },
     { "name": "activityInMonths.recencyDays", "type": "Long", "description": "Số ngày liên quan đến độ gần của hoạt động gần nhất." },
     { "name": "attributes.loyaltyCode", "type": "String", "description": "Mã thành viên hoặc mã loyalty của khách hàng." },
-    { "name": "attributes.vip", "type": "String", "description": "Thông tin xác định trạng thái VIP của khách hàng." },
+    { "name": "attributes.vip", "type": "String", "description": "Thông tin xác định trạng thái và hàng VIP của khách hàng." },
     { "name": "attributes.interests", "type": "String", "description": "Thông tin về sở thích hoặc nhóm mối quan tâm của khách hàng." }
   ]
 }
