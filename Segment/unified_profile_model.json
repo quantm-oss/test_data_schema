@@ -50,7 +50,7 @@
     { "name": "avgPurchasedAmount", "type": "Float", "description": "Giá trị mua hàng trung bình." },
     { "name": "totalPurchasedAmount", "type": "Float", "description": "Tổng giá trị mua hàng." },
     { "name": "totalPurchasedCount", "type": "Long", "description": "Tổng số lượng giao dịch mua hàng." },
-    { "name": "coreTagIds", "type": "Array<String>", "description": "Danh sách ID các Tag chính của khách hàng." },
+    { "name": "coreTagIds", "type": "Array<String>", "description": "Danh sách ID các Tag chính của khách hàng. Example: price_sensitive, " },
     { "name": "coreLabelIds", "type": "Array<String>", "description": "Danh sách ID các Label chính của khách hàng." },
     { "name": "attributes", "type": "Map[String,String]", "description": "Các thuộc tính động dạng key-value của khách hàng." },
     { "name": "attributeInts", "type": "Map[String,Integer]", "description": "Các thuộc tính động có giá trị số nguyên." },
