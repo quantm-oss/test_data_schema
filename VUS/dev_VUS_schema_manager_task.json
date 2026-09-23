@@ -179,7 +179,7 @@
         {"name": "lead", "type": "String", "description": "Mã/thông tin nhận diện lead tiềm năng chưa có customer_id chính thức. Example: '502991939edf44c9aaeb55d2e0cce074'"},
         {"name": "eventLabels", "type": "Array(String)", "description": "Danh sách loại đối tượng liên quan sự kiện, cùng index với eventLabel2s/3s. Example: ['value1', 'value2']"},
         {"name": "eventLabel2s", "type": "Array(String)", "description": "Danh sách loại đối tượng liên quan sự kiện, nhãn cấp 2, cùng index với eventLabels. Example: ['testProgram:ielts', 'value2']"},
-        {"name": "eventLabel3s", "type": "Array(String)", "description": "Danh sách loại đối tượng liên quan sự kiện, nhãn cấp 3, cùng index với eventLabels. Example: ['value1', 'value2']"},
+        {"name": "eventLabel3s", "type": "Array(String)", "description": "Danh sách loại đối tượng liên quan sự kiện, nhãn cấp 3, cùng index với eventLabels. Có thể chứa nhãn dạng 'key: value', ví dụ UTM tracking: 'utm_source: ZNS', 'utm_medium: ANS-JUN-M3', 'utm_campaign: DMKEVoucher'; ngoài ra còn chứa thông tin thiết bị/trình duyệt: 'brwType: Mobile Browser', 'osName: iOS / iphone', 'ref: <url>'. Example: ['utm_source: ZNS', 'utm_medium: ANS-JUN-M3', 'utm_campaign: Voucher']"}
         {"name": "eventAt", "type": "DateTime", "description": "Thời điểm sự kiện thực sự xảy ra, UTC, độ chính xác mili-giây. Example: 1760603902000"},
         {"name": "createdAt", "type": "DateTime", "description": "Thời điểm ghi bản ghi vào hệ thống. Example: 1760603902000"}
       ]
