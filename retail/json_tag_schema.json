@@ -1,0 +1,858 @@
+{
+  "collections": [
+    {
+      "collection": "zma_log_cf",
+      "description": "Ghi nhận toàn bộ hành vi và sự kiện của người dùng trong Zalo Mini App. Là nguồn dữ liệu thô phục vụ phân tích hành vi, đo lường tương tác và xây dựng chiến dịch cá nhân hóa.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Mã định danh duy nhất của bản ghi (primary key). Dùng để phân biệt từng log, có thể gắn với một phiên làm việc hoặc một sự kiện cụ thể. Đây là trường định danh, không tham gia tính toán"
+        },
+        {
+          "name": "orgId",
+          "type": "String",
+          "description": "Mã định danh tổ chức, được dùng để liên kết với các bảng khác như sms_interaction.orgId, purchase_history.orgId"
+        },
+        {
+          "name": "enabledConnId",
+          "type": "String",
+          "description": "ID của kết nối được kích hoạt"
+        },
+        {
+          "name": "sessionId",
+          "type": "String",
+          "description": "Mã định danh phiên làm việc hiện tại"
+        },
+        {
+          "name": "cdpAppId",
+          "type": "String",
+          "description": "Mã định danh ứng dụng trên nền tảng CDP. Dùng để phân biệt nguồn ứng dụng sinh ra log."
+        },
+        {
+          "name": "zaloAppId",
+          "type": "String",
+          "description": "Mã định danh (App ID) của ứng dụng trên nền tảng Zalo. Trường này dùng để xác định ứng dụng Zalo nào đã ghi nhận log, hỗ trợ việc tham chiếu, phân loại và đối chiếu dữ liệu giữa nhiều ứng dụng khác nhau."
+        },
+        {
+          "name": "zaloUserAppId",
+          "type": "String",
+          "description": "Mã định danh duy nhất của người dùng trong ứng dụng Zalo cụ thể (User App ID). Trường này giúp nhận diện người dùng trong phạm vi một ứng dụng Zalo, thường được dùng để theo dõi hành vi, liên kết dữ liệu người dùng và phục vụ cho các phân tích hoặc chiến dịch cá nhân hóa. "
+        },
+        {
+          "name": "appType",
+          "type": "String",
+          "description": "Loại ứng dụng. Bao gồm: PangoForm, PangoWheel, PangoConnect, PangoScan, Pango1Touch, PangoSell, PangoReward"
+        },
+        {
+          "name": "zmaZone",
+          "type": "String",
+          "description": "Vùng/zone trong hệ thống ZMA mà ứng dụng hoặc người dùng đang hoạt động. Giá trị hiện tại là 'Private'"
+        },
+        {
+          "name": "devZaloAppId",
+          "type": "String",
+          "description": "Zalo App ID dùng trong môi trường dev"
+        },
+        {
+          "name": "appTemplateType",
+          "type": "String",
+          "description": "Mã template của ứng dụng"
+        },
+        {
+          "name": "zoaId",
+          "type": "String",
+          "description": "Mã định danh ứng dụng zalo official account"
+        },
+        {
+          "name": "zoaUserId",
+          "type": "String",
+          "description": "Mã định danh người dùng trong zalo official account"
+        },
+        {
+          "name": "zoaUserDeviceId",
+          "type": "String",
+          "description": "Mã thiết bị người dùng zalo official account"
+        },
+        {
+          "name": "zoaUserName",
+          "type": "String",
+          "description": "Tên người dùng trong zalo official account"
+        },
+        {
+          "name": "zoaUserAvatar",
+          "type": "String",
+          "description": "Link ảnh avatar của người dùng zalo official account"
+        },
+        {
+          "name": "userIdByFOA",
+          "type": "boolean",
+          "description": "Có sử dụng ID người dùng từ hệ thống follow zalo official account không"
+        },
+        {
+          "name": "phone",
+          "type": "String",
+          "description": "Số điện thoại người dùng, được dùng để liên kết với các bảng khác như sms_interaction.phoneNumber, purchase_history.customerPhone"
+        },
+        {
+          "name": "email",
+          "type": "String",
+          "description": "Địa chỉ email người dùng, được dùng để liên kết với các bảng khác như sms_interaction.email, purchase_history.customerEmail"
+        },
+        {
+          "name": "eventTrigger",
+          "type": "String",
+          "description": "Sự kiện trigger kích hoạt hành động. Giá trị hiện là: UserEvent"
+        },
+        {
+          "name": "eventName",
+          "type": "String",
+          "description": "Tên sự kiện xảy ra, để phân loại và phân tích loại hành vi."
+        },
+        {
+          "name": "eventCtg",
+          "type": "String",
+          "description": "Nhóm sự kiện (event category)"
+        },
+        {
+          "name": "eventAt",
+          "type": "DateTime",
+          "description": "Lưu thời điểm sự kiện xảy ra (native DateTime, KHÔNG phải epoch millis integer), dùng để tính toán thời gian tương tác và phân tích theo mốc hoặc khoảng thời gian (calculationField)"
+        },
+        {
+          "name": "eventData",
+          "type": "String",
+          "description": "Dữ liệu chi tiết của sự kiện"
+        },
+        {
+          "name": "tid",
+          "type": "String",
+          "description": "Transaction ID (nếu có)"
+        },
+        {
+          "name": "cid",
+          "type": "String",
+          "description": "Client ID (hoặc ID của visitor)"
+        },
+        {
+          "name": "hourKey",
+          "type": "String",
+          "description": "Lưu khóa theo giờ (0–23), dùng để phân tích hành vi theo khung giờ trong ngày (calculationField)"
+        },
+        {
+          "name": "dayKey",
+          "type": "String",
+          "description": "Lưu khóa theo ngày (1–31), dùng để phân tích hành vi theo ngày trong tháng (calculationField)"
+        },
+        {
+          "name": "utmSource",
+          "type": "String",
+          "description": "Tham số UTM source (nguồn truy cập)"
+        },
+        {
+          "name": "utmMedium",
+          "type": "String",
+          "description": "Tham số UTM medium (loại kênh, ví dụ: email, cpc...)"
+        },
+        {
+          "name": "utmCampaign",
+          "type": "String",
+          "description": "Tham số UTM campaign (tên chiến dịch)"
+        },
+        {
+          "name": "utmKeyword",
+          "type": "String",
+          "description": "Tham số UTM keyword (từ khóa tìm kiếm)"
+        },
+        {
+          "name": "utmContent",
+          "type": "String",
+          "description": "Tham số UTM content (nội dung chi tiết chiến dịch)"
+        },
+        {
+          "name": "pangoFormId",
+          "type": "String",
+          "description": "ID của form Pango Form"
+        },
+        {
+          "name": "pangoFormName",
+          "type": "String",
+          "description": "Tên của form Pango Form"
+        },
+        {
+          "name": "userAgent",
+          "type": "String",
+          "description": "Chuỗi user-agent của trình duyệt hoặc ứng dụng"
+        },
+        {
+          "name": "device",
+          "type": "String",
+          "description": "Tên thiết bị (nếu có thể lấy được)"
+        },
+        {
+          "name": "brwType",
+          "type": "String",
+          "description": "Kiểu trình duyệt (browser type)"
+        },
+        {
+          "name": "brwName",
+          "type": "String",
+          "description": "Tên trình duyệt (browser name)"
+        },
+        {
+          "name": "brwVersion",
+          "type": "String",
+          "description": "Phiên bản trình duyệt"
+        },
+        {
+          "name": "osName",
+          "type": "String",
+          "description": "Tên hệ điều hành"
+        },
+        {
+          "name": "osProducer",
+          "type": "String",
+          "description": "Nhà phát hành hệ điều hành"
+        },
+        {
+          "name": "osVersion",
+          "type": "String",
+          "description": "Phiên bản đầy đủ của hệ điều hành"
+        },
+        {
+          "name": "osVersionMj",
+          "type": "String",
+          "description": "Phiên bản chính của hệ điều hành"
+        },
+        {
+          "name": "retry",
+          "type": "Bool",
+          "description": "Có phải là bản ghi được retry hay không"
+        },
+        {
+          "name": "retryReason",
+          "type": "String",
+          "description": "Lý do retry (nếu có), mặc định là N/A"
+        },
+        {
+          "name": "screenView",
+          "type": "String",
+          "description": "Tên màn hình hoặc trang đang hiển thị"
+        }
+      ]
+    },
+    {
+      "collection": "sms_interaction",
+      "description": "Lưu trữ tương tác qua tin nhắn SMS/OTT giữa hệ thống và người dùng, bao gồm hành vi, sự kiện, dữ liệu chiến dịch.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Mã định danh duy nhất của bản ghi (primary key)"
+        },
+        {
+          "name": "orgId",
+          "type": "String",
+          "description": "Mã định danh tổ chức. Liên kết với các bảng khác như zma_log_cf.orgId, purchase_history.orgId"
+        },
+        {
+          "name": "systemName",
+          "type": "String",
+          "description": "Tên hệ thống phát sinh dữ liệu"
+        },
+        {
+          "name": "internalCompanyId",
+          "type": "String",
+          "description": "Mã công ty nội bộ"
+        },
+        {
+          "name": "refId",
+          "type": "String",
+          "description": "Mã tham chiếu tới đối tượng liên quan"
+        },
+        {
+          "name": "phoneNumber",
+          "type": "String",
+          "description": "Số điện thoại của khách hàng. Liên kết với các bảng như zma_log_cf.phone, purchase_history.customerPhone"
+        },
+        {
+          "name": "email",
+          "type": "String",
+          "description": "Email của khách hàng"
+        },
+        {
+          "name": "customerId",
+          "type": "String",
+          "description": "Mã định danh khách hàng trong hệ thống. Liên kết với các bảng khác như purchase_history.customerId"
+        },
+        {
+          "name": "cdpCustomerId",
+          "type": "String",
+          "description": "Mã định danh khách hàng trong hệ thống CDP (Customer Data Platform)"
+        },
+        {
+          "name": "serviceProvider",
+          "type": "String",
+          "description": "Nhà cung cấp dịch vụ hoặc nền tảng gửi. Chỉ bao gồm: SmsPushNotification_VietguysBrandSMS, SmsPushNotification_IMediaSMS, SmsPushNotification_IMediaMMS, SmsPushNotification_VMGBrandSMS_CS, SmsPushNotification_BlueLinkSMS, SmsPushNotification_FPTBrandSMS, SmsPushNotification_VnPayBrandSMS, SmsPushNotification_IncomOmniSMS, SmsPushNotification_Sendinblue, SmsPushNotification_CustomSms, SmsPushNotification_ESMS"
+        },
+        {
+          "name": "enabledConnId",
+          "type": "String",
+          "description": "ID của kết nối đang được sử dụng"
+        },
+        {
+          "name": "gaTid",
+          "type": "String",
+          "description": "Google Analytics TID (Tracking ID)"
+        },
+        {
+          "name": "gaCid",
+          "type": "String",
+          "description": "Google Analytics CID (Client ID)"
+        },
+        {
+          "name": "o2oCid",
+          "type": "String",
+          "description": "Client ID từ nền tảng O2O (Online to Offline)"
+        },
+        {
+          "name": "zouid",
+          "type": "String",
+          "description": "ID người dùng Zalo OA hoặc hệ thống tích hợp khác"
+        },
+        {
+          "name": "zoaId",
+          "type": "String",
+          "description": "Zalo Official Account ID."
+        },
+        {
+          "name": "fbPsid",
+          "type": "String",
+          "description": "Facebook Page-scoped ID (mã định danh người dùng với page)"
+        },
+        {
+          "name": "fbPageId",
+          "type": "String",
+          "description": "Facebook Page ID (ID của fanpage)"
+        },
+        {
+          "name": "trackId",
+          "type": "String",
+          "description": "Mã tracking, dùng để theo dõi hành vi người dùng"
+        },
+        {
+          "name": "link",
+          "type": "String",
+          "description": "Đường dẫn liên quan đến sự kiện"
+        },
+        {
+          "name": "link2",
+          "type": "String",
+          "description": "Đường dẫn phụ hoặc link fallback"
+        },
+        {
+          "name": "eventAt",
+          "type": "DateTime",
+          "description": "Lưu thời điểm sự kiện xảy ra (native DateTime, KHÔNG phải epoch millis integer), dùng để phân tích thời gian gửi/nhận/tương tác SMS (calculationField)"
+        },
+        {
+          "name": "event",
+          "type": "String",
+          "description": "Tên sự kiện đã diễn ra. Chỉ bao gồm: sent, failed, clicked, not_send"
+        },
+        {
+          "name": "messageId",
+          "type": "String",
+          "description": "ID của tin nhắn được gửi/nhận"
+        },
+        {
+          "name": "templateId",
+          "type": "String",
+          "description": "ID của mẫu tin nhắn"
+        },
+        {
+          "name": "templateName",
+          "type": "String",
+          "description": "Tên mẫu tin nhắn"
+        },
+        {
+          "name": "campaignId",
+          "type": "String",
+          "description": "ID chiến dịch"
+        },
+        {
+          "name": "campaignName",
+          "type": "String",
+          "description": "Tên chiến dịch"
+        },
+        {
+          "name": "webhookId",
+          "type": "String",
+          "description": "ID của webhook đang xử lý sự kiện"
+        },
+        {
+          "name": "webhookType",
+          "type": "String",
+          "description": "Loại webhook"
+        },
+        {
+          "name": "cdpTemplateId",
+          "type": "String",
+          "description": "ID mẫu trong CDP"
+        },
+        {
+          "name": "cdpCampaignId",
+          "type": "String",
+          "description": "ID chiến dịch trong hệ thống CDP"
+        },
+        {
+          "name": "cdpWebhookId",
+          "type": "String",
+          "description": "ID webhook trong CDP"
+        },
+        {
+          "name": "text",
+          "type": "String",
+          "description": "Nội dung văn bản hoặc tin nhắn. Dữ liệu này dùng để phân tích nội dung, tracking hành vi hoặc lưu lịch sử tương tác."
+        },
+        {
+          "name": "actionAt",
+          "type": "DateTime",
+          "description": "Lưu thời điểm hành động được thực hiện (native DateTime, nullable, KHÔNG phải epoch millis integer), dùng để phân tích thời gian gửi/nhận/tương tác SMS (calculationField)"
+        },
+        {
+          "name": "reason",
+          "type": "String",
+          "description": "Lý do thực hiện hành động (nếu có)"
+        },
+        {
+          "name": "tags",
+          "type": "Array<String>",
+          "description": "Tập hợp các thẻ phân loại hoặc đánh dấu dữ liệu"
+        },
+        {
+          "name": "createdBy",
+          "type": "String",
+          "description": "Người tạo bản ghi"
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "description": "Thời gian tạo bản ghi (native DateTime, nullable, KHÔNG phải epoch millis integer)"
+        },
+        {
+          "name": "updatedBy",
+          "type": "String",
+          "description": "Người cập nhật bản ghi gần nhất"
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "description": "Thời gian cập nhật bản ghi gần nhất (native DateTime, nullable, KHÔNG phải epoch millis integer)"
+        },
+        {
+          "name": "recordStatus",
+          "type": "String",
+          "description": "Trạng thái bản ghi (e.g., active,..)"
+        },
+        {
+          "name": "timezone",
+          "type": "Integer",
+          "description": "Múi giờ tương ứng với dữ liệu, dạng GMT offset (e.g., +7)"
+        }
+      ]
+    },
+    {
+      "collection": "purchase_history",
+      "description": "Thông tin chi tiết lịch sử giao dịch mua hàng của khách hàng",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Mã định danh duy nhất của bản ghi"
+        },
+        {
+          "name": "orgId",
+          "type": "String",
+          "description": "Mã định danh tổ chức"
+        },
+        {
+          "name": "version",
+          "type": "Long",
+          "description": "Phiên bản dữ liệu"
+        },
+        {
+          "name": "customerId",
+          "type": "String",
+          "description": "Mã khách hàng"
+        },
+        {
+          "name": "customerName",
+          "type": "String",
+          "description": "Tên khách hàng"
+        },
+        {
+          "name": "customerPhone",
+          "type": "String",
+          "description": "Số điện thoại khách hàng"
+        },
+        {
+          "name": "customerEmail",
+          "type": "String",
+          "description": "Email khách hàng"
+        },
+        {
+          "name": "refId",
+          "type": "String",
+          "description": "Mã tham chiếu"
+        },
+        {
+          "name": "orderId",
+          "type": "String",
+          "description": "Mã đơn hàng"
+        },
+        {
+          "name": "receiptId",
+          "type": "String",
+          "description": "Mã hóa đơn/biên lai"
+        },
+        {
+          "name": "purchaseCode",
+          "type": "String",
+          "description": "Mã giao dịch mua hàng"
+        },
+        {
+          "name": "storeId",
+          "type": "String",
+          "description": "Mã cửa hàng"
+        },
+        {
+          "name": "storeName",
+          "type": "String",
+          "description": "Tên cửa hàng"
+        },
+        {
+          "name": "storeCity",
+          "type": "String",
+          "description": "Thành phố của cửa hàng"
+        },
+        {
+          "name": "storeDistrict",
+          "type": "String",
+          "description": "Quận/Huyện của cửa hàng"
+        },
+        {
+          "name": "systemName",
+          "type": "String",
+          "description": "Tên hệ thống nguồn"
+        },
+        {
+          "name": "channel",
+          "type": "String",
+          "description": "Kênh bán hàng"
+        },
+        {
+          "name": "totalCost",
+          "type": "Long",
+          "description": "Tổng chi phí chưa VAT"
+        },
+        {
+          "name": "totalProductCost",
+          "type": "Long",
+          "description": "Tổng giá trị sản phẩm"
+        },
+        {
+          "name": "vatCost",
+          "type": "Long",
+          "description": "Tiền thuế VAT"
+        },
+        {
+          "name": "vatPercent",
+          "type": "Integer",
+          "description": "Phần trăm thuế VAT"
+        },
+        {
+          "name": "discount",
+          "type": "Long",
+          "description": "Số tiền giảm giá"
+        },
+        {
+          "name": "discountPercent",
+          "type": "Integer",
+          "description": "Phần trăm giảm giá"
+        },
+        {
+          "name": "totalItems",
+          "type": "String",
+          "description": "Tổng số mặt hàng (dạng chuỗi)"
+        },
+        {
+          "name": "totalQuantity",
+          "type": "Integer",
+          "description": "Tổng số lượng sản phẩm"
+        },
+        {
+          "name": "payment1",
+          "type": "Long",
+          "description": "Số tiền thanh toán phương thức 1"
+        },
+        {
+          "name": "payment2",
+          "type": "Long",
+          "description": "Số tiền thanh toán phương thức 2"
+        },
+        {
+          "name": "payment3",
+          "type": "Long",
+          "description": "Số tiền thanh toán phương thức 3"
+        },
+        {
+          "name": "payment4",
+          "type": "Long",
+          "description": "Số tiền thanh toán phương thức 4"
+        },
+        {
+          "name": "payment5",
+          "type": "Long",
+          "description": "Số tiền thanh toán phương thức 5"
+        },
+        {
+          "name": "payment6",
+          "type": "Long",
+          "description": "Số tiền thanh toán phương thức 6"
+        },
+        {
+          "name": "payment7",
+          "type": "Long",
+          "description": "Số tiền thanh toán phương thức 7"
+        },
+        {
+          "name": "paymentMethod",
+          "type": "String",
+          "description": "Phương thức thanh toán chính"
+        },
+        {
+          "name": "transDate",
+          "type": "Date",
+          "description": "Ngày giao dịch"
+        },
+        {
+          "name": "transCreatedAt",
+          "type": "DateTime",
+          "description": "Thời điểm tạo giao dịch trên hệ thống nguồn"
+        },
+        {
+          "name": "transUpdatedAt",
+          "type": "DateTime",
+          "description": "Thời điểm cập nhật giao dịch trên hệ thống nguồn"
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "description": "Thời điểm tạo bản ghi"
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "description": "Thời điểm cập nhật bản ghi"
+        },
+        {
+          "name": "createdBy",
+          "type": "String",
+          "description": "Người tạo bản ghi"
+        },
+        {
+          "name": "updatedBy",
+          "type": "String",
+          "description": "Người cập nhật bản ghi"
+        },
+        {
+          "name": "customFieldTexts",
+          "type": "Map<String, String>",
+          "description": "Các trường tùy chỉnh dạng văn bản"
+        },
+        {
+          "name": "customFieldLongs",
+          "type": "Map<String, Long>",
+          "description": "Các trường tùy chỉnh dạng số nguyên"
+        },
+        {
+          "name": "customFieldDoubles",
+          "type": "Map<String, Float>",
+          "description": "Các trường tùy chỉnh dạng số thực"
+        },
+        {
+          "name": "customFieldBooleans",
+          "type": "Map<String, Bool>",
+          "description": "Các trường tùy chỉnh dạng logic"
+        },
+        {
+          "name": "customFieldDates",
+          "type": "Map<String, String>",
+          "description": "Các trường tùy chỉnh dạng ngày tháng"
+        },
+        {
+          "name": "customFieldLists",
+          "type": "Map<String,List<String>>",
+          "description": "Các trường tùy chỉnh dạng danh sách"
+        }
+      ]
+    },
+    {
+      "collection": "lead_info",
+      "description": "Lưu trữ thông tin lead khách hàng thu thập được",
+      "fields": [
+        {
+          "name": "refId",
+          "type": "String",
+          "description": "Mã định danh lead, sử dụng số điện thoại vì đảm bảo tính duy nhất (unique)"
+        },
+        {
+          "name": "phone",
+          "type": "String",
+          "description": "Số điện thoại khách hàng"
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm hệ thống tạo bản ghi lead"
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm hệ thống cập nhật bản ghi lead gần nhất"
+        },
+        {
+          "name": "classification",
+          "type": "String",
+          "description": "Đánh giá độ ưu tiên của lead để thực hiện chăm sóc"
+        },
+        {
+          "name": "state",
+          "type": "String",
+          "description": "Trạng thái của khách hàng, dùng để phân nhóm các user có cùng ý định"
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "description": "Địa chỉ số nhà và tên đường của khách hàng"
+        },
+        {
+          "name": "addressDetail",
+          "type": "String",
+          "description": "Thông tin phường/xã và tỉnh/thành phố theo sơ đồ hành chính mới"
+        },
+        {
+          "name": "modelInterest",
+          "type": "String",
+          "description": "Dòng xe khách hàng đang quan tâm và có ý định mua"
+        },
+        {
+          "name": "planToPurchased",
+          "type": "String",
+          "description": "Kế hoạch thanh toán hoặc dự định mua xe của khách hàng"
+        },
+        {
+          "name": "source",
+          "type": "String",
+          "description": "Nguồn mà khách hàng tiếp cận đến thương hiệu"
+        },
+        {
+          "name": "campaignType",
+          "type": "String",
+          "description": "Loại chiến dịch marketing thu thập được lead"
+        },
+        {
+          "name": "keyWord",
+          "type": "String",
+          "description": "Từ khoá tìm kiếm được ghi nhận khi user tiếp cận đến thương hiệu"
+        },
+        {
+          "name": "modelView",
+          "type": "String",
+          "description": "Hành vi quan tâm đến dòng xe, ví dụ xem một mẫu xe nhiều lần trong ngày"
+        },
+        {
+          "name": "pricePageStage",
+          "type": "String",
+          "description": "Hành vi của user trên trang xem giá bán"
+        },
+        {
+          "name": "testdricePageStage",
+          "type": "String",
+          "description": "Hành vi của user trên trang đăng ký lái thử"
+        },
+        {
+          "name": "reason",
+          "type": "String",
+          "description": "Lý do khách hàng quan tâm hoặc có nhu cầu mua xe mới"
+        },
+        {
+          "name": "barrier",
+          "type": "String",
+          "description": "Các rào cản hoặc yếu tố còn phân vân trong quyết định mua xe"
+        },
+        {
+          "name": "tradeCar",
+          "type": "String",
+          "description": "Dòng xe cũ mà khách hàng có nhu cầu đổi sang xe mới"
+        },
+        {
+          "name": "tradeInfo",
+          "type": "String",
+          "description": "Thông tin chi tiết về nhu cầu thu cũ đổi mới"
+        },
+        {
+          "name": "leadScore",
+          "type": "Int64",
+          "description": "Điểm đánh giá lead, dùng để phân loại nhóm dữ liệu, tương tự eRFM nhưng chuyên biệt cho ngành Ô tô"
+        },
+        {
+          "name": "visitTimes",
+          "type": "Int64",
+          "description": "Số lần khách hàng truy cập trang để xem dòng xe"
+        },
+        {
+          "name": "visitRange",
+          "type": "Int64",
+          "description": "Số ngày ghi nhận hành vi truy cập xem xe"
+        },
+        {
+          "name": "finalScore",
+          "type": "Int64",
+          "description": "Tổng điểm đánh giá cuối cùng của lead"
+        },
+        {
+          "name": "pricePageVisited",
+          "type": "UInt8",
+          "description": "Khách hàng đã truy cập vào trang xem giá bán hay chưa (0 = false, 1 = true)"
+        },
+        {
+          "name": "tradeIn",
+          "type": "UInt8",
+          "description": "Khách hàng có nhu cầu đổi từ xe cũ sang xe mới hay không (0 = false, 1 = true)"
+        },
+        {
+          "name": "testdrivePageVisited",
+          "type": "UInt8",
+          "description": "Khách hàng đã truy cập vào trang đăng ký lái thử hay chưa (0 = false, 1 = true)"
+        },
+        {
+          "name": "tags",
+          "type": "Array(String)",
+          "description": "Danh sách tag được DSL gán dựa trên hành vi và đặc điểm của khách hàng"
+        },
+        {
+          "name": "creativeClick",
+          "type": "Array(String)",
+          "description": "Danh sách các nội dung hoặc tính năng marketing mà user đã click và tương tác"
+        },
+        {
+          "name": "featureClick",
+          "type": "Array(String)",
+          "description": "Danh sách các tính năng của dòng xe mà khách hàng đã xem hoặc quan tâm trên website"
+        }
+      ]
+    }
+  ]
+}
