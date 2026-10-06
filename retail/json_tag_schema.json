@@ -906,12 +906,12 @@
         {
           "name": "birthday",
           "type": "DateTime",
-          "description": "Ngày giờ sinh của khách hàng."
+          "description": "Ngày, tháng, năm sinh của khách hàng."
         },
         {
           "name": "birthdayDate",
           "type": "Integer",
-          "description": "Ngày trong tháng của ngày sinh."
+          "description": "Ngày sinh của khách hàng."
         },
         {
           "name": "birthdayMonth",
