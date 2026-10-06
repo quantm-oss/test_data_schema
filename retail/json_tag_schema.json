@@ -853,6 +853,312 @@
           "description": "Danh sách các tính năng của dòng xe mà khách hàng đã xem hoặc quan tâm trên website"
         }
       ]
+    },
+    {
+      "collection": "customer_profile",
+      "description": "Lưu trữ hồ sơ tổng hợp của khách hàng, bao gồm thông tin định danh, thông tin liên hệ, đặc điểm khách hàng, lịch sử mua hàng, hoạt động, phân loại và các thuộc tính mở rộng.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Mã định danh duy nhất của bản ghi customer profile (primary key)."
+        },
+        {
+          "name": "version",
+          "type": "DateTime",
+          "description": "Phiên bản của dữ liệu customer profile."
+        },
+        {
+          "name": "userId",
+          "type": "String",
+          "description": "Mã định danh người dùng/khách hàng trong hệ thống."
+        },
+        {
+          "name": "orgId",
+          "type": "String",
+          "description": "Mã định danh tổ chức sở hữu hoặc quản lý dữ liệu khách hàng."
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "description": "Tên đầy đủ của khách hàng."
+        },
+        {
+          "name": "firstName",
+          "type": "String",
+          "description": "Tên của khách hàng."
+        },
+        {
+          "name": "lastName",
+          "type": "String",
+          "description": "Họ của khách hàng."
+        },
+        {
+          "name": "gender",
+          "type": "String",
+          "description": "Giới tính của khách hàng."
+        },
+        {
+          "name": "ageGroup",
+          "type": "String",
+          "description": "Nhóm độ tuổi của khách hàng."
+        },
+        {
+          "name": "birthday",
+          "type": "DateTime",
+          "description": "Ngày giờ sinh của khách hàng."
+        },
+        {
+          "name": "birthdayDate",
+          "type": "Integer",
+          "description": "Ngày trong tháng của ngày sinh."
+        },
+        {
+          "name": "birthdayMonth",
+          "type": "Integer",
+          "description": "Tháng sinh của khách hàng."
+        },
+        {
+          "name": "birthYear",
+          "type": "Integer",
+          "description": "Năm sinh của khách hàng."
+        },
+        {
+          "name": "avatarUrl",
+          "type": "String",
+          "description": "Đường dẫn đến ảnh đại diện của khách hàng."
+        },
+        {
+          "name": "locale",
+          "type": "String",
+          "description": "Locale/ngôn ngữ và khu vực được xác định cho khách hàng."
+        },
+        {
+          "name": "mainPhone",
+          "type": "String",
+          "description": "Số điện thoại chính của khách hàng."
+        },
+        {
+          "name": "mainEmail",
+          "type": "String",
+          "description": "Địa chỉ email chính của khách hàng."
+        },
+        {
+          "name": "mainFacebookPsid",
+          "type": "String",
+          "description": "Facebook Page-Scoped User ID chính của khách hàng."
+        },
+        {
+          "name": "mainFacebookPageId",
+          "type": "String",
+          "description": "Facebook Page ID chính liên quan đến khách hàng."
+        },
+        {
+          "name": "mainZaloUserId",
+          "type": "String",
+          "description": "Zalo User ID chính của khách hàng."
+        },
+        {
+          "name": "mainZaloOAId",
+          "type": "String",
+          "description": "Zalo Official Account ID chính liên quan đến khách hàng."
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "description": "Địa chỉ của khách hàng."
+        },
+        {
+          "name": "city",
+          "type": "String",
+          "description": "Thành phố/tỉnh của khách hàng."
+        },
+        {
+          "name": "district",
+          "type": "String",
+          "description": "Quận/huyện của khách hàng."
+        },
+        {
+          "name": "countryCode",
+          "type": "String",
+          "description": "Mã quốc gia của khách hàng."
+        },
+        {
+          "name": "customerType",
+          "type": "String",
+          "description": "Loại khách hàng."
+        },
+        {
+          "name": "preferredChannel",
+          "type": "String",
+          "description": "Kênh tương tác ưu tiên của khách hàng."
+        },
+        {
+          "name": "preferredCategory",
+          "type": "String",
+          "description": "Danh mục sản phẩm hoặc nhóm nội dung khách hàng ưu tiên."
+        },
+        {
+          "name": "locationSource",
+          "type": "String",
+          "description": "Nguồn dữ liệu dùng để xác định vị trí của khách hàng."
+        },
+        {
+          "name": "locationDetectedAt",
+          "type": "DateTime",
+          "description": "Thời điểm hệ thống xác định hoặc cập nhật vị trí của khách hàng."
+        },
+        {
+          "name": "firstPurchasedAt",
+          "type": "DateTime",
+          "description": "Thời điểm khách hàng thực hiện giao dịch mua hàng đầu tiên."
+        },
+        {
+          "name": "firstPurchasedStoreId",
+          "type": "String",
+          "description": "Mã cửa hàng nơi khách hàng thực hiện giao dịch mua hàng đầu tiên."
+        },
+        {
+          "name": "firstPurchasedAmount",
+          "type": "Long",
+          "description": "Giá trị giao dịch mua hàng đầu tiên."
+        },
+        {
+          "name": "firstPurchasedProducts",
+          "type": "Array<String>",
+          "description": "Danh sách sản phẩm trong giao dịch mua hàng đầu tiên."
+        },
+        {
+          "name": "lastPurchasedAt",
+          "type": "DateTime",
+          "description": "Thời điểm khách hàng thực hiện giao dịch mua hàng gần nhất."
+        },
+        {
+          "name": "lastPurchasedStoreId",
+          "type": "String",
+          "description": "Mã cửa hàng nơi khách hàng thực hiện giao dịch mua hàng gần nhất."
+        },
+        {
+          "name": "lastPurchasedAmount",
+          "type": "Long",
+          "description": "Giá trị giao dịch mua hàng gần nhất."
+        },
+        {
+          "name": "lastPurchasedProducts",
+          "type": "Array<String>",
+          "description": "Danh sách sản phẩm trong giao dịch mua hàng gần nhất."
+        },
+        {
+          "name": "firstSeenAt",
+          "type": "DateTime",
+          "description": "Thời điểm đầu tiên hệ thống ghi nhận khách hàng."
+        },
+        {
+          "name": "lastActivityAt",
+          "type": "DateTime",
+          "description": "Thời điểm gần nhất khách hàng có hoạt động được hệ thống ghi nhận."
+        },
+        {
+          "name": "attributes",
+          "type": "Map<String, String>",
+          "description": "Tập hợp các thuộc tính mở rộng của khách hàng dưới dạng key-value với giá trị chuỗi."
+        },
+        {
+          "name": "attributeInts",
+          "type": "Map<String, Long>",
+          "description": "Tập hợp các thuộc tính mở rộng của khách hàng dưới dạng key-value với giá trị số nguyên 32-bit."
+        },
+        {
+          "name": "attributeLongs",
+          "type": "Map<String, Long>",
+          "description": "Tập hợp các thuộc tính mở rộng của khách hàng dưới dạng key-value với giá trị số nguyên 64-bit."
+        },
+        {
+          "name": "coreTagIds",
+          "type": "Array<String>",
+          "description": "Danh sách ID các tag cốt lõi được gán cho khách hàng."
+        },
+        {
+          "name": "coreLabelIds",
+          "type": "Array<String>",
+          "description": "Danh sách ID các label cốt lõi được gán cho khách hàng."
+        },
+        {
+          "name": "coreTagIdsAudit",
+          "type": "Map<String, Long>",
+          "description": "Thông tin audit của các tag cốt lõi, ánh xạ tag ID với giá trị số dùng để theo dõi lịch sử hoặc phiên bản."
+        },
+        {
+          "name": "coreLabelIdsAudit",
+          "type": "Map<String, Long>",
+          "description": "Thông tin audit của các label cốt lõi, ánh xạ label ID với giá trị số dùng để theo dõi lịch sử hoặc phiên bản."
+        },
+        {
+          "name": "lastUpdatedSource",
+          "type": "String",
+          "description": "Nguồn cập nhật dữ liệu khách hàng gần nhất."
+        },
+        {
+          "name": "firstUpdatedSource",
+          "type": "String",
+          "description": "Nguồn đầu tiên cập nhật dữ liệu khách hàng."
+        },
+        {
+          "name": "fieldSourceMap",
+          "type": "Map<String, String>",
+          "description": "Ánh xạ tên field với nguồn dữ liệu đã cung cấp hoặc cập nhật field đó."
+        },
+        {
+          "name": "fieldUpdatedAt",
+          "type": "Map<String, Long>",
+          "description": "Ánh xạ tên field với thời điểm cập nhật tương ứng."
+        },
+        {
+          "name": "lastSegmentKeys",
+          "type": "Map<String, String>",
+          "description": "Ánh xạ khóa segment với thông tin segment gần nhất của khách hàng."
+        },
+        {
+          "name": "lastSegmentPrioritys",
+          "type": "Map<String, Long>",
+          "description": "Ánh xạ segment với mức độ ưu tiên gần nhất của segment đó."
+        },
+        {
+          "name": "lastSegmentAt",
+          "type": "Map<String, Long>",
+          "description": "Ánh xạ segment với thời điểm gần nhất khách hàng được ghi nhận trong segment."
+        },
+        {
+          "name": "systemCreated",
+          "type": "String",
+          "description": "Hệ thống tạo bản ghi customer profile."
+        },
+        {
+          "name": "updatedBy",
+          "type": "String",
+          "description": "Người hoặc hệ thống thực hiện cập nhật bản ghi gần nhất."
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "description": "Thời điểm cập nhật bản ghi gần nhất."
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "description": "Thời điểm tạo bản ghi."
+        },
+        {
+          "name": "createdBy",
+          "type": "String",
+          "description": "Người hoặc hệ thống tạo bản ghi."
+        },
+        {
+          "name": "lastTouchedAt",
+          "type": "DateTime",
+          "description": "Thời điểm gần nhất bản ghi customer profile được tác động hoặc cập nhật."
+        }
+      ]
     }
   ]
 }
