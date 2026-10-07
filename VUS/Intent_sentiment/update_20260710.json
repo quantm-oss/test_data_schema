@@ -1,0 +1,113 @@
+{
+    "intent": "redefind_start_time",
+    "meaning": "Ghi nhận dấu hiệu khách hàng có đề cập tới thời gian bắt đầu học, bao gồm việc xác định lại, dời sớm hơn hoặc dời muộn hơn so với dự định trước đó.",
+    "examples": [
+        "Trước em dự định học tháng 9 nhưng chắc phải đến tháng 11 mới bắt đầu được.",
+        "Mình muốn cho bé học sớm hơn, đầu tháng sau có thể bắt đầu.",
+        "Em chưa học trong tháng này được, chuyển kế hoạch sang sau Tết nhé."
+    ],
+    "example_entities_1": {
+        "program_name": "ielts_core",
+        "expected_start_time": "tháng 11/2026"
+    },
+    "example_entities_2": {
+        "program_name": "super_kids",
+        "expected_start_time": "sau Tết 2027"
+    }
+},
+{
+    "intent": "studying_at_other_center",
+    "meaning": "Khách hoặc học viên hiện đang học tại một trung tâm/cơ sở đào tạo khác. Có thể thể hiện trực tiếp tên trung tâm, chương trình đang học, thời gian học hoặc ý định học hết khóa hiện tại rồi mới cân nhắc VUS.",
+    "examples": [
+        "Bé đang học ở ILA rồi.",
+        "Hiện tại em đang học IELTS bên British Council.",
+        "Con tôi còn hai tháng nữa mới kết thúc khóa ở trung tâm khác.",
+        "Mình đang học chỗ khác nên chưa muốn đăng ký ngay.",
+        "Bé học ở Apollo nhưng tôi muốn tìm hiểu thêm chương trình của VUS."
+    ],
+    "example_entities_1": {
+        "competitor_name": "ila",
+        "program_name": "young_leaders",
+        "study_status": "currently_studying"
+    },
+    "example_entities_2": {
+        "competitor_name": "british_council",
+        "program_name": "ielts",
+        "study_status": "course_ending_soon"
+    }
+},
+{
+    "intent": "online_learning_interest",
+    "meaning": "Khách thể hiện nhu cầu, sự quan tâm hoặc ưu tiên học online. Có thể hỏi về chương trình, lịch học, học phí, nền tảng, giáo viên hoặc hiệu quả của hình thức học trực tuyến.",
+    "examples": [
+        "VUS có khóa học online không?",
+        "Tôi muốn học trực tuyến tại nhà.",
+        "Bé có thể học online với giáo viên không?",
+        "Tôi ở xa nên chỉ học online được.",
+        "Khóa IELTS online có lịch buổi tối không?",
+        "Học online có được tương tác trực tiếp với giáo viên không?"
+    ],
+    "example_entities_1": {
+        "program_name": "ielts_core",
+        "learning_mode": "online",
+        "online_topic": "class_schedule"
+    },
+    "example_entities_2": {
+        "program_name": "happy_kids",
+        "learning_mode": "online",
+        "online_topic": "teacher_interaction"
+    }
+},
+{
+    "intent": "no_nearby_campus",
+    "meaning": "Khách không học hoặc chưa đăng ký vì không có cơ sở VUS thuận tiện/gần nơi ở, nơi học hoặc nơi làm việc.",
+    "examples": [
+        "Gần nhà tôi không có trung tâm VUS.",
+        "Cơ sở VUS xa quá nên tôi không học.",
+        "Khu vực của tôi chưa có VUS.",
+        "Không có trung tâm gần nhà nên đi học bất tiện.",
+        "Nếu có cơ sở gần hơn thì tôi mới đăng ký."
+    ],
+    "example_entities_1": {
+        "location": "District 12",
+        "barrier_reason": "campus_too_far"
+    },
+    "example_entities_2": {
+        "location": "Thu Duc",
+        "barrier_reason": "no_nearby_campus",
+        "learning_mode": "offline"
+    }
+},
+{
+    "intent": "financial_barrier",
+    "meaning": "Khách thể hiện khó khăn hoặc hạn chế về khả năng tài chính làm ảnh hưởng đến quyết định đăng ký, tiếp tục học hoặc lựa chọn chương trình.",
+    "examples": [
+        "Học phí cao quá, gia đình không đủ khả năng.",
+        "Hiện tại mình chưa có tiền để đăng ký.",
+        "Nếu phải đóng một lần thì mình không học được.",
+        "Gia đình đang khó khăn nên chắc phải hoãn việc học."
+    ],
+    "example_entities_1": {
+        "barrier_type": "affordability",
+        "severity": "high"
+    },
+    "example_entities_2": {
+        "barrier_type": "payment_capacity",
+        "severity": "medium"
+    }
+},
+{
+    "intent": "decision_dependency",
+    "meaning": "Khách chưa thể quyết định đăng ký vì quyết định phụ thuộc vào ý kiến hoặc sự đồng ý của người khác như vợ/chồng, cha mẹ hoặc gia đình.",
+    "examples": [
+        "Để chị hỏi chồng rồi quyết định nhé.",
+        "Em phải hỏi bố mẹ trước.",
+        "Để tôi bàn lại với gia đình."
+    ],
+    "example_entities_1": {
+        "decision_person": "spouse"
+    },
+    "example_entities_2": {
+        "decision_person": "parent"
+    }
+}
