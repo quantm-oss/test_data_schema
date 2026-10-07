@@ -459,6 +459,23 @@
             }
         },
         {
+            "intent": "start_within_30d",
+            "meaning": "Khách dự định bắt đầu học trong vòng 30 ngày tới.",
+            "examples": [
+                "Mình muốn cho bé học trong tháng này.",
+                "Chắc đầu tháng sau mình bắt đầu học.",
+                "Em muốn đăng ký học trong khoảng 2–3 tuần nữa."
+            ],
+            "example_entities_1": {
+                "start_time": "within_30d",
+                "program_name": "happy_kids"
+            },
+            "example_entities_2": {
+                "start_time": "next_month",
+                "program_name": "ielts_core"
+            }
+        },
+        {
             "intent": "other",
             "meaning": "Nội dung không thuộc bất kỳ intent nào đã được định nghĩa.",
             "examples": [
