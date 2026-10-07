@@ -1,113 +1,678 @@
 {
-    "intent": "redefind_start_time",
-    "meaning": "Ghi nhận dấu hiệu khách hàng có đề cập tới thời gian bắt đầu học, bao gồm việc xác định lại, dời sớm hơn hoặc dời muộn hơn so với dự định trước đó.",
-    "examples": [
-        "Trước em dự định học tháng 9 nhưng chắc phải đến tháng 11 mới bắt đầu được.",
-        "Mình muốn cho bé học sớm hơn, đầu tháng sau có thể bắt đầu.",
-        "Em chưa học trong tháng này được, chuyển kế hoạch sang sau Tết nhé."
+    "defaultIntent": "other",
+    "intents": [
+        {
+            "intent": "price_sensitive",
+            "meaning": "Khách hỏi về học phí, ưu đãi, ngân sách hoặc chính sách thanh toán; thể hiện sự quan tâm đến mức giá và khả năng chi trả.",
+            "examples": [
+                "Khóa học có ưu đãi không?",
+                "Học phí khóa IELTS hiện tại bao nhiêu vậy?",
+                "Nếu đăng ký 2 khóa thì có được giảm học phí không?",
+                "Học phí hơi cao, bên mình có hỗ trợ trả góp không?"
+            ],
+            "example_entities_1": {
+                "program_name": "happy_kids",
+                "pricing_topic": "promotion",
+                "promotion_type": "multi_course_discount"
+            },
+            "example_entities_2": {
+                "program_name": "ielts_core",
+                "pricing_topic": "installment",
+                "payment_method": "installment",
+                "price_sensitivity": "high"
+            }
+        },
+        {
+            "intent": "competitor_comparision",
+            "meaning": "Khách hàng so sánh VUS với các trung tâm hoặc thương hiệu đào tạo tiếng Anh khác.",
+            "examples": [
+                "Mình thấy bên ILA có chương trình giữ bé mùa hè, bên mình có không?",
+                "Học phí VUS có cao hơn Apollo không?",
+                "VUS và YOLA thì nên cho bé học bên nào?",
+                "Chương trình IELTS của VUS khác gì British Council?",
+                "Mình đang cân nhắc giữa VUS và ILA cho bé 8 tuổi."
+            ],
+            "example_entities_1": {
+                "competitor_name": "ILA",
+                "comparison_topic": "quality",
+                "program_name": "summer_program"
+            },
+            "example_entities_2": {
+                "competitor_name": "Apollo",
+                "comparison_topic": "price",
+                "program_name": "english_course"
+            }
+        },
+        {
+            "intent": "product_interest",
+            "meaning": "Khách quan tâm, tìm hiểu thông tin hoặc muốn được gợi ý chương trình tiếng Anh phù hợp.",
+            "examples": [
+                "Tôi đang tìm hiểu khóa tiếng Anh phù hợp cho bé.",
+                "Bên mình có chương trình nào cho học sinh cấp hai không?",
+                "Tôi muốn tìm khóa học tiếng Anh cho người mới bắt đầu.",
+                "Cho tôi tham khảo các chương trình IELTS hiện có."
+            ],
+            "example_entities_1": {
+                "learner_age": 8,
+                "learner_type": "child",
+                "program_name": "super_kids",
+                "information_topic": "curriculum",
+                "current_level": "beginner",
+                "goal_type": "foundation"
+            },
+            "example_entities_2": {
+                "learner_age": 16,
+                "learner_type": "teenager",
+                "program_name": "ielts_core",
+                "information_topic": "learning_path",
+                "current_level": "ielts_4_5",
+                "goal_type": "ielts"
+            }
+        },
+        {
+            "intent": "course_consultation",
+            "meaning": "Khách muốn được tư vấn, gợi ý chương trình hoặc lộ trình học phù hợp với độ tuổi, trình độ và mục tiêu.",
+            "examples": [
+                "Tư vấn giúp tôi khóa học phù hợp.",
+                "Bé nhà tôi nên học chương trình nào?",
+                "Tôi muốn được tư vấn lộ trình học IELTS.",
+                "Bạn tư vấn giúp khóa học phù hợp với trình độ hiện tại của tôi."
+            ],
+            "example_entities_1": {
+                "program_name": "super_kids",
+                "learner_age": 8,
+                "current_level": "beginner",
+                "goal_type": "foundation"
+            },
+            "example_entities_2": {
+                "program_name": "ielts_core",
+                "learner_age": 16,
+                "current_level": "ielts_4_5",
+                "goal_type": "study_abroad"
+            }
+        },
+        {
+            "intent": "learning_goal",
+            "meaning": "Khách chia sẻ mục tiêu, nhu cầu hoặc kết quả muốn đạt được khi học tiếng Anh.",
+            "examples": [
+                "Em muốn cải thiện tiếng Anh.",
+                "Tôi muốn đạt IELTS 6.5.",
+                "Bé cần học để thi chứng chỉ Cambridge.",
+                "Tôi muốn giao tiếp tiếng Anh tốt hơn trong công việc."
+            ],
+            "example_entities_1": {
+                "goal_type": "ielts",
+                "current_level": "ielts_5_0",
+                "target_level": "ielts_6_5"
+            },
+            "example_entities_2": {
+                "goal_type": "certificate",
+                "current_level": "starters",
+                "target_level": "movers"
+            }
+        },
+        {
+            "intent": "assessment_request",
+            "meaning": "Khách muốn kiểm tra, đánh giá hoặc xác định trình độ tiếng Anh hiện tại.",
+            "examples": [
+                "Tôi muốn đăng ký kiểm tra đầu vào.",
+                "Bên mình có bài kiểm tra trình độ không?",
+                "Cho bé làm bài test trước khi đăng ký được không?",
+                "Tôi muốn biết trình độ IELTS hiện tại của mình."
+            ],
+            "example_entities_1": {
+                "appointment_type": "placement_test",
+                "appointment_time": "thứ Bảy 09:00",
+                "learner_type": "child"
+            },
+            "example_entities_2": {
+                "appointment_type": "placement_test",
+                "appointment_time": "Chủ nhật 15:00",
+                "learner_type": "teenager"
+            }
+        },
+        {
+            "intent": "trial_class_request",
+            "meaning": "Khách muốn đăng ký hoặc hỏi thông tin về lớp học thử trước khi quyết định đăng ký khóa học.",
+            "examples": [
+                "Cho bé đăng ký học thử được không?",
+                "Bên mình có lớp học thử IELTS không?",
+                "Tôi muốn cho con học thử trước.",
+                "Học thử có mất phí không?"
+            ],
+            "example_entities_1": {
+                "appointment_type": "trial_class",
+                "preferred_campus": "VUS Thủ Đức",
+                "preferred_schedule": "weekend"
+            },
+            "example_entities_2": {
+                "appointment_type": "trial_class",
+                "preferred_campus": "VUS Quận 7",
+                "preferred_schedule": "weekday_evening"
+            }
+        },
+        {
+            "intent": "class_availability",
+            "meaning": "Khách tìm hiểu tình trạng lớp học theo chương trình, cơ sở, hình thức hoặc lịch học.",
+            "examples": [
+                "Còn lớp cuối tuần không?",
+                "Bên mình còn lớp IELTS buổi tối không?",
+                "Cơ sở Quận 7 còn chỗ cho bé 8 tuổi không?",
+                "Có lớp học trực tuyến nào đang tuyển sinh không?"
+            ],
+            "example_entities_1": {
+                "program_name": "super_kids",
+                "preferred_campus": "VUS Thủ Đức",
+                "preferred_schedule": "weekend",
+                "class_status": "available"
+            },
+            "example_entities_2": {
+                "program_name": "ielts_core",
+                "preferred_campus": "VUS Quận 7",
+                "preferred_schedule": "weekday_evening",
+                "class_status": "available"
+            }
+        },
+        {
+            "intent": "appointment_management",
+            "meaning": "Khách muốn đặt, xác nhận, thay đổi hoặc hủy lịch hẹn như lịch kiểm tra, học thử hoặc tư vấn.",
+            "examples": [
+                "Dời giúp tôi lịch kiểm tra.",
+                "Tôi muốn hủy lịch tư vấn đã đặt.",
+                "Cho tôi xác nhận lại lịch học thử.",
+                "Tôi muốn đặt lịch kiểm tra đầu vào vào cuối tuần."
+            ],
+            "example_entities_1": {
+                "appointment_action": "reschedule",
+                "appointment_type": "placement_test",
+                "appointment_time": "Chủ nhật 15:00"
+            },
+            "example_entities_2": {
+                "appointment_action": "cancel",
+                "appointment_type": "campus_consultation",
+                "appointment_time": "thứ Bảy 09:00"
+            }
+        },
+        {
+            "intent": "course_registration",
+            "meaning": "Khách xác nhận hoặc thể hiện rõ mong muốn đăng ký khóa học.",
+            "examples": [
+                "Tôi đồng ý đăng ký cho bé.",
+                "Tôi muốn đăng ký khóa IELTS này.",
+                "Cho tôi đăng ký khóa học luôn.",
+                "Tôi cần làm thủ tục nhập học."
+            ],
+            "example_entities_1": {
+                "program_name": "super_kids",
+                "preferred_campus": "VUS Thủ Đức",
+                "expected_start_time": "tháng 8/2026",
+                "registration_status": "ready"
+            },
+            "example_entities_2": {
+                "program_name": "ielts_core",
+                "preferred_campus": "VUS Quận 7",
+                "expected_start_time": "tháng 9/2026",
+                "registration_status": "ready"
+            }
+        },
+        {
+            "intent": "contact_preference",
+            "meaning": "Khách yêu cầu kênh, thời gian hoặc phương thức liên hệ phù hợp.",
+            "examples": [
+                "Chiều gọi lại cho tôi nhé.",
+                "Tư vấn cho tôi qua Zalo được không?",
+                "Bạn gọi cho tôi sau 18 giờ nhé.",
+                "Tôi muốn được liên hệ qua điện thoại."
+            ],
+            "example_entities_1": {
+                "contact_channel": "phone",
+                "callback_time": "sau 18:00"
+            },
+            "example_entities_2": {
+                "contact_channel": "zalo",
+                "callback_time": "sáng mai"
+            }
+        },
+        {
+            "intent": "registration_barrier",
+            "meaning": "Khách nêu lý do đang cản trở việc học, đăng ký hoặc ra quyết định.",
+            "examples": [
+                "Tôi chưa đăng ký được vì nhà xa.",
+                "Tôi chưa đủ ngân sách để đăng ký.",
+                "Lịch học hiện tại không phù hợp với tôi.",
+                "Tôi chưa thể đăng ký vì cần hỏi ý kiến gia đình."
+            ],
+            "example_entities_1": {
+                "barrier_type": "distance",
+                "barrier_detail": "cơ sở xa nhà"
+            },
+            "example_entities_2": {
+                "barrier_type": "financial",
+                "barrier_detail": "chưa đủ ngân sách"
+            }
+        },
+        {
+            "intent": "decision_hesitation",
+            "meaning": "Khách còn do dự, chưa sẵn sàng quyết định hoặc cần thêm thời gian và thông tin trước khi đăng ký.",
+            "examples": [
+                "Tôi cần suy nghĩ thêm.",
+                "Để tôi trao đổi với gia đình trước.",
+                "Tôi vẫn đang cân nhắc các trung tâm.",
+                "Tôi chưa quyết định chọn khóa nào."
+            ],
+            "example_entities_1": {
+                "barrier_type": "family_approval",
+                "decision_status": "considering"
+            },
+            "example_entities_2": {
+                "barrier_type": "center_comparison",
+                "decision_status": "considering"
+            }
+        },
+        {
+            "intent": "future_learning_plan",
+            "meaning": "Khách có nhu cầu học hoặc đăng ký nhưng dự kiến thực hiện trong tương lai, chưa bắt đầu ngay.",
+            "examples": [
+                "Hai tháng nữa tôi mới đăng ký.",
+                "Đầu năm sau tôi mới cho bé đi học.",
+                "Hiện tại tôi chưa sắp xếp được, khoảng tháng 9 tôi sẽ học.",
+                "Tôi dự định học IELTS vào năm sau."
+            ],
+            "example_entities_1": {
+                "expected_start_time": "sau 2 tháng",
+                "barrier_type": "current_center",
+                "decision_status": "future"
+            },
+            "example_entities_2": {
+                "expected_start_time": "đầu năm 2027",
+                "barrier_type": "schedule",
+                "decision_status": "future"
+            }
+        },
+        {
+            "intent": "no_current_need",
+            "meaning": "Khách hiện không có nhu cầu, không còn nhu cầu hoặc từ chối tiếp tục tìm hiểu chương trình.",
+            "examples": [
+                "Hiện tại tôi chưa có nhu cầu.",
+                "Tôi không cần học vào lúc này.",
+                "Bé nhà tôi chưa cần học thêm.",
+                "Cảm ơn, hiện tại tôi chưa muốn đăng ký."
+            ],
+            "example_entities_1": {
+                "decision_status": "declined",
+                "learner_type": "child",
+                "need_status": "no_current_need"
+            },
+            "example_entities_2": {
+                "decision_status": "declined",
+                "learner_type": "adult",
+                "need_status": "no_current_need"
+            }
+        },
+        {
+            "intent": "do_not_contact_request",
+            "meaning": "Khách yêu cầu doanh nghiệp ngừng gọi điện, nhắn tin hoặc liên hệ qua các kênh khác.",
+            "examples": [
+                "Đừng gọi cho tôi nữa.",
+                "Vui lòng ngừng gửi tin nhắn cho tôi.",
+                "Tôi không muốn được tư vấn thêm.",
+                "Xin đừng liên hệ với tôi qua Zalo."
+            ],
+            "example_entities_1": {
+                "contact_channel": "phone",
+                "decision_status": "do_not_contact"
+            },
+            "example_entities_2": {
+                "contact_channel": "zalo",
+                "decision_status": "do_not_contact"
+            }
+        },
+        {
+            "intent": "service_support",
+            "meaning": "Khách phản ánh vấn đề hoặc yêu cầu hỗ trợ liên quan đến lịch hẹn, tư vấn, đăng ký hoặc dịch vụ.",
+            "examples": [
+                "Tôi đặt lịch nhưng chưa được xác nhận.",
+                "Tôi không nhận được thông tin lớp học.",
+                "Tôi đã đăng ký nhưng chưa có nhân viên liên hệ.",
+                "Bạn kiểm tra giúp tôi tình trạng đăng ký."
+            ],
+            "example_entities_1": {
+                "support_topic": "appointment_follow_up",
+                "appointment_status": "unconfirmed"
+            },
+            "example_entities_2": {
+                "support_topic": "consultation_follow_up",
+                "appointment_status": "pending"
+            }
+        },
+        {
+            "intent": "redefind_start_time",
+            "meaning": "Ghi nhận dấu hiệu khách hàng có đề cập tới thời gian bắt đầu học, bao gồm việc xác định lại, dời sớm hơn hoặc dời muộn hơn so với dự định trước đó.",
+            "examples": [
+                "Trước em dự định học tháng 9 nhưng chắc phải đến tháng 11 mới bắt đầu được.",
+                "Mình muốn cho bé học sớm hơn, đầu tháng sau có thể bắt đầu.",
+                "Em chưa học trong tháng này được, chuyển kế hoạch sang sau Tết nhé."
+            ],
+            "example_entities_1": {
+                "program_name": "ielts_core",
+                "expected_start_time": "tháng 11/2026"
+            },
+            "example_entities_2": {
+                "program_name": "super_kids",
+                "expected_start_time": "sau Tết 2027"
+            }
+        },
+        {
+            "intent": "studying_at_other_center",
+            "meaning": "Khách hoặc học viên hiện đang học tại một trung tâm/cơ sở đào tạo khác. Có thể thể hiện trực tiếp tên trung tâm, chương trình đang học, thời gian học hoặc ý định học hết khóa hiện tại rồi mới cân nhắc VUS.",
+            "examples": [
+                "Bé đang học ở ILA rồi.",
+                "Hiện tại em đang học IELTS bên British Council.",
+                "Con tôi còn hai tháng nữa mới kết thúc khóa ở trung tâm khác.",
+                "Mình đang học chỗ khác nên chưa muốn đăng ký ngay.",
+                "Bé học ở Apollo nhưng tôi muốn tìm hiểu thêm chương trình của VUS."
+            ],
+            "example_entities_1": {
+                "competitor_name": "ila",
+                "program_name": "young_leaders",
+                "study_status": "currently_studying"
+            },
+            "example_entities_2": {
+                "competitor_name": "british_council",
+                "program_name": "ielts",
+                "study_status": "course_ending_soon"
+            }
+        },
+        {
+            "intent": "online_learning_interest",
+            "meaning": "Khách thể hiện nhu cầu, sự quan tâm hoặc ưu tiên học online. Có thể hỏi về chương trình, lịch học, học phí, nền tảng, giáo viên hoặc hiệu quả của hình thức học trực tuyến.",
+            "examples": [
+                "VUS có khóa học online không?",
+                "Tôi muốn học trực tuyến tại nhà.",
+                "Bé có thể học online với giáo viên không?",
+                "Tôi ở xa nên chỉ học online được.",
+                "Khóa IELTS online có lịch buổi tối không?",
+                "Học online có được tương tác trực tiếp với giáo viên không?"
+            ],
+            "example_entities_1": {
+                "program_name": "ielts_core",
+                "learning_mode": "online",
+                "online_topic": "class_schedule"
+            },
+            "example_entities_2": {
+                "program_name": "happy_kids",
+                "learning_mode": "online",
+                "online_topic": "teacher_interaction"
+            }
+        },
+        {
+            "intent": "no_nearby_campus",
+            "meaning": "Khách không học hoặc chưa đăng ký vì không có cơ sở VUS thuận tiện/gần nơi ở, nơi học hoặc nơi làm việc.",
+            "examples": [
+                "Gần nhà tôi không có trung tâm VUS.",
+                "Cơ sở VUS xa quá nên tôi không học.",
+                "Khu vực của tôi chưa có VUS.",
+                "Không có trung tâm gần nhà nên đi học bất tiện.",
+                "Nếu có cơ sở gần hơn thì tôi mới đăng ký."
+            ],
+            "example_entities_1": {
+                "location": "District 12",
+                "barrier_reason": "campus_too_far"
+            },
+            "example_entities_2": {
+                "location": "Thu Duc",
+                "barrier_reason": "no_nearby_campus",
+                "learning_mode": "offline"
+            }
+        },
+        {
+            "intent": "financial_barrier",
+            "meaning": "Khách thể hiện khó khăn hoặc hạn chế về khả năng tài chính làm ảnh hưởng đến quyết định đăng ký, tiếp tục học hoặc lựa chọn chương trình.",
+            "examples": [
+                "Học phí cao quá, gia đình không đủ khả năng.",
+                "Hiện tại mình chưa có tiền để đăng ký.",
+                "Nếu phải đóng một lần thì mình không học được.",
+                "Gia đình đang khó khăn nên chắc phải hoãn việc học."
+            ],
+            "example_entities_1": {
+                "barrier_type": "affordability",
+                "severity": "high"
+            },
+            "example_entities_2": {
+                "barrier_type": "payment_capacity",
+                "severity": "medium"
+            }
+        },
+        {
+            "intent": "decision_dependency",
+            "meaning": "Khách chưa thể quyết định đăng ký vì quyết định phụ thuộc vào ý kiến hoặc sự đồng ý của người khác như vợ/chồng, cha mẹ hoặc gia đình.",
+            "examples": [
+                "Để chị hỏi chồng rồi quyết định nhé.",
+                "Em phải hỏi bố mẹ trước.",
+                "Để tôi bàn lại với gia đình."
+            ],
+            "example_entities_1": {
+                "decision_person": "spouse"
+            },
+            "example_entities_2": {
+                "decision_person": "parent"
+            }
+        },
+        {
+            "intent": "other",
+            "meaning": "Nội dung không thuộc bất kỳ intent nào đã được định nghĩa.",
+            "examples": [
+                "Tôi muốn hỏi một vấn đề khác.",
+                "Bên mình có cho thuê phòng không?",
+                "Tôi muốn hỏi về cơ hội việc làm.",
+                "Tôi cần hỗ trợ một nội dung không liên quan đến khóa học."
+            ],
+            "example_entities_1": {
+                "raw_topic": "facility_rental",
+                "information_topic": "other"
+            },
+            "example_entities_2": {
+                "raw_topic": "recruitment",
+                "information_topic": "other"
+            }
+        }
     ],
-    "example_entities_1": {
-        "program_name": "ielts_core",
-        "expected_start_time": "tháng 11/2026"
-    },
-    "example_entities_2": {
-        "program_name": "super_kids",
-        "expected_start_time": "sau Tết 2027"
-    }
-},
-{
-    "intent": "studying_at_other_center",
-    "meaning": "Khách hoặc học viên hiện đang học tại một trung tâm/cơ sở đào tạo khác. Có thể thể hiện trực tiếp tên trung tâm, chương trình đang học, thời gian học hoặc ý định học hết khóa hiện tại rồi mới cân nhắc VUS.",
-    "examples": [
-        "Bé đang học ở ILA rồi.",
-        "Hiện tại em đang học IELTS bên British Council.",
-        "Con tôi còn hai tháng nữa mới kết thúc khóa ở trung tâm khác.",
-        "Mình đang học chỗ khác nên chưa muốn đăng ký ngay.",
-        "Bé học ở Apollo nhưng tôi muốn tìm hiểu thêm chương trình của VUS."
+    "sentimentEmotion": [
+        {
+            "value": "neutral",
+            "meaning": "Không thể hiện cảm xúc rõ ràng",
+            "examples": [
+                "Cho em hỏi khóa IELTS 6.5 bao nhiêu tiền?"
+            ]
+        },
+        {
+            "value": "interested",
+            "meaning": "Quan tâm, có nhu cầu tìm hiểu",
+            "examples": [
+                "Em muốn tìm hiểu khóa IELTS bên mình."
+            ]
+        },
+        {
+            "value": "hopeful",
+            "meaning": "Hy vọng đạt mục tiêu",
+            "examples": [
+                "Em hy vọng có thể đạt IELTS 7.0."
+            ]
+        },
+        {
+            "value": "excited",
+            "meaning": "Hào hứng, mong muốn học",
+            "examples": [
+                "Em rất háo hức muốn bắt đầu học IELTS."
+            ]
+        },
+        {
+            "value": "happy",
+            "meaning": "Vui",
+            "examples": [
+                "May quá, cuối cùng em cũng tìm được lớp phù hợp."
+            ]
+        },
+        {
+            "value": "satisfied",
+            "meaning": "Hài lòng",
+            "examples": [
+                "Tư vấn rất rõ ràng, cảm ơn bạn."
+            ]
+        },
+        {
+            "value": "grateful",
+            "meaning": "Biết ơn, cảm kích",
+            "examples": [
+                "Cảm ơn bạn đã hỗ trợ mình rất kỹ."
+            ]
+        },
+        {
+            "value": "relieved",
+            "meaning": "Nhẹ nhõm, yên tâm sau khi được hỗ trợ",
+            "examples": [
+                "Vậy thì mình yên tâm rồi."
+            ]
+        },
+        {
+            "value": "worried",
+            "meaning": "Lo lắng về khả năng hoặc kết quả",
+            "examples": [
+                "Em lo trình độ hiện tại không đủ để đạt 6.5."
+            ]
+        },
+        {
+            "value": "confused",
+            "meaning": "Bối rối, chưa hiểu hoặc chưa biết lựa chọn",
+            "examples": [
+                "Em không biết nên học IELTS hay TOEIC."
+            ]
+        },
+        {
+            "value": "anxious",
+            "meaning": "Lo âu hoặc căng thẳng",
+            "examples": [
+                "Em hơi lo vì sắp thi IELTS mà chưa đạt target."
+            ]
+        },
+        {
+            "value": "hesitant",
+            "meaning": "Do dự, chưa quyết định",
+            "examples": [
+                "Mình vẫn chưa biết có nên đăng ký ngay không."
+            ]
+        },
+        {
+            "value": "skeptical",
+            "meaning": "Hoài nghi về thông tin, chất lượng hoặc cam kết",
+            "examples": [
+                "Cam kết đầu ra này có thật sự đảm bảo không?"
+            ]
+        },
+        {
+            "value": "disappointed",
+            "meaning": "Thất vọng vì kết quả hoặc trải nghiệm không như mong đợi",
+            "examples": [
+                "Em khá thất vọng vì học lâu rồi mà band vẫn không tăng."
+            ]
+        },
+        {
+            "value": "dissatisfied",
+            "meaning": "Không hài lòng nhưng chưa phản ứng gay gắt",
+            "examples": [
+                "Tôi chưa hài lòng với cách trung tâm tư vấn."
+            ]
+        },
+        {
+            "value": "frustrated",
+            "meaning": "Bực bội vì vấn đề kéo dài hoặc lặp lại",
+            "examples": [
+                "Em đăng ký tư vấn mấy lần rồi mà vẫn chưa được gọi."
+            ]
+        },
+        {
+            "value": "impatient",
+            "meaning": "Sốt ruột, mất kiên nhẫn vì phải chờ đợi",
+            "examples": [
+                "Bao giờ bên mình mới gọi lại cho em?"
+            ]
+        },
+        {
+            "value": "angry",
+            "meaning": "Tức giận, phản ứng tiêu cực mạnh",
+            "examples": [
+                "Tôi rất bực vì bên bạn xử lý vấn đề quá chậm."
+            ]
+        },
+        {
+            "value": "sad",
+            "meaning": "Buồn vì không đạt kết quả mong muốn",
+            "examples": [
+                "Em buồn vì thi IELTS nhiều lần vẫn chưa đạt 6.5."
+            ]
+        }
     ],
-    "example_entities_1": {
-        "competitor_name": "ila",
-        "program_name": "young_leaders",
-        "study_status": "currently_studying"
-    },
-    "example_entities_2": {
-        "competitor_name": "british_council",
-        "program_name": "ielts",
-        "study_status": "course_ending_soon"
-    }
-},
-{
-    "intent": "online_learning_interest",
-    "meaning": "Khách thể hiện nhu cầu, sự quan tâm hoặc ưu tiên học online. Có thể hỏi về chương trình, lịch học, học phí, nền tảng, giáo viên hoặc hiệu quả của hình thức học trực tuyến.",
-    "examples": [
-        "VUS có khóa học online không?",
-        "Tôi muốn học trực tuyến tại nhà.",
-        "Bé có thể học online với giáo viên không?",
-        "Tôi ở xa nên chỉ học online được.",
-        "Khóa IELTS online có lịch buổi tối không?",
-        "Học online có được tương tác trực tiếp với giáo viên không?"
+    "sentimentPolarity": [
+        {
+            "value": "positive",
+            "emotionTags": [
+                "interested",
+                "hopeful",
+                "excited",
+                "happy",
+                "satisfied",
+                "grateful",
+                "relieved"
+            ],
+            "examples": [
+                "Em muốn tìm hiểu thêm về khóa IELTS bên mình.",
+                "Em hy vọng có thể đạt IELTS 7.0.",
+                "Cảm ơn bạn đã hỗ trợ mình rất kỹ.",
+                "Vậy thì mình yên tâm rồi."
+            ]
+        },
+        {
+            "value": "neutral",
+            "emotionTags": [
+                "neutral",
+                "worried",
+                "confused",
+                "anxious",
+                "hesitant",
+                "skeptical"
+            ],
+            "examples": [
+                "Cho em hỏi khóa IELTS 6.5 bao nhiêu tiền?",
+                "Em lo không biết trình độ hiện tại có đạt được 6.5 không.",
+                "Em không biết nên chọn khóa IELTS nào.",
+                "Cam kết đầu ra này có thật sự đảm bảo không?"
+            ]
+        },
+        {
+            "value": "negative",
+            "emotionTags": [
+                "disappointed",
+                "dissatisfied",
+                "frustrated",
+                "impatient",
+                "angry",
+                "sad"
+            ],
+            "examples": [
+                "Em khá thất vọng vì học lâu rồi mà band vẫn không tăng.",
+                "Tôi chưa hài lòng với cách trung tâm tư vấn.",
+                "Em đăng ký tư vấn mấy lần rồi mà vẫn chưa được gọi.",
+                "Tôi rất bực vì bên bạn xử lý vấn đề quá chậm."
+            ]
+        }
     ],
-    "example_entities_1": {
-        "program_name": "ielts_core",
-        "learning_mode": "online",
-        "online_topic": "class_schedule"
-    },
-    "example_entities_2": {
-        "program_name": "happy_kids",
-        "learning_mode": "online",
-        "online_topic": "teacher_interaction"
-    }
-},
-{
-    "intent": "no_nearby_campus",
-    "meaning": "Khách không học hoặc chưa đăng ký vì không có cơ sở VUS thuận tiện/gần nơi ở, nơi học hoặc nơi làm việc.",
-    "examples": [
-        "Gần nhà tôi không có trung tâm VUS.",
-        "Cơ sở VUS xa quá nên tôi không học.",
-        "Khu vực của tôi chưa có VUS.",
-        "Không có trung tâm gần nhà nên đi học bất tiện.",
-        "Nếu có cơ sở gần hơn thì tôi mới đăng ký."
-    ],
-    "example_entities_1": {
-        "location": "District 12",
-        "barrier_reason": "campus_too_far"
-    },
-    "example_entities_2": {
-        "location": "Thu Duc",
-        "barrier_reason": "no_nearby_campus",
-        "learning_mode": "offline"
-    }
-},
-{
-    "intent": "financial_barrier",
-    "meaning": "Khách thể hiện khó khăn hoặc hạn chế về khả năng tài chính làm ảnh hưởng đến quyết định đăng ký, tiếp tục học hoặc lựa chọn chương trình.",
-    "examples": [
-        "Học phí cao quá, gia đình không đủ khả năng.",
-        "Hiện tại mình chưa có tiền để đăng ký.",
-        "Nếu phải đóng một lần thì mình không học được.",
-        "Gia đình đang khó khăn nên chắc phải hoãn việc học."
-    ],
-    "example_entities_1": {
-        "barrier_type": "affordability",
-        "severity": "high"
-    },
-    "example_entities_2": {
-        "barrier_type": "payment_capacity",
-        "severity": "medium"
-    }
-},
-{
-    "intent": "decision_dependency",
-    "meaning": "Khách chưa thể quyết định đăng ký vì quyết định phụ thuộc vào ý kiến hoặc sự đồng ý của người khác như vợ/chồng, cha mẹ hoặc gia đình.",
-    "examples": [
-        "Để chị hỏi chồng rồi quyết định nhé.",
-        "Em phải hỏi bố mẹ trước.",
-        "Để tôi bàn lại với gia đình."
-    ],
-    "example_entities_1": {
-        "decision_person": "spouse"
-    },
-    "example_entities_2": {
-        "decision_person": "parent"
+    "mappingHints": {
+        "intentTaggingRule": "Chọn đúng 2 intent khớp nhất; nếu không khớp thì dùng other.",
+        "sentimentRule": "Gán polarity trước, sau đó gán emotion phù hợp nhất.",
+        "priority": [
+            "intent",
+            "sentimentPolarity",
+            "sentimentEmotion"
+        ]
     }
 }
