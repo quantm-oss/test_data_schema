@@ -476,6 +476,23 @@
             }
         },
         {
+            "intent": "schedule_barrier",
+            "meaning": "Khách hàng gặp khó khăn trong việc sắp xếp thời gian học hoặc không tìm được lịch học phù hợp, làm ảnh hưởng đến quyết định đăng ký hoặc tiếp tục học.",
+            "examples": [
+                "Bé chỉ rảnh cuối tuần nhưng VUS không có lớp phù hợp.",
+                "Giờ học trùng với lịch học ở trường.",
+                "Mình muốn đăng ký nhưng không sắp xếp được thời gian."
+            ],
+            "example_entities_1": {
+                "barrier_type": "schedule_conflict",
+                "preferred_schedule": "weekend"
+            },
+            "example_entities_2": {
+                "barrier_type": "no_suitable_class_time",
+                "preferred_schedule": "weekday_evening"
+            }
+        },
+        {
             "intent": "other",
             "meaning": "Nội dung không thuộc bất kỳ intent nào đã được định nghĩa.",
             "examples": [
