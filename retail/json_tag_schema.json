@@ -1159,6 +1159,102 @@
           "description": "Thời điểm gần nhất bản ghi customer profile được tác động hoặc cập nhật."
         }
       ]
+    },
+    {
+      "collection": "customer_information",
+      "description": "Thông tin khách hàng kèm các chỉ số mua hàng đã được tính sẵn (denormalized) như tổng số đơn, tổng chi tiêu tích lũy, hạng thành viên và lần mua gần nhất. Phù hợp để phân nhóm hoặc gắn tag theo hành vi mua hàng (khách VIP, hạng thành viên, tổng chi tiêu, sản phẩm đã mua) mà không cần JOIN hay tổng hợp từ purchase_history.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Mã định danh duy nhất của bản ghi khách hàng (primary key)."
+        },
+        {
+          "name": "phone",
+          "type": "String",
+          "description": "Số điện thoại của khách hàng. Dùng làm trường định danh khi kênh liên hệ là Phone."
+        },
+        {
+          "name": "email",
+          "type": "String",
+          "description": "Địa chỉ email của khách hàng. Dùng làm trường định danh khi kênh liên hệ là Email. Có thể để trống."
+        },
+        {
+          "name": "gender",
+          "type": "String",
+          "description": "Giới tính của khách hàng. Các giá trị: male, female."
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "description": "Địa chỉ chi tiết của khách hàng."
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "description": "Tên đầy đủ của khách hàng."
+        },
+        {
+          "name": "memberLevel",
+          "type": "String",
+          "description": "Hạng thành viên của khách hàng, giá trị tiếng Việt có dấu: Kim Cương, Vàng, Bạc, Đồng. Dùng để xác định khách VIP."
+        },
+        {
+          "name": "source",
+          "type": "String",
+          "description": "Nguồn phát sinh khách hàng, giá trị tiếng Việt có dấu: Chiến dịch, Khác, Trực tiếp, Giới thiệu."
+        },
+        {
+          "name": "lastPurchasedStoreName",
+          "type": "String",
+          "description": "Tên cửa hàng của lần mua hàng gần nhất."
+        },
+        {
+          "name": "lastPurchasedAmount",
+          "type": "Float64",
+          "description": "Giá trị đơn hàng của lần mua hàng gần nhất."
+        },
+        {
+          "name": "lastPurchasedAt",
+          "type": "DateTime64(3)",
+          "description": "Thời điểm khách hàng thực hiện giao dịch mua hàng gần nhất."
+        },
+        {
+          "name": "ratingStore",
+          "type": "Float64",
+          "description": "Điểm đánh giá cửa hàng của khách hàng."
+        },
+        {
+          "name": "totalOrder",
+          "type": "UInt64",
+          "description": "Tổng số đơn hàng khách hàng đã mua."
+        },
+        {
+          "name": "totalOrderAmount",
+          "type": "Float64",
+          "description": "Tổng giá trị chi tiêu tích lũy của khách hàng trên tất cả đơn hàng."
+        },
+        {
+          "name": "ward",
+          "type": "String",
+          "description": "Phường hoặc xã của khách hàng."
+        },
+        {
+          "name": "province",
+          "type": "String",
+          "description": "Tỉnh hoặc thành phố của khách hàng."
+        },
+        {
+          "name": "listOrderItemName",
+          "type": "Array(String)",
+          "description": "Danh sách tên các sản phẩm khách hàng đã mua."
+        },
+        {
+          "name": "nearestSingleProduct",
+          "type": "Array(String)",
+          "description": "Danh sách sản phẩm của lần mua gần nhất."
+        }
+      ]
     }
   ]
 }
