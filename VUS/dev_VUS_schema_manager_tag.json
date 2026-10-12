@@ -1148,7 +1148,7 @@
             {
             "name": "updatedBy",
             "type": "Nullable(String)",
-            "description": "tài khoản cập nhật. Example: 1788447299450 [⚠️ giá trị ví dụ này giống định dạng timestamp, không giống tên tài khoản như createdBy='System' — cần bạn xác nhận đây có đúng là ví dụ thật hay là lỗi copy nhầm]"
+            "description": "tài khoản cập nhật. Example: 1788447299450"
             }
       ]
     },
