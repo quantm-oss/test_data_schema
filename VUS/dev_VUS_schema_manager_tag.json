@@ -725,6 +725,116 @@
           "name": "sourceChangeAt",
           "type": "DateTime64(3)",
           "description": "Thời điểm thay đổi nguồn của Lead. Example: 1785014759683"
+        },
+        {
+          "name": "gender",
+          "type": "Nullable(String)",
+          "description": "Giới tính của học viên hoặc khách hàng. Example: 'Nam'"
+        },
+        {
+          "name": "archivedAt",
+          "type": "Nullable(DateTime64(3))",
+          "description": "Thời điểm Lead được lưu trữ hoặc ngừng chăm sóc. Example: 1785757233778"
+        },
+        {
+          "name": "archivedBy",
+          "type": "Nullable(String)",
+          "description": "Tài khoản người dùng hoặc hệ thống thực hiện lưu trữ Lead. Example: 'example@gmail.com'"
+        },
+        {
+          "name": "archivedReason",
+          "type": "Nullable(String)",
+          "description": "Lý do Lead được lưu trữ hoặc ngừng chăm sóc. Example: 'Lead quá hạn nurturing'"
+        },
+        {
+          "name": "careStatusName",
+          "type": "Nullable(String)",
+          "description": "Tên trạng thái chăm sóc hiện tại của Lead. Example: 'Đã liên hệ'"
+        },
+        {
+          "name": "subCareStatusName",
+          "type": "Nullable(String)",
+          "description": "Tên trạng thái chăm sóc cấp chi tiết hơn, tương ứng với careStatusSubId. Example: 'Khách hàng hẹn tư vấn'"
+        },
+        {
+          "name": "appointmentCampus",
+          "type": "Nullable(String)",
+          "description": "Tên cơ sở nơi Lead được đặt lịch hẹn đến tư vấn. Example: 'VUS Nguyễn Thị Minh Khai'"
+        },
+        {
+          "name": "consultingCampusName",
+          "type": "Nullable(String)",
+          "description": "Tên cơ sở thực hiện tư vấn cho Lead. Example: 'VUS Quận 1'"
+        },
+        {
+          "name": "program",
+          "type": "Nullable(String)",
+          "description": "Tên chương trình học cụ thể mà Lead quan tâm hoặc đăng ký, tương ứng với programId. Example: 'IELTS'"
+        },
+        {
+          "name": "originalProgram",
+          "type": "Nullable(String)",
+          "description": "Tên chương trình học mà Lead quan tâm tại thời điểm ban đầu, tương ứng với originalProgramId. Example: 'Tiếng Anh giao tiếp'"
+        },
+        {
+          "name": "sourceName",
+          "type": "String",
+          "description": "Tên nguồn phát sinh Lead hiện tại, tương ứng với leadSourceId. Example: 'Facebook'"
+        },
+        {
+          "name": "campaignName",
+          "type": "Nullable(String)",
+          "description": "Tên chiến dịch marketing hiện tại của Lead, tương ứng với campaignId. Example: 'Summer Campaign 2026'"
+        },
+        {
+          "name": "originalCampaignName",
+          "type": "Nullable(String)",
+          "description": "Tên chiến dịch marketing gốc tại thời điểm Lead được tạo, tương ứng với originalCampaignId. Example: 'Summer Campaign 2026'"
+        },
+        {
+          "name": "preferredCampusName",
+          "type": "Nullable(String)",
+          "description": "Tên cơ sở mà Lead ưu tiên lựa chọn ban đầu, tương ứng với preferredCampusId. Example: 'VUS Nguyễn Thị Minh Khai'"
+        },
+        {
+          "name": "provinceName",
+          "type": "Nullable(String)",
+          "description": "Tên tỉnh hoặc thành phố nơi Lead được ghi nhận, tương ứng với provinceId. Example: 'Hồ Chí Minh'"
+        },
+        {
+          "name": "ownerTeamName",
+          "type": "Nullable(String)",
+          "description": "Tên nhóm phụ trách Lead, tương ứng với ownerTeamId. Example: 'MKT_HCM-TMK-PROVINCE_1'"
+        },
+        {
+          "name": "ownerUserName",
+          "type": "Nullable(String)",
+          "description": "Tên hiển thị của người dùng đang sở hữu hoặc phụ trách Lead, tương ứng với ownerUser. Example: 'Nguyễn Văn A'"
+        },
+        {
+          "name": "tmkTeamNameShow",
+          "type": "Nullable(String)",
+          "description": "Tên nhóm TMK phụ trách Lead tại thời điểm Show, tương ứng với tmkTeamShow. Example: 'MKT_HCM-TMK-PROVINCE_1'"
+        },
+        {
+          "name": "tmkAgentNameShow",
+          "type": "Nullable(String)",
+          "description": "Tên hiển thị của nhân viên TMK phụ trách Lead tại thời điểm Show, tương ứng với tmkAgentShow. Example: 'Nguyễn Văn A'"
+        },
+        {
+          "name": "tmkTeamNameSign",
+          "type": "Nullable(String)",
+          "description": "Tên nhóm TMK phụ trách Lead tại thời điểm Sign, tương ứng với tmkTeamSign. Example: 'TMK_Leader'"
+        },
+        {
+          "name": "tmkAgentNameSign",
+          "type": "Nullable(String)",
+          "description": "Tên hiển thị của nhân viên TMK phụ trách Lead tại thời điểm Sign, tương ứng với tmkAgentSign. Example: 'Nguyễn Văn B'"
+        },
+        {
+          "name": "duplicationByLead",
+          "type": "Nullable(String)",
+          "description": "Thông tin Lead được dùng làm căn cứ hoặc liên kết trong quá trình xác định Lead trùng. Example: 'L178566485900077301773993455839395'"
         }
       ]
     },
