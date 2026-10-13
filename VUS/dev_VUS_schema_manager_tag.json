@@ -835,6 +835,11 @@
           "name": "duplicationByLead",
           "type": "Nullable(String)",
           "description": "Thông tin Lead được dùng làm căn cứ hoặc liên kết trong quá trình xác định Lead trùng. Example: 'L178566485900077301773993455839395'"
+        },
+        {
+          "name": "campaignDetailName",
+          "type": "Nullable(String)",
+          "description": "Tên chi tiết chiến dịch marketing của Lead, tương ứng với campaignDetailId. Example: 'Summer Campaign - Facebook Ads'"
         }
       ]
     },
