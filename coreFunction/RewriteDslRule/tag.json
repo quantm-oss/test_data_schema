@@ -1,93 +1,47 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "tag-rule-output.schema.json",
-  "title": "Tag Rule Output (Master layer)",
-  "description": "Output của Master layer: metadata tag + DSL Rule để BE sinh SQL (ClickHouse) gắn tag cho khách hàng / Lead.",
+  "$id": "tag-rule-dsl-output.schema.json",
+  "title": "Tag Rule DSL Output",
+  "description": "dslRule Tag rule json schema",
   "type": "object",
   "additionalProperties": false,
-  "required": ["name", "description", "ruleComplexity", "ruleComplexityScore", "dslRule", "configuration"],
+  "required": ["dslRule"],
   "properties": {
-    "name": {
-      "type": "string",
-      "description": "Tên rule dạng snake_case chữ thường. Nếu Solution có 'Gợi ý tên tag' / người dùng đặt tên (vd 'CI_PROMOTION_INTEREST', 'dmk_source') thì chuyển tên đó về snake_case chữ thường.",
-      "pattern": "^[a-z]+(_[a-z0-9]+)*$",
-      "maxLength": 64,
-      "examples": ["lead_showed_last_30days", "ci_promotion_interest", "dmk_source"]
-    },
-    "description": {
-      "type": "string",
-      "description": "Mô tả business bằng tiếng Việt: tag nhận diện nhóm nào + mục đích sử dụng (phục vụ đội nào / hành động gì).",
-      "minLength": 10
-    },
-    "ruleComplexity": {
-      "type": "string",
-      "enum": ["low", "medium", "high"],
-      "description": "low: 1 bảng điều kiện + 1 join định danh, lọc phẳng. medium: nhiều điều kiện / OR 2 nguồn đơn giản / 2 bảng điều kiện. high: ≥3 bảng, join chéo nhiều khóa, window function, OR nhiều nguồn có field mảng."
-    },
-    "ruleComplexityScore": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 100,
-      "description": "Điểm độ phức tạp, phải khớp ruleComplexity: low 0–30, medium 31–60, high 61–100."
-    },
-    "dslRule": {
-      "$ref": "#/definitions/dslRule"
-    },
-    "configuration": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["tagDefinition"],
-      "properties": {
-        "tagDefinition": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["type", "description", "category", "subCategory"],
-          "properties": {
-            "type": {
-              "type": "string",
-              "pattern": "^[a-z]+(_[a-z0-9]+)*$",
-              "description": "Loại tag, snake_case.",
-              "examples": ["lead_behavior", "lead_segment", "lead_location", "lead_ownership", "lead_source", "student_status", "call_activity", "churn_risk", "engagement", "intent_signal", "purchase_history", "promotion_interest", "multi_signal"]
-            },
-            "description": {
-              "type": "string",
-              "minLength": 5,
-              "maxLength": 200,
-              "description": "Mô tả ngắn gọn tiếng Việt (1 câu) cho tag."
-            },
-            "category": {
-              "type": "string",
-              "minLength": 1,
-              "description": "Nhóm lớn, Title Case tiếng Anh.",
-              "examples": ["Lead Journey", "Student Profile", "Activity Log", "Retention", "Behavioral Event", "Conversation Intent", "Customer Profile", "Customer Interest"]
-            },
-            "subCategory": {
-              "type": "string",
-              "minLength": 1,
-              "description": "Nhóm con, Title Case tiếng Anh.",
-              "examples": ["Show", "Program", "Demographic", "Call Result", "Study Gap", "Zalo", "Location", "Ownership", "Course Fee", "Course Information", "Purchase", "Source", "Promotion"]
-            }
-          }
-        }
-      }
-    }
+    "dslRule": { "$ref": "#/definitions/dslRuleEnvelope" }
   },
-  "allOf": [
-    {
-      "if": { "properties": { "ruleComplexity": { "const": "low" } } },
-      "then": { "properties": { "ruleComplexityScore": { "minimum": 0, "maximum": 30 } } }
-    },
-    {
-      "if": { "properties": { "ruleComplexity": { "const": "medium" } } },
-      "then": { "properties": { "ruleComplexityScore": { "minimum": 31, "maximum": 60 } } }
-    },
-    {
-      "if": { "properties": { "ruleComplexity": { "const": "high" } } },
-      "then": { "properties": { "ruleComplexityScore": { "minimum": 61, "maximum": 100 } } }
-    }
-  ],
 
   "definitions": {
+    "dslRuleEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pipeline", "useSameSession", "information", "dslRule", "taggingStrategy"],
+      "properties": {
+        "pipeline": {
+          "type": "boolean",
+          "const": true,
+          "default": true,
+          "description": "Hardcode, luôn là true."
+        },
+        "useSameSession": {
+          "type": "boolean",
+          "const": true,
+          "default": true,
+          "description": "Hardcode, luôn là true."
+        },
+        "information": {
+          "type": "object",
+          "default": {},
+          "description": "Thông tin bổ sung của rule. Mặc định {}."
+        },
+        "dslRule": { "$ref": "#/definitions/dsl" },
+        "taggingStrategy": {
+          "type": "object",
+          "default": {},
+          "description": "Chiến lược gắn tag. Mặc định {}."
+        }
+      }
+    },
+
     "identifier": {
       "type": "string",
       "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
@@ -96,20 +50,19 @@
     "modelAlias": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9_]*$",
-      "description": "Alias của model, phải được khai báo trong dslRule.targetModels.",
-      "examples": ["l", "cp", "le", "st", "al", "ue", "i", "sms", "zma", "po", "poi", "ci", "li", "ph", "ea"]
+      "description": "Alias của model, phải được khai báo trong targetModels."
     },
 
-    "dslRule": {
+    "dsl": {
       "type": "object",
-      "description": "DSL Rule. Mọi field được tham chiếu trong preFilter / conditions / on / groupBys PHẢI có mặt trong selectFields của đúng model (rootModel.selectFields hoặc joins[].selectFields), nếu không sẽ lỗi UNKNOWN_IDENTIFIER.",
+      "description": "DSL Rule. Mọi field được tham chiếu trong preFilter / conditions / on / groupBys PHẢI có mặt trong selectFields của đúng model (rootModel.selectFields hoặc joins[].selectFields).",
       "additionalProperties": false,
-      "required": ["channelType", "channelIdField", "targetModels", "rootModel", "joins", "selectFields", "conditions", "groupBys", "havings", "orderBys", "detailsFields"],
+      "required": ["channelType", "channelIdField", "targetModels", "rootModel", "joins", "selectFields", "conditions", "groupBys", "havings", "orderBys", "detailsFields", "preFilters", "aliasFields"],
       "properties": {
         "channelType": {
           "type": "string",
           "enum": ["Phone", "UserId", "ZaloUserAppId", "CustomerId"],
-          "description": "Kênh định danh. 'UserId' khi định danh qua customer_profile.userId (rootModel = customer_profile, hoặc bảng điều kiện không có phone như activity_log). 'Phone' khi định danh qua số điện thoại."
+          "description": "Kênh định danh."
         },
         "channelIdField": {
           "$ref": "#/definitions/identifier",
@@ -130,24 +83,26 @@
         },
         "preFilters": {
           "type": "object",
-          "description": "(Tùy chọn) Điều kiện lọc theo alias, CHỈ dùng cho rootModel (vd preFilters.cp). Điều kiện của bảng join đặt ở joins[].preFilter, KHÔNG đặt ở đây.",
+          "default": {},
+          "description": "Bắt buộc có key, mặc định {}. Điều kiện lọc theo alias, CHỈ dùng cho rootModel.",
           "propertyNames": { "pattern": "^[a-z][a-z0-9_]*$" },
           "additionalProperties": { "$ref": "#/definitions/filterGroup" }
         },
         "aliasFields": {
           "type": "object",
-          "description": "(Tùy chọn) Cột tổng hợp đặt tên (count, count_distinct, sum...). Key là tên alias, được tham chiếu ở selectFields bằng {\"alias\": \"<key>\"}.",
+          "default": {},
+          "description": "Bắt buộc có key, mặc định {}. Cột tổng hợp đặt tên (count, count_distinct, sum...). Key là tên alias, được tham chiếu ở selectFields bằng {\"alias\": \"<key>\"}.",
           "propertyNames": { "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
           "additionalProperties": { "$ref": "#/definitions/aliasField" }
         },
         "selectFields": {
           "type": "array",
           "minItems": 1,
-          "description": "Cột output cuối cùng. PHẢI có cột định danh userId (vd {\"field\": \"cp.userId\", \"alias\": \"userId\"} hoặc {\"field\": \"le.curRootId\", \"alias\": \"userId\"}). Cột trùng tên giữa các bảng PHẢI đặt alias riêng. Alias '...Text' (toString mảng) chỉ dùng để lọc, KHÔNG đưa vào đây.",
+          "description": "Cột output cuối cùng.",
           "items": { "$ref": "#/definitions/selectField" }
         },
         "conditions": {
-          "description": "Điều kiện sau JOIN (WHERE ngoài cùng). Dùng {} khi không có. Rule đơn bảng không join → đặt toàn bộ điều kiện ở đây, rootModel.preFilter = null. Điều kiện trên bảng join nên có modelAlias.",
+          "description": "Điều kiện sau JOIN (WHERE ngoài cùng).",
           "oneOf": [
             { "type": "object", "maxProperties": 0 },
             { "$ref": "#/definitions/filterGroup" }
@@ -164,12 +119,12 @@
         },
         "havings": {
           "type": "array",
-          "description": "Điều kiện sau GROUP BY trên hàm tổng hợp. KHÔNG hỗ trợ operator 'in'.",
+          "description": "Điều kiện sau GROUP BY trên hàm tổng hợp.",
           "items": { "$ref": "#/definitions/having" }
         },
         "orderBys": {
           "type": "array",
-          "description": "Sắp xếp kết quả. Thường để [].",
+          "description": "Sắp xếp kết quả.",
           "items": { "$ref": "#/definitions/orderBy" }
         },
         "detailsFields": { "$ref": "#/definitions/detailsFields" }
@@ -191,7 +146,6 @@
           "type": "string",
           "pattern": "^[a-z][a-z0-9_]*$",
           "description": "Tên bảng vật lý (có thể kèm hậu tố orgId).",
-          "examples": ["vconnext_lead", "vconnext_student", "activity_log", "intent_and_sentiment", "customer_profile_504b01de4dbc2847ec40c97d0c8e9466", "lead_entity_504b01de4dbc2847ec40c97d0c8e9466", "user_event_504b01de4dbc2847ec40c97d0c8e9466", "zma_logs", "purchase_orders"]
         },
         "alias": { "$ref": "#/definitions/modelAlias" }
       }
@@ -232,12 +186,12 @@
         "type": {
           "type": "string",
           "enum": ["inner", "left"],
-          "description": "inner: bảng join là điều kiện bắt buộc. left: dùng khi rootModel = customer_profile và các nguồn nối bằng OR."
+          "description": "dùng inner join hoặc left join"
         },
         "on": {
           "type": "string",
           "minLength": 3,
-          "description": "Điều kiện JOIN dạng SQL thô, nhiều khóa nối bằng AND. Vd 'cp.mainPhone = l.contactPhone', 'le.curRootId = l.id', 'cp.userId = al.profileId', 'st.studentProfileId = l.studentId AND st.userProfileId = l.userProfileId'. intent_and_sentiment luôn nối qua phone, KHÔNG qua profileId.",
+          "description": "Điều kiện JOIN dạng SQL",
           "pattern": "^[a-z][a-z0-9_]*\\.[A-Za-z_][A-Za-z0-9_]*\\s*=\\s*[a-z][a-z0-9_]*\\.[A-Za-z_][A-Za-z0-9_]*(\\s+AND\\s+[a-z][a-z0-9_]*\\.[A-Za-z_][A-Za-z0-9_]*\\s*=\\s*[a-z][a-z0-9_]*\\.[A-Za-z_][A-Za-z0-9_]*)*$"
         },
         "selectFields": {
@@ -248,7 +202,7 @@
           "items": { "type": "string", "minLength": 1 }
         },
         "preFilter": {
-          "description": "Lọc bảng join trước khi nối (khuyến nghị cho LEFT JOIN nhiều nguồn). Bảng join qua phone PHẢI có phone not_equals \"\".",
+          "description": "Lọc bảng join trước khi nối",
           "oneOf": [
             { "type": "null" },
             { "$ref": "#/definitions/filterGroup" }
@@ -294,7 +248,7 @@
           "additionalProperties": false,
           "required": ["alias"],
           "properties": {
-            "alias": { "$ref": "#/definitions/identifier", "description": "Key đã khai báo trong dslRule.aliasFields." }
+            "alias": { "$ref": "#/definitions/identifier", "description": "Key đã khai báo trong aliasFields." }
           }
         }
       ]
@@ -334,8 +288,8 @@
         },
         "operator": {
           "type": "string",
-          "enum": ["equals", "not_equals", "in", "not_in", "like", "gt", "gte", "lt", "lte", "eq", "is_null", "is_not_null", "gte_relative_day", "lte_relative_day"],
-          "description": "KHÔNG dùng contains_any / contains_all (field mảng → toString + like)."
+          "enum": ["equals", "not_equals", "in", "not_in", "like", "not_like", "is_null", "is_not_null", "eq", "neq", "gt", "gte", "lt", "lte", "gte_relative_day", "lte_relative_day", "between_relative_day", "not_between_relative_day", "contains_any", "contains_all", "exist", "not_exist", "relative_time"],
+          "description": "22 operators"
         },
         "values": {
           "type": "array",
