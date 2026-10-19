@@ -1,0 +1,508 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "segment-rule-dsl-output.schema.json",
+  "title": "Segment Rule DSL Output",
+  "description": "Segment rule json schema: lọc khách hàng trên profile (customer profile) theo điều kiện thuộc tính, tag, segment, thời gian.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["success", "name", "description", "dslRule", "ruleComplexity", "ruleComplexityScore"],
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "const": true,
+      "default": true,
+      "description": "Hardcode, luôn là true."
+    },
+    "name": { "$ref": "#/definitions/segmentName" },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Mô tả tiếng Việt: nhóm khách hàng nào + mục đích sử dụng (vd 'phục vụ chăm sóc VIP', 'phục vụ remarketing')."
+    },
+    "dslRule": { "$ref": "#/definitions/segmentEnvelope" },
+    "ruleComplexity": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Mức độ phức tạp của rule, phải khớp với ruleComplexityScore."
+    },
+    "ruleComplexityScore": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Điểm phức tạp. Quy ước: low 0-39 (1-2 điều kiện phẳng), medium 40-69, high 70-100 (nhóm lồng and/or, 3+ điều kiện, enrichment)."
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "ruleComplexity": { "const": "low" } }, "required": ["ruleComplexity"] },
+      "then": { "properties": { "ruleComplexityScore": { "maximum": 39 } } }
+    },
+    {
+      "if": { "properties": { "ruleComplexity": { "const": "medium" } }, "required": ["ruleComplexity"] },
+      "then": { "properties": { "ruleComplexityScore": { "minimum": 40, "maximum": 69 } } }
+    },
+    {
+      "if": { "properties": { "ruleComplexity": { "const": "high" } }, "required": ["ruleComplexity"] },
+      "then": { "properties": { "ruleComplexityScore": { "minimum": 70 } } }
+    }
+  ],
+
+  "definitions": {
+    "segmentName": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_]*$",
+      "maxLength": 100,
+      "description": "Tên segment dạng snake_case, ưu tiên chữ thường. Vd: recent_purchasers_jul_aug_2026, high_value_customers_50m, No_Join_Survey."
+    },
+
+    "segmentEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["information", "dslRule"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "const": "segment_version",
+          "description": "Tuỳ chọn. Chỉ có ở bản cấu hình đầy đủ khi deploy."
+        },
+        "information": { "$ref": "#/definitions/information" },
+        "dslRule": { "$ref": "#/definitions/dsl" },
+        "settings": { "$ref": "#/definitions/settings" },
+        "outputConfig": { "$ref": "#/definitions/outputConfig" }
+      }
+    },
+
+    "information": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assignSegment", "assignGroup", "priority", "color"],
+      "properties": {
+        "assignSegment": {
+          "type": "string",
+          "default": "",
+          "description": "Key segment được gán. Mặc định '' khi sinh rule; khi deploy thường bằng name."
+        },
+        "assignGroup": {
+          "type": "string",
+          "default": "",
+          "description": "Nhóm segment (category). Mặc định ''."
+        },
+        "name": {
+          "type": "string",
+          "description": "Tuỳ chọn. Tên hiển thị, thường trùng assignSegment."
+        },
+        "category": {
+          "type": "string",
+          "description": "Tuỳ chọn. Danh mục, thường trùng assignGroup."
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 1,
+          "description": "Độ ưu tiên hiển thị/gán segment. Mặc định 1."
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^(#[0-9A-Fa-f]{6})?$",
+          "default": "#ADD8E6",
+          "description": "Mã màu HEX 6 ký tự (vd '#ADD8E6', '#FFDEAD') hoặc ''. Ưu tiên màu pastel."
+        }
+      }
+    },
+
+    "dsl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule", "status", "windowTime", "sort", "assignSegment", "assignGroup", "priority", "forceUpdate"],
+      "properties": {
+        "rule": {
+          "$ref": "#/definitions/ruleNode",
+          "description": "Gốc điều kiện. 1 điều kiện → dùng filterLeaf trực tiếp; từ 2 điều kiện → bọc trong filterGroup."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Active", "Inactive"],
+          "default": "Inactive",
+          "description": "Mặc định Inactive khi sinh rule; người dùng tự kích hoạt."
+        },
+        "windowTime": { "$ref": "#/definitions/windowTime" },
+        "sort": {
+          "type": "array",
+          "default": [],
+          "description": "Sắp xếp kết quả. Mặc định []. Vd [{field: 'lastTouchedAt', order: 'desc'}].",
+          "items": { "$ref": "#/definitions/sortItem" }
+        },
+        "assignSegment": { "type": "string", "default": "", "description": "Mặc định ''." },
+        "assignGroup": { "type": "string", "default": "", "description": "Mặc định ''." },
+        "priority": { "type": "integer", "minimum": 0, "default": 0, "description": "Mặc định 0." },
+        "forceUpdate": {
+          "type": "boolean",
+          "const": true,
+          "default": true,
+          "description": "Hardcode, luôn là true."
+        }
+      }
+    },
+
+    "windowTime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "value"],
+      "default": { "type": "Day", "value": 30 },
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["Day"],
+          "default": "Day"
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 30,
+          "description": "Chu kỳ quét lại segment. Mặc định 30."
+        }
+      }
+    },
+
+    "sortItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "order"],
+      "properties": {
+        "field": { "$ref": "#/definitions/fieldPath" },
+        "order": { "type": "string", "enum": ["asc", "desc"], "default": "desc" }
+      }
+    },
+
+    "fieldPath": {
+      "type": "string",
+      "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)?$",
+      "description": "Field của profile. Cột thường viết trần (createdAt, lastPurchasedAt, lastActivityAt, lastTouchedAt, totalPurchasedAmount, gender, coreTagIds, userSegmentKeys, mainPhone, mainEmail). Map/model con dùng DOTTED PATH 1 cấp: attributes.<key> (String), attributeInts.<key> (Long), attributeBooleans.<key> (Boolean), enrichmentModels.<key>. KHÔNG dùng cú pháp attributeInts['key'] như Tag Rule."
+    },
+
+    "ruleNode": {
+      "oneOf": [
+        { "$ref": "#/definitions/filterGroup" },
+        { "$ref": "#/definitions/filterLeaf" }
+      ]
+    },
+
+    "filterGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "children"],
+      "properties": {
+        "type": { "type": "string", "enum": ["and", "or"] },
+        "children": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Có thể lồng nhóm (vd nhóm 'or' MembershipLevel Gold/Diamond nằm trong nhóm 'and').",
+          "items": { "$ref": "#/definitions/ruleNode" }
+        }
+      }
+    },
+
+    "filterLeaf": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "operator", "values", "dataType"],
+      "properties": {
+        "field": { "$ref": "#/definitions/fieldPath" },
+        "operator": {
+          "type": "string",
+          "enum": ["equals", "not_equals", "in", "not_in", "like", "not_like", "is_null", "is_not_null", "eq", "neq", "gt", "gte", "lt", "lte", "gte_relative_day", "lte_relative_day", "between_relative_day", "not_between_relative_day", "contains_any", "contains_all", "exist", "not_exist", "relative_time"],
+          "description": "23 operators, viết snake_case (KHÔNG dùng 'containsAll')."
+        },
+        "values": {
+          "type": "array",
+          "items": { "type": ["string", "number", "boolean"] }
+        },
+        "dataType": {
+          "type": "string",
+          "enum": ["String", "Long", "Double", "Boolean", "Timestamp"],
+          "description": "Kiểu dữ liệu của field."
+        },
+        "extra1": {
+          "type": "string",
+          "enum": ["Hour", "Day", "Week", "Month", "Year"],
+          "description": "Đơn vị thời gian, CHỈ dùng với operator relative_time."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "operator": { "enum": ["is_null", "is_not_null", "exist", "not_exist"] } } },
+          "then": {
+            "properties": {
+              "values": {
+                "maxItems": 1,
+                "items": { "const": "" },
+                "description": "Không cần giá trị: [] hoặc [\"\"]."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["equals", "not_equals"] } } },
+          "then": {
+            "properties": {
+              "values": {
+                "minItems": 1, "maxItems": 1,
+                "description": "1 giá trị, BE tự thêm nháy. Lọc chuỗi rỗng dùng [\"\"]. Nhiều giá trị → dùng in/not_in hoặc nhóm 'or'."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["in", "not_in"] } } },
+          "then": {
+            "properties": {
+              "values": { "minItems": 1, "items": { "type": ["string", "number"] }, "description": "BE tự thêm nháy." }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["like", "not_like"] } } },
+          "then": {
+            "properties": {
+              "dataType": { "const": "String" },
+              "values": {
+                "minItems": 1, "maxItems": 1,
+                "items": { "type": "string", "pattern": "%" },
+                "description": "Pattern có wildcard %, vd '%IELTS%'."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["gt", "gte", "lt", "lte"] } } },
+          "then": {
+            "properties": {
+              "dataType": { "enum": ["Long", "Double"] },
+              "values": {
+                "minItems": 1, "maxItems": 1,
+                "items": { "type": "number" },
+                "description": "So sánh số (vd [50000000], [1000]). Mốc thời gian KHÔNG dùng nhóm này mà quy đổi sang *_relative_day / relative_time."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["eq", "neq"] } } },
+          "then": {
+            "properties": {
+              "values": {
+                "minItems": 1, "maxItems": 1,
+                "items": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)?$" },
+                "description": "So sánh field với field: tên field vế phải viết trần, không bọc nháy."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["gte_relative_day", "lte_relative_day"] } } },
+          "then": {
+            "properties": {
+              "dataType": { "const": "Timestamp" },
+              "values": {
+                "minItems": 1, "maxItems": 1,
+                "items": { "type": "integer", "minimum": 0 },
+                "description": "Số ngày tính từ hôm nay. gte_relative_day [N] = trong N ngày gần nhất. Mốc tuyệt đối 'từ ngày X đến nay' → N = số ngày từ X tới ngày hiện tại (vd 01/07/2026 → [52])."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["between_relative_day", "not_between_relative_day"] } } },
+          "then": {
+            "properties": {
+              "dataType": { "const": "Timestamp" },
+              "values": {
+                "minItems": 2, "maxItems": 2,
+                "items": { "type": "integer", "minimum": 0 },
+                "description": "[số ngày trước tới mốc gần, số ngày trước tới mốc xa], phần tử 1 <= phần tử 2. Dùng cho khoảng ngày tuyệt đối đã quy đổi (vd Q1/2026 → [144, 233])."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "const": "relative_time" } } },
+          "then": {
+            "required": ["extra1"],
+            "properties": {
+              "dataType": { "const": "Timestamp" },
+              "values": {
+                "type": "array",
+                "minItems": 2, "maxItems": 2,
+                "items": [
+                  { "type": "integer", "maximum": 0 },
+                  { "type": "integer", "maximum": 0 }
+                ],
+                "additionalItems": false,
+                "description": "[offset bắt đầu, offset kết thúc] theo đơn vị extra1, vd [-30, 0] + extra1 'Day' = 30 ngày gần đây."
+              }
+            }
+          },
+          "else": { "not": { "required": ["extra1"] } }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["contains_any", "contains_all"] } } },
+          "then": {
+            "properties": {
+              "dataType": { "const": "String" },
+              "values": {
+                "minItems": 1,
+                "items": { "type": "string", "minLength": 1 },
+                "description": "Danh sách key cần khớp trong field mảng (coreTagIds, userSegmentKeys)."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "field": { "enum": ["coreTagIds", "userSegmentKeys"] } }, "required": ["field"] },
+          "then": {
+            "properties": {
+              "operator": {
+                "enum": ["contains_any", "contains_all", "exist", "not_exist", "is_null", "is_not_null"],
+                "description": "Field mảng: dùng contains_any / contains_all thay cho equals."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "field": { "pattern": "^attributeInts\\." } }, "required": ["field"] },
+          "then": { "properties": { "dataType": { "const": "Long" } } }
+        },
+        {
+          "if": { "properties": { "field": { "pattern": "^attributeBooleans\\." } }, "required": ["field"] },
+          "then": { "properties": { "dataType": { "const": "Boolean" } } }
+        },
+        {
+          "if": { "properties": { "field": { "pattern": "^attributes\\." } }, "required": ["field"] },
+          "then": { "properties": { "dataType": { "const": "String" } } }
+        }
+      ]
+    },
+
+    "settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Tuỳ chọn. Cấu hình vận hành khi deploy.",
+      "required": ["enabledAssignSegment", "enableCleanup", "cleanupDelay", "enableOutput", "enabledDebugAssignSegment", "enableDebugCleanup", "enableDebugOutput"],
+      "properties": {
+        "enabledAssignSegment": { "type": "boolean", "default": true },
+        "enableCleanup": { "type": "boolean", "default": true },
+        "cleanupDelay": { "type": "integer", "minimum": 0, "default": 3000, "description": "Đơn vị ms." },
+        "enableOutput": { "type": "boolean", "default": true },
+        "enabledDebugAssignSegment": { "type": "boolean", "default": false },
+        "enableDebugCleanup": { "type": "boolean", "default": false },
+        "enableDebugOutput": { "type": "boolean", "default": false }
+      }
+    },
+
+    "outputConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Tuỳ chọn. Đẩy kết quả segment sang hệ thống đích.",
+      "required": ["filter", "storage"],
+      "properties": {
+        "filter": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["strategy"],
+          "properties": {
+            "strategy": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["strategyType"],
+              "properties": {
+                "strategyType": { "type": "string", "enum": ["Only_Rule_Version"], "default": "Only_Rule_Version" }
+              }
+            }
+          }
+        },
+        "storage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["storageType", "model", "mapping"],
+          "properties": {
+            "storageType": { "type": "string", "enum": ["Event_Bus"], "default": "Event_Bus" },
+            "model": {
+              "type": "string",
+              "pattern": "^M-[A-Z0-9]+-O-[A-Z0-9]+-M$",
+              "description": "Mã model đích, vd 'M-JDVD0-O-BMBP6-M'."
+            },
+            "eventbus": { "type": "object", "default": {} },
+            "usePangoCDP": { "type": "boolean", "default": true },
+            "mapping": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["version", "fieldMapping"],
+              "properties": {
+                "version": { "type": "string", "default": "1" },
+                "fieldMapping": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["directFields"],
+                  "properties": {
+                    "directFields": {
+                      "type": "array",
+                      "minItems": 1,
+                      "description": "Map field chuẩn. Thường gồm mainPhone → phone (required) và mainEmail → email.",
+                      "items": { "$ref": "#/definitions/fieldMappingItem" }
+                    },
+                    "customFields": {
+                      "type": "array",
+                      "default": [],
+                      "items": {
+                        "allOf": [
+                          { "$ref": "#/definitions/fieldMappingItem" },
+                          {
+                            "properties": {
+                              "dest": {
+                                "pattern": "^customField(Timestamp|List|Boolean)?[0-9]{2}$",
+                                "description": "customFieldNN (String), customFieldTimestampNN, customFieldListNN, customFieldBooleanNN."
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "postProcessing": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "defaults": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "recordStatus": { "type": "string", "enum": ["Active", "Inactive"], "default": "Active" },
+                        "datasource": {
+                          "type": "string",
+                          "pattern": "^PConnext_Segment_[0-9a-f]{32}$",
+                          "description": "Vd 'PConnext_Segment_504b01de4dbc2847ec40c97d0c8e9466'."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "fieldMappingItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "dest", "required"],
+      "properties": {
+        "source": { "$ref": "#/definitions/fieldPath" },
+        "dest": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
+        "required": { "type": "boolean", "default": false }
+      }
+    }
+  }
+}
