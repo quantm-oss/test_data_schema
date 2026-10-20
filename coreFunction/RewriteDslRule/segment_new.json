@@ -1,0 +1,300 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "segment-rule-dsl-output.schema.json",
+  "title": "Segment Rule DSL Output",
+  "description": "dslRule Segment rule json schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["dslRule"],
+  "properties": {
+    "dslRule": { "$ref": "#/definitions/dslRuleEnvelope" }
+  },
+
+  "definitions": {
+    "dslRuleEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["information", "dslRule", "settings"],
+      "properties": {
+        "information": { "$ref": "#/definitions/information" },
+        "dslRule": { "$ref": "#/definitions/dsl" },
+        "settings": { "$ref": "#/definitions/settings" }
+      }
+    },
+
+    "information": {
+      "type": "object",
+      "description": "Metadata của segment.",
+      "additionalProperties": false,
+      "required": ["assignSegment", "assignGroup", "priority", "color"],
+      "properties": {
+        "assignSegment": {
+          "type": "string",
+          "description": "Tên segment."
+        },
+        "assignGroup": {
+          "type": "string",
+          "description": "Nhóm segment."
+        },
+        "priority": {
+          "type": ["integer", "string"],
+          "description": "Độ ưu tiên của segment. Nhận integer hoặc string."
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$",
+          "description": "Mã màu Hex đại diện segment, hiển thị trên UI."
+        }
+      }
+    },
+
+    "dsl": {
+      "type": "object",
+      "description": "Logic của segment: cây điều kiện rule + cấu hình chạy.",
+      "additionalProperties": false,
+      "required": ["rule", "status", "windowTime", "sort", "assignSegment", "assignGroup", "priority", "forceUpdate"],
+      "properties": {
+        "rule": {
+          "$ref": "#/definitions/ruleNode"
+        },
+        "status": {
+          "type": "string",
+          "const": "Inactive",
+          "description": "Hardcode, luôn là 'Inactive' (segment AI tạo ra chưa được kích hoạt)."
+        },
+        "windowTime": {
+          "type": "object",
+          "description": "Khung thời gian của segment.",
+          "additionalProperties": false,
+          "required": ["type", "value"],
+          "properties": {
+            "type": { "type": "string", "description": "Đơn vị thời gian." },
+            "value": { "type": "integer", "description": "Số đơn vị thời gian." }
+          }
+        },
+        "sort": {
+          "type": "array",
+          "description": "Sắp xếp profile. [] nếu solution không yêu cầu sort.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["field", "order"],
+            "properties": {
+              "field": { "$ref": "#/definitions/fieldName", "description": "Field dùng để sắp xếp." },
+              "order": { "type": "string", "enum": ["asc", "desc"] }
+            }
+          }
+        },
+        "assignSegment": {
+          "type": "string"
+        },
+        "assignGroup": {
+          "type": "string"
+        },
+        "priority": {
+          "type": ["integer", "string"]
+        },
+        "forceUpdate": {
+          "type": "boolean",
+          "const": true,
+          "description": "Hardcode, luôn là true."
+        }
+      }
+    },
+
+    "settings": {
+      "description": "Hardcode bởi BE (SEGMENT_SETTINGS trong app/flows/master/segment/constants.py), KHÔNG phụ thuộc LLM/tenant. Phải khớp chính xác toàn bộ object.",
+      "const": {
+        "enabledAssignSegment": true,
+        "enableCleanup": true,
+        "cleanupDelay": 3000,
+        "enableOutput": true,
+        "enabledDebugAssignSegment": false,
+        "enableDebugCleanup": false,
+        "enableDebugOutput": false
+      }
+    },
+
+    "fieldName": {
+      "type": "string",
+      "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z0-9_]+)?$",
+      "description": "Tên field của unified_profile_model, ghi đúng nguyên văn (case-sensitive). Với Map động PHẢI giữ dot-notation. KHÔNG có prefix collection (Segment chỉ có 1 nguồn)."
+    },
+
+    "ruleNode": {
+      "description": "1 node của cây điều kiện. 2 dạng loại trừ nhau: group hoặc leaf.",
+      "oneOf": [
+        { "$ref": "#/definitions/ruleGroup" },
+        { "$ref": "#/definitions/ruleLeaf" }
+      ]
+    },
+
+    "ruleGroup": {
+      "type": "object",
+      "description": "Nhóm điều kiện AND/OR. Có thể lồng nhiều lớp (vd nhóm 'or' trong nhóm 'and').",
+      "additionalProperties": false,
+      "required": ["type", "children"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["and", "or"],
+          "description": "and: tất cả children phải đúng; or: ít nhất 1 child đúng."
+        },
+        "children": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Danh sách điều kiện con (group hoặc leaf), tối thiểu 1.",
+          "items": { "$ref": "#/definitions/ruleNode" }
+        }
+      }
+    },
+
+    "ruleLeaf": {
+      "type": "object",
+      "description": "1 điều kiện lọc: field + operator + values + dataType.",
+      "additionalProperties": false,
+      "required": ["field", "operator", "values", "dataType"],
+      "properties": {
+        "field": { "$ref": "#/definitions/fieldName" },
+        "operator": {
+          "type": "string",
+          "enum": ["equals", "not_equals", "in", "not_in", "like", "not_like", "is_null", "is_not_null", "eq", "neq", "gt", "gte", "lt", "lte", "not_between_relative_day", "contains_any", "contains_all", "exist", "not_exist"],
+          "description": "Whitelist BE (WHITELIST_OPERATORS) trừ gte_relative_day / lte_relative_day / between_relative_day / relative_time: BE đã convert 4 operator này sang gte/lte epoch millis nên không còn trong response. KHÔNG dùng tên sai như 'containsAll', 'exists'."
+        },
+        "values": {
+          "type": "array",
+          "description": "Giá trị so sánh. Số lượng và kiểu phụ thuộc operator và dataType (xem allOf).",
+          "items": { "type": ["string", "number", "boolean"] }
+        },
+        "dataType": {
+          "type": "string",
+          "enum": ["String", "Integer", "Long", "Double", "Boolean", "Timestamp"],
+          "description": "Kiểu dữ liệu của field. Timestamp: epoch millis (field '*At', vd lastPurchasedAt, attributeLongs.lastInteractOA). Long: số đếm/điểm/tiền (vd totalPurchasedAmount, lastPurchasedDays, attributeInts.*). Double: giá trị 1 giao dịch (vd lastPurchasedAmount). String: text, Array<String> (vd coreTagIds) và attributes.*."
+        },
+        "extra1": { "type": "null", "description": "Chỉ dùng cho relative_time (BE đã convert) → luôn null nếu có." },
+        "extra2": { "type": "null", "description": "Chỉ dùng cho relative_time (BE đã convert) → luôn null nếu có." }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "operator": { "enum": ["is_null", "is_not_null"] } } },
+          "then": {
+            "properties": {
+              "values": {
+                "maxItems": 1,
+                "items": { "const": "" },
+                "description": "Kiểm tra rỗng: values là [] hoặc [\"\"] (prod đang dùng [\"\"]). Áp dụng cho mọi dataType."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "not": { "enum": ["is_null", "is_not_null"] } } } },
+          "then": {
+            "properties": {
+              "values": { "minItems": 1, "description": "Mọi operator trừ is_null / is_not_null cần ít nhất 1 giá trị." }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["equals", "not_equals", "gt", "gte", "lt", "lte", "like", "not_like", "eq", "neq"] } } },
+          "then": {
+            "properties": {
+              "values": { "maxItems": 1, "description": "Operator so sánh 1 giá trị: values chỉ có đúng 1 phần tử. Nhiều giá trị → dùng in / not_in." }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["gt", "gte", "lt", "lte"] } } },
+          "then": {
+            "properties": {
+              "values": {
+                "items": { "type": "number" },
+                "description": "Phải là số, KHÔNG bọc nháy. Field thời gian dùng epoch millis, vd [1788195600000]."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["like", "not_like", "contains_any", "contains_all"] } } },
+          "then": {
+            "properties": {
+              "values": {
+                "items": { "type": "string", "minLength": 1 },
+                "description": "Chuỗi không rỗng. like: pattern có thể có wildcard %, vd '%apple%'. contains_any / contains_all: giá trị chính xác trong mảng, vd coreTagIds ['warmup']."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["eq", "neq"] } } },
+          "then": {
+            "properties": {
+              "values": {
+                "items": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z0-9_]+)?$" },
+                "description": "So sánh field với field: vế phải là tên field, không phải giá trị, vd ['lastPurchasedAt']. So sánh với giá trị → dùng equals / not_equals."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "const": "not_between_relative_day" } } },
+          "then": {
+            "properties": {
+              "values": {
+                "minItems": 2,
+                "maxItems": 2,
+                "items": { "type": "integer" },
+                "description": "[A, B] số ngày tính từ hôm nay, A <= B, vd [0, 29]. BE không convert operator này nên vẫn còn trong response."
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["dataType", "operator"],
+            "properties": {
+              "dataType": { "enum": ["Integer", "Long", "Double", "Timestamp"] },
+              "operator": { "not": { "enum": ["eq", "neq", "is_null", "is_not_null"] } }
+            }
+          },
+          "then": {
+            "properties": {
+              "values": {
+                "items": { "type": "number" },
+                "description": "dataType số (Integer / Long / Double / Timestamp): giá trị phải là số, KHÔNG gửi dạng chuỗi (vd [4], không phải [\"4\"])."
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["dataType", "operator"],
+            "properties": {
+              "dataType": { "const": "Boolean" },
+              "operator": { "not": { "enum": ["eq", "neq", "is_null", "is_not_null"] } }
+            }
+          },
+          "then": {
+            "properties": {
+              "values": {
+                "items": { "type": "boolean" },
+                "description": "dataType Boolean: giá trị là true / false, KHÔNG dùng chuỗi \"true\"."
+              }
+            }
+          }
+        },
+        {
+          "if": { "required": ["dataType"], "properties": { "dataType": { "const": "String" } } },
+          "then": {
+            "properties": {
+              "values": {
+                "items": { "type": "string" },
+                "description": "dataType String: giá trị là chuỗi, vd ['Female'], ['Hồ Chí Minh']."
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

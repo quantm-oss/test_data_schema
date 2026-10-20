@@ -1,0 +1,519 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "task-rule-dsl-output.schema.json",
+  "title": "Task Rule DSL Output",
+  "description": "dslRule Task rule json schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["dslRule"],
+  "properties": {
+    "dslRule": { "$ref": "#/definitions/dslRuleEnvelope" }
+  },
+
+  "definitions": {
+    "dslRuleEnvelope": {
+      "type": "object",
+      "description": "Nội dung response.dslRule: information (thông tin task) + dslRule (logic rule).",
+      "additionalProperties": false,
+      "required": ["information", "dslRule"],
+      "properties": {
+        "information": { "$ref": "#/definitions/information" },
+        "dslRule": { "$ref": "#/definitions/dsl" }
+      }
+    },
+
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+      "description": "Tên cột vật lý hoặc alias (không chứa dấu chấm, không có biểu thức)."
+    },
+    "modelAlias": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "Alias của model, phải được khai báo trong targetModels."
+    },
+
+    "information": {
+      "type": "object",
+      "description": "Thông tin task. BE build từ configuration.taskTemplate của LLM.",
+      "additionalProperties": false,
+      "required": ["taskName", "taskPriority", "taskTplType", "taskTplDescription", "taskTplCategory", "taskTplSubType", "taskTplTitle", "taskTplContent"],
+      "properties": {
+        "taskName": { "type": "string", "minLength": 1, "description": "Tên task, trùng response.name." },
+        "taskPriority": { "type": "string", "enum": ["low", "normal", "high"], "description": "Độ ưu tiên task. Mặc định 'normal'." },
+        "taskTplType": { "type": "string", "description": "Loại task, chọn từ danh sách task types của tenant." },
+        "taskTplDescription": { "type": "string", "maxLength": 500, "description": "Mô tả task." },
+        "taskTplCategory": { "type": "string", "description": "Danh mục task, chọn từ danh sách task categories của tenant, vd 'care'." },
+        "taskTplSubType": { "type": "string", "enum": ["Information", "Remind", "Opportunity", "Warning", "Risk"], "description": "Phân loại task. Mặc định 'Information'." },
+        "taskTplTitle": { "type": "string", "maxLength": 1000, "description": "Tiêu đề task hiển thị cho nhân viên." },
+        "taskTplContent": { "type": "string", "maxLength": 1000, "description": "Nội dung task hiển thị cho nhân viên." }
+      }
+    },
+
+    "dsl": {
+      "type": "object",
+      "description": "DSL Rule của task. Mọi field được tham chiếu trong preFilter / conditions / on / groupBys PHẢI có mặt trong selectFields của đúng model.",
+      "additionalProperties": false,
+      "required": ["version", "limit", "expireAfter", "systemFields", "targetModels", "rootModel", "selectFields", "aliasFields", "preFilters", "joins", "conditions", "groupBys", "havings", "orderBys", "detailsFields", "deduplication"],
+      "properties": {
+        "version": { "type": "string", "const": "v2", "description": "Hardcode BE, luôn là 'v2'." },
+        "limit": { "type": "integer", "const": 0, "description": "Hardcode BE, luôn là 0." },
+        "expireAfter": { "type": "string", "const": "30 | DAY", "description": "Hardcode BE, luôn là '30 | DAY'." },
+        "channelType": {
+          "type": "string",
+          "enum": ["Phone", "Email", "UserId"],
+          "description": "Kênh định danh khách hàng. Không bắt buộc; nếu có thì phải đi kèm channelIdField."
+        },
+        "channelIdField": {
+          "$ref": "#/definitions/identifier",
+          "description": "Field chứa giá trị định danh, phải có trong selectFields của model tương ứng. Vd: contactPhone, phone, userId."
+        },
+        "systemFields": { "$ref": "#/definitions/systemFields" },
+        "targetModels": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Toàn bộ model dùng trong rule (rootModel + mọi join). Mỗi alias là duy nhất.",
+          "items": { "$ref": "#/definitions/targetModel" }
+        },
+        "rootModel": { "$ref": "#/definitions/rootModel" },
+        "selectFields": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Cột output cuối cùng.",
+          "items": { "$ref": "#/definitions/selectField" }
+        },
+        "aliasFields": {
+          "type": "object",
+          "description": "Bắt buộc có key, mặc định {}. Cột tổng hợp đặt tên. Key là tên alias output.",
+          "propertyNames": { "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
+          "additionalProperties": { "$ref": "#/definitions/aliasField" }
+        },
+        "preFilters": {
+          "type": "object",
+          "description": "Bắt buộc có key, mặc định {}. Điều kiện lọc theo alias model, áp dụng trước khi JOIN.",
+          "propertyNames": { "pattern": "^[a-z][a-z0-9_]*$" },
+          "additionalProperties": { "$ref": "#/definitions/filterGroup" }
+        },
+        "joins": {
+          "type": "array",
+          "description": "Danh sách JOIN theo thứ tự thực thi. Rỗng khi rule đơn bảng.",
+          "items": { "$ref": "#/definitions/join" }
+        },
+        "conditions": {
+          "description": "Điều kiện sau JOIN (WHERE ngoài cùng). {} nếu không cần.",
+          "oneOf": [
+            { "type": "object", "maxProperties": 0 },
+            { "$ref": "#/definitions/filterGroup" }
+          ]
+        },
+        "groupBys": {
+          "type": "array",
+          "uniqueItems": true,
+          "description": "Danh sách cột GROUP BY: tên cột output/alias hoặc dạng '<alias>.<field>'. Khi có joins, liệt kê cột output để tránh trùng dòng.",
+          "items": { "type": "string", "pattern": "^([a-z][a-z0-9_]*\\.)?[A-Za-z_][A-Za-z0-9_]*$" }
+        },
+        "havings": {
+          "type": "array",
+          "description": "Điều kiện sau GROUP BY trên hàm tổng hợp.",
+          "items": { "$ref": "#/definitions/having" }
+        },
+        "orderBys": {
+          "type": "array",
+          "description": "Sắp xếp kết quả.",
+          "items": { "$ref": "#/definitions/orderBy" }
+        },
+        "detailsFields": { "$ref": "#/definitions/detailsFields" },
+        "deduplication": { "$ref": "#/definitions/deduplication" }
+      },
+      "dependencies": {
+        "channelType": ["channelIdField"],
+        "channelIdField": ["channelType"]
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "channelType": { "const": "UserId" } }, "required": ["channelType"] },
+          "then": { "properties": { "channelIdField": { "const": "userId" } } }
+        }
+      ]
+    },
+
+    "systemFields": {
+      "type": "object",
+      "description": "Mapping field hệ thống cho downstream.",
+      "additionalProperties": false,
+      "required": ["rootUserId"],
+      "properties": {
+        "rootUserId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Tên alias output chứa id khách hàng, phải có trong selectFields[].alias. Vd '_customer_id_', 'userId'."
+        },
+        "taggingId": { "type": "string", "description": "Tag dùng để lọc khách (nếu có), vd 'Retail_HOT'. \"\" nếu không có." },
+        "labelId": { "type": "string", "description": "Label id (nếu có). Thường là \"\"." }
+      }
+    },
+
+    "targetModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "alias"],
+      "properties": {
+        "model": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "description": "Tên bảng vật lý (có thể kèm hậu tố orgId), vd 'customer_unified_<orgId>'."
+        },
+        "alias": { "$ref": "#/definitions/modelAlias" }
+      }
+    },
+
+    "rootModel": {
+      "type": "object",
+      "description": "Bảng gốc của query.",
+      "additionalProperties": false,
+      "required": ["alias", "selectFields"],
+      "properties": {
+        "alias": { "$ref": "#/definitions/modelAlias" },
+        "selectFields": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Cột lấy từ bảng gốc. PHẢI gồm mọi field dùng trong preFilter / conditions / joins[].on. Cho phép biểu thức 'toString(<arrayField>) AS <arrayField>Text' (lọc field mảng bằng like).",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "preFilter": {
+          "description": "Điều kiện lọc ngay trên bảng gốc trước khi JOIN.",
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/definitions/filterGroup" }
+          ]
+        }
+      }
+    },
+
+    "join": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modelAlias", "type", "on", "selectFields"],
+      "properties": {
+        "modelAlias": {
+          "$ref": "#/definitions/modelAlias",
+          "description": "Alias của bảng join, trỏ tới targetModels."
+        },
+        "type": { "type": "string", "enum": ["inner", "left"], "description": "Dùng inner join hoặc left join." },
+        "on": {
+          "type": "string",
+          "minLength": 3,
+          "description": "Điều kiện JOIN dạng SQL, vd 'cuf.rootId = tag.customerId'.",
+          "pattern": "^[a-z][a-z0-9_]*\\.[A-Za-z_][A-Za-z0-9_]*\\s*=\\s*[a-z][a-z0-9_]*\\.[A-Za-z_][A-Za-z0-9_]*(\\s+AND\\s+[a-z][a-z0-9_]*\\.[A-Za-z_][A-Za-z0-9_]*\\s*=\\s*[a-z][a-z0-9_]*\\.[A-Za-z_][A-Za-z0-9_]*)*$"
+        },
+        "selectFields": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Cột lấy từ bảng join. PHẢI gồm field dùng trong 'on'. Cho phép đổi tên dạng '<field> as <alias>' (vd 'curRootId as rootId'). Staging có dùng [\"\"].",
+          "items": { "type": "string" }
+        },
+        "preFilter": {
+          "description": "Lọc bảng join trước khi nối.",
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/definitions/filterGroup" }
+          ]
+        }
+      }
+    },
+
+    "selectField": {
+      "type": "object",
+      "description": "1 cột output: {modelAlias, field, alias?}, {field: '<alias>.<field>', alias}, {alias} (marker của aliasFields), hoặc kèm function 'extract_array_string_prefix' + prefix.",
+      "additionalProperties": false,
+      "properties": {
+        "modelAlias": { "$ref": "#/definitions/modelAlias" },
+        "field": { "type": "string", "minLength": 1, "description": "Tên cột, hoặc dạng qualified '<alias>.<field>' (vd 'cp.userId')." },
+        "alias": { "$ref": "#/definitions/identifier", "description": "Tên cột output, vd '_customer_id_', 'dtf_tag'." },
+        "function": {
+          "type": "string",
+          "const": "extract_array_string_prefix",
+          "description": "Chỉ hỗ trợ 'extract_array_string_prefix' cho field Array(String)."
+        },
+        "prefix": { "type": "string", "minLength": 1, "description": "Prefix cần tách, dùng kèm function, vd 'testProgram:'." }
+      },
+      "anyOf": [
+        { "required": ["field"] },
+        { "required": ["alias"] }
+      ],
+      "dependencies": {
+        "function": ["prefix", "field", "modelAlias"],
+        "prefix": ["function"]
+      }
+    },
+
+    "aggregateFunction": {
+      "type": "string",
+      "enum": ["count", "count_distinct", "sum", "avg", "min", "max", "group_uniq_array", "group_uniq_array_Int32", "count_if", "sum_if", "avg_if", "arg_max", "arg_min"],
+      "description": "Hàm tổng hợp. *_if cần condition đầy đủ; arg_max / arg_min cần condition chỉ có field."
+    },
+
+    "aliasField": {
+      "type": "object",
+      "description": "Định nghĩa cột tổng hợp. Model nguồn ghi bằng 'model' hoặc 'modelAlias'",
+      "additionalProperties": false,
+      "required": ["function", "field"],
+      "properties": {
+        "model": { "$ref": "#/definitions/modelAlias" },
+        "modelAlias": { "$ref": "#/definitions/modelAlias" },
+        "function": { "$ref": "#/definitions/aggregateFunction" },
+        "field": {
+          "type": "string",
+          "pattern": "^(\\*|[A-Za-z_][A-Za-z0-9_]*)$",
+          "description": "'*' cho count(*); ngược lại là cột phải có trong selectFields của model."
+        },
+        "condition": {
+          "description": "*_if: {field, operator, values}. arg_max / arg_min: chỉ {field} (cột dùng để sắp xếp).",
+          "oneOf": [
+            { "$ref": "#/definitions/filterLeaf" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["field"],
+              "properties": { "field": { "$ref": "#/definitions/identifier" } }
+            }
+          ]
+        }
+      },
+      "anyOf": [
+        { "required": ["model"] },
+        { "required": ["modelAlias"] }
+      ],
+      "allOf": [
+        {
+          "if": { "properties": { "function": { "enum": ["count_if", "sum_if", "avg_if", "arg_max", "arg_min"] } } },
+          "then": { "required": ["condition"] }
+        }
+      ]
+    },
+
+    "having": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "operator", "values"],
+      "properties": {
+        "field": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["function", "field"],
+          "properties": {
+            "function": {
+              "type": "string",
+              "enum": ["count", "count_distinct", "sum", "avg", "min", "max", "alias"],
+              "description": "Hàm tổng hợp, hoặc 'alias' để tham chiếu cột output."
+            },
+            "field": { "type": "string", "pattern": "^(\\*|[A-Za-z_][A-Za-z0-9_]*)$" }
+          }
+        },
+        "modelAlias": { "$ref": "#/definitions/modelAlias" },
+        "operator": { "type": "string", "enum": ["equals", "not_equals", "gt", "gte", "lt", "lte"] },
+        "values": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "type": "number" } }
+      }
+    },
+
+    "orderBy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alias"],
+      "properties": {
+        "alias": { "type": "string", "minLength": 1, "description": "Cột cần sắp xếp, vd 'tag.createdAt'." },
+        "direction": { "type": "string", "enum": ["asc", "desc", "ASC", "DESC"], "description": "Chiều sắp xếp." }
+      }
+    },
+
+    "filterNode": {
+      "oneOf": [
+        { "$ref": "#/definitions/filterGroup" },
+        { "$ref": "#/definitions/filterLeaf" }
+      ]
+    },
+
+    "filterGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "children"],
+      "properties": {
+        "type": { "type": "string", "enum": ["and", "or"] },
+        "children": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Có thể lồng nhóm (vd nhóm 'or' trong nhóm 'and').",
+          "items": { "$ref": "#/definitions/filterNode" }
+        }
+      }
+    },
+
+    "filterLeaf": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "operator", "values"],
+      "properties": {
+        "field": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Tên cột / alias (vd 'tagId', 'coreTagIdsText'), hoặc dạng '<alias>.<field>' (vd 'ord.customerId')."
+        },
+        "operator": {
+          "type": "string",
+          "enum": ["equals", "not_equals", "in", "not_in", "like", "not_like", "not_ilike", "is_null", "is_not_null", "eq", "neq", "gt", "gte", "lt", "lte", "gte_relative_day", "lte_relative_day", "between_relative_day", "not_between_relative_day", "contains_any", "contains_all", "exist", "not_exist"],
+          "description": "Whitelist BE (22 operators) + 'not_ilike' (staging có dùng, nhưng validate_task_dsl của BE sẽ reject)."
+        },
+        "values": {
+          "type": "array",
+          "items": { "type": ["string", "number", "boolean"] }
+        },
+        "modelAlias": {
+          "$ref": "#/definitions/modelAlias",
+          "description": "Khuyến nghị dùng trong conditions khi field thuộc bảng join."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "operator": { "enum": ["is_null", "is_not_null"] } } },
+          "then": {
+            "properties": {
+              "values": { "maxItems": 1, "items": { "const": "" }, "description": "Kiểm tra rỗng: values là [] hoặc [\"\"]." }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "not": { "enum": ["is_null", "is_not_null"] } } } },
+          "then": {
+            "properties": {
+              "values": { "minItems": 1, "description": "Mọi operator trừ is_null / is_not_null cần ít nhất 1 giá trị." }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["equals", "not_equals", "like", "not_like", "not_ilike", "eq", "neq", "gt", "gte", "lt", "lte", "gte_relative_day", "lte_relative_day"] } } },
+          "then": {
+            "properties": {
+              "values": { "maxItems": 1, "description": "Operator so sánh 1 giá trị. Nhiều giá trị → dùng in / not_in." }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["in", "not_in"] } } },
+          "then": {
+            "properties": {
+              "values": { "items": { "type": ["string", "number"] }, "description": "Danh sách giá trị, BE tự thêm nháy." }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["like", "not_like", "not_ilike", "contains_any", "contains_all"] } } },
+          "then": {
+            "properties": {
+              "values": {
+                "items": { "type": "string", "minLength": 1 },
+                "description": "Chuỗi không rỗng. like: có thể có wildcard %, vd '%Trần%'. contains_any / contains_all: giá trị chính xác trong mảng."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["gte_relative_day", "lte_relative_day"] } } },
+          "then": {
+            "properties": {
+              "values": { "items": { "type": "integer" }, "description": "Số ngày tương đối, vd [30] = 30 ngày gần nhất." }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["between_relative_day", "not_between_relative_day"] } } },
+          "then": {
+            "properties": {
+              "values": { "minItems": 2, "maxItems": 2, "items": { "type": "integer" }, "description": "[A, B] số ngày tính từ hôm nay, A < B, vd [7, 30]." }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["gt", "gte", "lt", "lte"] } } },
+          "then": {
+            "properties": {
+              "values": {
+                "items": {
+                  "oneOf": [
+                    { "type": "number" },
+                    {
+                      "type": "string",
+                      "pattern": "^'[^']*[^'Z]'$",
+                      "description": "Chuỗi PHẢI tự bọc nháy đơn, BỎ hậu tố Z. Vd \"'2026-10-01T00:00:00'\"."
+                    }
+                  ]
+                },
+                "description": "Số (vd [60]) hoặc chuỗi thời gian tự bọc nháy đơn."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operator": { "enum": ["eq", "neq"] } } },
+          "then": {
+            "properties": {
+              "values": {
+                "items": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
+                "description": "So sánh field với field: tên cột vế phải viết trần, KHÔNG bọc nháy (vd ['lastPurchasedAt'])."
+              }
+            }
+          }
+        }
+      ]
+    },
+
+    "detailsFields": {
+      "type": "object",
+      "description": "Placeholder cố định theo yêu cầu hệ thống: luôn có đủ 8 key, mặc định là mảng rỗng. BE tự thêm nếu LLM thiếu.",
+      "additionalProperties": false,
+      "required": ["detailString", "detailLong", "detailDouble", "detailBoolean", "detailDate", "detailArrayString", "detailArrayLong", "detailArrayDouble"],
+      "properties": {
+        "detailString": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "detailLong": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "detailDouble": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "detailBoolean": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "detailDate": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "detailArrayString": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "detailArrayLong": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "detailArrayDouble": { "type": "array", "items": { "type": "string" }, "default": [] }
+      }
+    },
+
+    "deduplication": {
+      "description": "Hardcode bởi BE (build_deduplication_template() trong app/flows/master/task/constants.py), KHÔNG phụ thuộc LLM. Phải khớp chính xác toàn bộ object.",
+      "const": {
+        "debug": true,
+        "dedupKeyStrategy": "RULE_ROOT_USER",
+        "existingFilter": {
+          "conditions": {
+            "type": "and",
+            "children": [
+              { "field": "status", "operator": "not_in", "values": ["done", "cancelled"] }
+            ]
+          },
+          "windowTime": { "type": "day", "value": 30, "gmt": 7 }
+        },
+        "dealWithDuplication": "add_or_update",
+        "onMatchedAddStrategy": { "applyWhen": "outside_window" },
+        "onMatchedUpdateStrategies": [
+          {
+            "strategy": "ExtendDueDate",
+            "applyWhen": "within_window",
+            "strategyCondition": { "maxExtendCount": "3", "extendByDays": "2", "ifDueInLessThanDays": "3" }
+          },
+          {
+            "strategy": "UpdateTaskInfo",
+            "applyWhen": "within_window",
+            "strategyCondition": { "when": "onlyIfChanged" }
+          }
+        ]
+      }
+    }
+  }
+}
