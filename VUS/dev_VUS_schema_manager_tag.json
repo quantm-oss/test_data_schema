@@ -940,178 +940,138 @@
       ]
     },
     {
-      "collection": "activity_log",
-      "description": "Bảng lưu nhật ký hoạt động (activity log) phát sinh trên Lead / User Profile, bao gồm thay đổi trạng thái chăm sóc, cuộc gọi, ghi chú, đặt lịch hẹn, thông tin tư vấn và các sự kiện nghiệp vụ liên quan.",
+      "collection": "vconnext_account_log",
+      "description": "Bảng lưu nhật ký tài khoản (account log) phát sinh trên Lead / User Profile, bao gồm cuộc gọi, ghi chú, đặt lịch hẹn, thay đổi trạng thái chăm sóc và các sự kiện nghiệp vụ liên quan.",
       "fields": [
         {
           "name": "id",
           "type": "String",
-          "description": "Khóa định danh duy nhất của hoạt động (primary key). Example: '04eb133070883176debd3a887a59124a'"
+          "description": "Khóa định danh duy nhất của bản ghi log (primary key). Example: '6a1ccc46c94e3401da7404a6'"
         },
         {
-          "name": "orgId",
+          "name": "org_id",
           "type": "String",
-          "description": "ID tổ chức sở hữu bản ghi Activity. Example: '504b01de4dbc2847ec40c97d0c8e9467'"
+          "description": "ID tổ chức sở hữu bản ghi log. Example: '504b01de4dbc2847ec40c97d0c8e9466'"
         },
         {
           "name": "version",
           "type": "UInt64",
-          "description": "Phiên bản của bản ghi Activity, dùng để quản lý hoặc xác định phiên bản dữ liệu. Example: 1"
+          "description": "Phiên bản của bản ghi, dùng để xác định phiên bản dữ liệu theo cơ chế quản lý phiên bản. Example: '1780272198734'"
         },
         {
-          "name": "leadId",
-          "type": "Nullable(String)",
-          "description": "ID Lead liên quan đến hoạt động. Example: 'L178005114547928499816707029227025'"
+          "name": "log_type",
+          "type": "LowCardinality(String)",
+          "description": "Xác định nhóm nghiệp vụ phát sinh log. Hiện chỉ có giá trị `lead`. Example: 'lead'"
         },
         {
-          "name": "profileId",
-          "type": "Nullable(String)",
-          "description": "ID User Profile liên quan đến hoạt động. Example: 'P178002962747286966277092394523014'"
-        },
-        {
-          "name": "logType",
-          "type": "Nullable(String)",
-          "description": "Xác định nhóm nghiệp vụ phát sinh Activity. Các giá trị ví dụ gồm CALL, FUNNEL, NOTE, APPOINTMENT, MESSAGE, OWNER_ALLOCATION, CREATE_LEAD, OWNER_REASSIGNED. Example: 'CALL'"
-        },
-        {
-          "name": "logSubType",
-          "type": "Nullable(String)",
-          "description": "Xác định hành động hoặc sự kiện cụ thể đã phát sinh trong Activity. Example: 'CALL'"
+          "name": "log_sub_type",
+          "type": "LowCardinality(String)",
+          "description": "Xác định hành động hoặc sự kiện cụ thể đã phát sinh. Example: 'call'"
         },
         {
           "name": "title",
           "type": "Nullable(String)",
-          "description": "Tiêu đề tóm tắt nội dung hoặc mục đích của Activity. Example: 'Gọi điện tư vấn'"
+          "description": "Tiêu đề tóm tắt nội dung hoặc mục đích của log. Example: 'Cập nhật trạng thái chăm sóc'"
         },
         {
-          "name": "note",
-          "type": "Nullable(String)",
-          "description": "Nội dung ghi chú hoặc thông tin chi tiết được ghi nhận trong Activity. Example: 'Khách hàng quan tâm khóa học IELTS'"
+          "name": "lead_id",
+          "type": "String",
+          "description": "ID Lead liên quan đến log. Liên kết `vconnext_lead.id`. Example: 'L178027219436942933648564209085770'"
         },
         {
-          "name": "oldCareStatusId",
-          "type": "Nullable(String)",
-          "description": "ID trạng thái chăm sóc trước khi thay đổi. Example: 'CS001'"
-        },
-        {
-          "name": "oldCareStatus",
-          "type": "Nullable(String)",
-          "description": "Tên trạng thái chăm sóc trước khi thay đổi. Example: 'QUALIFICATION'"
-        },
-        {
-          "name": "oldCareStatusSubId",
-          "type": "Nullable(String)",
-          "description": "ID trạng thái chăm sóc phụ trước khi thay đổi. Example: 'CSS001'"
-        },
-        {
-          "name": "oldCareStatusSub",
-          "type": "Nullable(String)",
-          "description": "Tên trạng thái chăm sóc phụ trước khi thay đổi. Example: 'Đang tư vấn'"
-        },
-        {
-          "name": "careStatusId",
-          "type": "Nullable(String)",
-          "description": "ID trạng thái chăm sóc sau khi thay đổi. Example: 'CS002'"
-        },
-        {
-          "name": "careStatus",
-          "type": "Nullable(String)",
-          "description": "Tên trạng thái chăm sóc sau khi thay đổi. Example: 'APPOINTMENT'"
-        },
-        {
-          "name": "careStatusSubId",
-          "type": "Nullable(String)",
-          "description": "ID trạng thái chăm sóc phụ sau khi thay đổi. Example: 'CSS002'"
-        },
-        {
-          "name": "careStatusSub",
-          "type": "Nullable(String)",
-          "description": "Tên trạng thái chăm sóc phụ sau khi thay đổi. Example: 'Đã tư vấn'"
-        },
-        {
-          "name": "consultingChannel",
-          "type": "Nullable(String)",
-          "description": "Kênh tư vấn được sử dụng trong hoạt động chăm sóc Lead hoặc User Profile. Example: 'PHONE'"
-        },
-        {
-          "name": "appointmentTime",
-          "type": "Nullable(String)",
-          "description": "Thời gian đặt lịch hẹn liên quan đến Activity. Giá trị được lưu dưới dạng String; cần xác nhận định dạng thực tế trước khi xử lý thời gian. Example: '2026-10-10T09:00:00'"
-        },
-        {
-          "name": "campusId",
-          "type": "Nullable(String)",
-          "description": "ID cơ sở hoặc chi nhánh liên quan đến hoạt động tư vấn hoặc lịch hẹn. Example: 'CAMPUS_HCM_01'"
-        },
-        {
-          "name": "campus",
-          "type": "Nullable(String)",
-          "description": "Tên cơ sở hoặc chi nhánh liên quan đến hoạt động tư vấn hoặc lịch hẹn. Example: 'Cơ sở Hồ Chí Minh'"
-        },
-        {
-          "name": "callId",
-          "type": "Nullable(String)",
-          "description": "ID cuộc gọi tương ứng với hệ thống 3CX. Example: '00002E3E-EA22-40BE-B072-DBDDDD87911E'"
-        },
-        {
-          "name": "recordingUrl",
-          "type": "Nullable(String)",
-          "description": "Đường dẫn file ghi âm cuộc gọi. Example: 'https://3cx-vus.ringbot.co:5001/re...'"
-        },
-        {
-          "name": "ringingTime",
-          "type": "Nullable(Float64)",
-          "description": "Thời gian chuông đổ của cuộc gọi, tính bằng giây. Example: 10"
-        },
-        {
-          "name": "talkingTime",
-          "type": "Nullable(Float64)",
-          "description": "Tổng thời gian hai bên kết nối và đàm thoại, tính bằng giây. Example: 120"
-        },
-        {
-          "name": "totalTimeCall",
-          "type": "Nullable(Float64)",
-          "description": "Tổng thời gian cuộc gọi từ lúc bắt đầu đến khi kết thúc, tính bằng giây. Example: 180"
-        },
-        {
-          "name": "disposition",
-          "type": "Nullable(String)",
-          "description": "Kết quả nghiệp vụ được ghi nhận sau cuộc gọi. Các giá trị ví dụ gồm Answered, NoAnswer, Busy, Denied, Cancel, Error Sip. Example: 'Answered'"
-        },
-        {
-          "name": "createdAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm Activity được tạo. Khi biểu diễn dữ liệu, sử dụng định dạng ISO 8601 GMT+0. Example: 1781163601539"
-        },
-        {
-          "name": "createdBy",
-          "type": "Nullable(String)",
-          "description": "Tài khoản người dùng hoặc service tạo Activity. Example: 'example@gmail.com'"
-        },
-        {
-          "name": "updatedAt",
-          "type": "Nullable(DateTime64(3))",
-          "description": "Thời điểm Activity được cập nhật gần nhất. Khi biểu diễn dữ liệu, sử dụng định dạng ISO 8601 GMT+0. Example: 1781163601539"
-        },
-        {
-          "name": "updatedBy",
-          "type": "Nullable(String)",
-          "description": "Tài khoản người dùng hoặc service cập nhật Activity gần nhất. Example: 'example@gmail.com'"
+          "name": "profile_id",
+          "type": "String",
+          "description": "ID User Profile liên quan đến log. Liên kết `vconnext_user_profile.id`. Example: 'P178027219438331269093543111478545'"
         },
         {
           "name": "department",
           "type": "Nullable(String)",
-          "description": "Phòng ban của account thao tác tương ứng. Example: 'CRM_TMK'"
+          "description": "Phòng ban của account thao tác tương ứng. Example: 'CRM_DMK'"
         },
         {
-          "name": "teamId",
+          "name": "campus_code",
+          "type": "Nullable(String)",
+          "description": "Mã cơ sở hoặc chi nhánh liên quan đến log. Example: 'CAMPUS_HCM_01'"
+        },
+        {
+          "name": "team_id",
           "type": "Nullable(String)",
           "description": "ID team của account thao tác tương ứng. Example: 'DMK_HCM_AREA_4_CLUSTER_8'"
         },
         {
-          "name": "sourceChangeAt",
-          "type": "DateTime64(3)",
-          "description": "Thời điểm bản ghi nguồn thay đổi, dùng để theo dõi hoặc đồng bộ dữ liệu (CDC timestamp). Example: 1780070950711"
+          "name": "package_index",
+          "type": "Nullable(String)",
+          "description": "Chỉ số gói (package index) liên quan đến log."
+        },
+        {
+          "name": "call_id",
+          "type": "String",
+          "description": "ID cuộc gọi tương ứng với hệ thống 3CX. Example: '00002E3E-EA22-40BE-B072-DBDDDD87911E'"
+        },
+        {
+          "name": "extension_id",
+          "type": "Nullable(String)",
+          "description": "ID extension (máy nhánh) thực hiện hoặc nhận cuộc gọi."
+        },
+        {
+          "name": "disposition",
+          "type": "LowCardinality(String)",
+          "description": "Kết quả cuộc gọi. Example: 'Answered'"
+        },
+        {
+          "name": "ringing_time",
+          "type": "UInt32",
+          "description": "Thời gian chuông đổ của cuộc gọi, tính bằng giây. Example: '0'"
+        },
+        {
+          "name": "talking_time",
+          "type": "UInt32",
+          "description": "Tổng thời gian hai bên kết nối và đàm thoại, tính bằng giây. Example: '0'"
+        },
+        {
+          "name": "total_time_call",
+          "type": "UInt32",
+          "description": "Tổng thời gian cuộc gọi, tính bằng giây. Example: '0'"
+        },
+        {
+          "name": "is_sync_call",
+          "type": "UInt8",
+          "description": "Cờ đánh dấu cuộc gọi đã được đồng bộ hay chưa (0/1). Example: '0'"
+        },
+        {
+          "name": "recording_url",
+          "type": "Nullable(String)",
+          "description": "Đường dẫn đến file ghi âm cuộc gọi. Example: 'https://3cx-vus.ringbot.co:5001/re...'"
+        },
+        {
+          "name": "care_status_code",
+          "type": "Nullable(String)",
+          "description": "Mã trạng thái chăm sóc."
+        },
+        {
+          "name": "care_status_sub_code",
+          "type": "Nullable(String)",
+          "description": "Mã trạng thái chăm sóc phụ."
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm log được tạo, định dạng ISO 8601 GMT+0 khi biểu diễn dữ liệu. Example: '1780272198734'"
+        },
+        {
+          "name": "created_by",
+          "type": "Nullable(String)",
+          "description": "Tài khoản người dùng hoặc service tạo log. Example: 'lethanhnhan@vus-etsc.edu.vn'"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm log được cập nhật gần nhất, định dạng ISO 8601 GMT+0 khi biểu diễn dữ liệu. Example: '1780272198734'"
+        },
+        {
+          "name": "updated_by",
+          "type": "Nullable(String)",
+          "description": "Tài khoản người dùng hoặc service cập nhật log gần nhất. Example: 'example@gmail.com'"
         }
       ]
     },
