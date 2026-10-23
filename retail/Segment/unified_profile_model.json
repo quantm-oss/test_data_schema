@@ -136,6 +136,7 @@
     { "name": "attributeLongs.lastInteractOA", "type": "Long", "description": "Thời điểm tương tác Zalo Official Account gần nhất của khách hàng, lưu dạng epoch millis." },
     { "name": "userSegmentKeys", "type": "Array<String>", "description": "Danh sách key của tất cả các segment mà khách hàng hiện đang thuộc về." },
     { "name": "lastSegmentKeys.PRODUCT_INTEREST", "type": "String", "description": "Phân khúc sản phẩm khách hàng đang quan tâm, cập nhật gần nhất theo logic segment PRODUCT_INTEREST." },
-    { "name": "lastSegmentKeys.SocialCRM_CustomerGroup", "type": "String", "description": "Nhóm khách hàng theo phân loại Social CRM, cập nhật gần nhất theo logic segment SocialCRM_CustomerGroup." }
+    { "name": "lastSegmentKeys.SocialCRM_CustomerGroup", "type": "String", "description": "Nhóm khách hàng theo phân loại Social CRM, cập nhật gần nhất theo logic segment SocialCRM_CustomerGroup." },
+    { "name": "attributes.membership", "type": "String", "description": "Hạng thành viên (membership tier) của khách hàng, cụ thể  Member – Thành viên/Silver – Bạc Gold – Vàng/Platinum – Bạch kim/Diamond – Kim cương." }
   ]
 }
