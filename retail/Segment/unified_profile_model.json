@@ -129,6 +129,8 @@
     { "name": "attributes.vip", "type": "String", "description": "Thông tin xác định trạng thái và hàng VIP của khách hàng." },
     { "name": "attributes.interests", "type": "String", "description": "Thông tin về sở thích hoặc nhóm mối quan tâm của khách hàng." },
     { "name": "attributes.MembershipLevel", "type": "String", "description": "Hạng thành viên (membership tier) của khách hàng, ví dụ Gold/Silver/Diamond." },
+    { "name": "attributes.title", "type": "String", "description": "Chức danh hoặc danh xưng của khách hàng theo quy ước hệ thống." },
+    { "name": "attributes.department", "type": "String", "description": "Phòng ban hoặc bộ phận khách hàng trực thuộc." },
     { "name": "attributes.customerId", "type": "String", "description": "Mã định danh khách hàng theo hệ thống CRM/POS nội bộ (khác với 'id' hệ thống unified profile)." },
     { "name": "attributes.followedOA", "type": "String", "description": "Trạng thái đã follow Zalo Official Account hay chưa, giá trị dạng chuỗi 'true'/'false'." },
     { "name": "attributeInts.LoyaltyPoint", "type": "Integer", "description": "Số điểm loyalty hiện có của khách hàng." },
