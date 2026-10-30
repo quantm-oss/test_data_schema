@@ -1255,6 +1255,112 @@
           "description": "Danh sách sản phẩm của lần mua gần nhất."
         }
       ]
+    },
+    {
+      "collection": "erfm_result_bdf66a48c3ebfaec10d2feb3492099ea",
+      "description": "Bảng kết quả chấm điểm eRFM của khách hàng (engagement + Recency / Frequency / Monetary). Mỗi dòng là kết quả tính eRFM của một khách hàng (userId) theo một rule (ruleId) ở một lần chạy (requestId), kèm nhãn phân khúc (tag) và thời hạn hiệu lực (expireAt). Dùng để truy vấn điểm/phân khúc eRFM hoặc RFM, điểm tương tác và các chỉ số recency, frequency, monetary đã được tính sẵn. Không dùng bảng này nếu cần tính lại số đơn hoặc chi tiêu theo khoảng thời gian tùy ý; trường hợp đó dùng purchase_history hoặc customer_information. Định danh khách hàng bằng userId, tương ứng customer_profile.userId; khi JOIN cần xử lý nhiều bản ghi theo ruleId/lần chạy để mỗi khách hàng còn một dòng. Nếu cần số điện thoại hoặc email, JOIN tiếp customer_profile qua userId.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "description": "ID bản ghi. Chỉ dùng để định danh bản ghi, KHÔNG dùng để JOIN."
+        },
+        {
+          "name": "orgId",
+          "type": "String",
+          "description": "Mã tenant/tổ chức sở hữu kết quả eRFM."
+        },
+        {
+          "name": "ruleId",
+          "type": "String",
+          "description": "ID rule eRFM sinh ra kết quả. Một khách hàng có thể có nhiều bản ghi với các ruleId khác nhau."
+        },
+        {
+          "name": "userId",
+          "type": "String",
+          "description": "Mã định danh khách hàng (rootUserId), bằng customer_profile.userId. Đây là khóa JOIN với customer_profile. Khi dùng làm định danh khách hàng, channelType phải là UserId và channelIdField là userId; userId phải có trong rootModel.selectFields và selectFields top-level."
+        },
+        {
+          "name": "recency_event",
+          "type": "UInt16",
+          "description": "Recency theo tương tác (event): số ngày kể từ lần tương tác gần nhất."
+        },
+        {
+          "name": "frequency_event",
+          "type": "UInt32",
+          "description": "Frequency theo tương tác (event): số lần tương tác trong kỳ tính."
+        },
+        {
+          "name": "recency",
+          "type": "UInt16",
+          "description": "Recency theo mua hàng: số ngày kể từ lần mua gần nhất."
+        },
+        {
+          "name": "frequency",
+          "type": "UInt32",
+          "description": "Frequency theo mua hàng: số lần mua trong kỳ tính."
+        },
+        {
+          "name": "monetary",
+          "type": "Float64",
+          "description": "Monetary: tổng giá trị mua trong kỳ tính đã được mô hình eRFM tính sẵn."
+        },
+        {
+          "name": "re_score",
+          "type": "UInt8",
+          "description": "Điểm Recency theo tương tác (event). Chỉ lọc theo ngưỡng điểm khi người dùng nêu rõ; thang điểm chưa được mô tả."
+        },
+        {
+          "name": "fe_score",
+          "type": "UInt8",
+          "description": "Điểm Frequency theo tương tác (event). Chỉ lọc theo ngưỡng điểm khi người dùng nêu rõ; thang điểm chưa được mô tả."
+        },
+        {
+          "name": "R_score",
+          "type": "UInt8",
+          "description": "Điểm Recency theo mua hàng. Giữ đúng chữ hoa/thường của tên field. Thang điểm chưa được mô tả; chỉ lọc theo ngưỡng người dùng nêu rõ."
+        },
+        {
+          "name": "F_score",
+          "type": "UInt8",
+          "description": "Điểm Frequency theo mua hàng. Giữ đúng chữ hoa/thường của tên field. Thang điểm chưa được mô tả; chỉ lọc theo ngưỡng người dùng nêu rõ."
+        },
+        {
+          "name": "M_score",
+          "type": "UInt8",
+          "description": "Điểm Monetary. Giữ đúng chữ hoa/thường của tên field. Thang điểm chưa được mô tả; chỉ lọc theo ngưỡng người dùng nêu rõ."
+        },
+        {
+          "name": "eRFM_score",
+          "type": "UInt8",
+          "description": "Điểm eRFM tổng hợp. Giữ đúng chữ hoa/thường của tên field. Thang điểm chưa được mô tả; chỉ lọc theo ngưỡng người dùng nêu rõ."
+        },
+        {
+          "name": "tag",
+          "type": "LowCardinality(String)",
+          "description": "Nhãn phân khúc eRFM của khách hàng. Chưa có danh sách giá trị hợp lệ; chỉ lọc theo giá trị người dùng nêu rõ."
+        },
+        {
+          "name": "lastUpdated",
+          "type": "DateTime",
+          "description": "Thời điểm kết quả được tính/cập nhật gần nhất. Lưu UTC."
+        },
+        {
+          "name": "expireAt",
+          "type": "DateTime",
+          "description": "Thời điểm kết quả hết hiệu lực. Lưu UTC."
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "Trạng thái bản ghi kết quả. Chưa có danh sách giá trị hợp lệ; chỉ lọc theo giá trị người dùng nêu rõ."
+        },
+        {
+          "name": "requestId",
+          "type": "String",
+          "description": "ID lần chạy tính toán eRFM. Chỉ dùng để tham chiếu lần chạy, KHÔNG dùng để JOIN."
+        }
+      ]
     }
   ]
 }
