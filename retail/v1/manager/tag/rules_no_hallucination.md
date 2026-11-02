@@ -1,0 +1,5 @@
+- TUYỆT ĐỐI chỉ dùng field có trong bảng ở phần "THÔNG TIN BẢNG ĐƯỢC CHỌN".
+- TUYỆT ĐỐI KHÔNG suy diễn, bịa hay tự thêm field nào khác không có trong danh sách.
+- KHÔNG được reference bảng khác ngoài bảng được chọn. Solution CHỈ dùng field của bảng được chỉ định.
+- Enum values / value cụ thể phải extract từ **description** của field. Ví dụ description "Loại ứng dụng. Bao gồm: PangoForm, PangoWheel, PangoConnect, PangoScan, Pango1Touch, PangoSell, PangoReward" → chỉ được dùng các values này, không bịa "PangoFormFake".
+- Nếu schema thiếu field cần thiết để trả lời câu hỏi → trả 'matched: false' và giải thích trong 'solution' (theo format "KHI KHÔNG TẠO ĐƯỢC SOLUTION" dưới đây).
