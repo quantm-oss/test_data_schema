@@ -2,22 +2,22 @@
   "collections": [
     {
       "collection": "customer_unified",
-      "description": "Bảng lưu thông tin khách hàng đã đồng bộ/hợp nhất từ nhiều nguồn",
+      "description": "Bảng lưu thông tin khách hàng đã đồng bộ/hợp nhất từ nhiều nguồn. Bảng nối cố định của DSL Task: customer_unified.rootId = customer_tagging.customerId (inner).",
       "fields": [
         {
           "name": "id",
-          "type": "UUID",
+          "type": "String",
           "description": "Khóa định danh duy nhất cho bản ghi (primary key)"
         },
         {
           "name": "orgId",
           "type": "String",
-          "description": "Mã tổ chức (organization) mà khách hàng thuộc về"
+          "description": "Mã tổ chức mà khách hàng thuộc về"
         },
         {
           "name": "rootId",
           "type": "String",
-          "description": "CustomerId chính (master ID) đại diện cho khách hàng đã được hợp nhất. Các bản ghi cùng rootId xem như cùng một khách hàng. Được dùng join với customer_tagging.customerId"
+          "description": "CustomerId chính (master ID) đại diện cho khách hàng đã được hợp nhất. Các bản ghi cùng rootId xem như cùng một khách hàng. Khóa nối với customer_tagging.customerId"
         },
         {
           "name": "curRootId",
@@ -25,14 +25,14 @@
           "description": "CustomerId hiện tại sau khi merge hoặc cập nhật"
         },
         {
-          "name": "name",
-          "type": "String",
-          "description": "Tên khách hàng"
-        },
-        {
           "name": "source",
           "type": "String",
-          "description": "Nguồn dữ liệu gốc của bản ghi (Import, SocialCRM...)"
+          "description": "Nguồn dữ liệu gốc của bản ghi (Customer, PurchaseHistory, ZaloProfile, CustomerMembership, SocialCRM, CRM, Import...). Giá trị tham khảo"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "description": "Tên khách hàng (nullable)"
         },
         {
           "name": "partial",
@@ -47,44 +47,44 @@
         {
           "name": "mergedTo",
           "type": "String",
-          "description": "ID bản ghi mà bản này được merge vào"
+          "description": "ID bản ghi mà bản này được merge vào (nullable)"
         },
         {
           "name": "mergedSrc",
           "type": "String",
-          "description": "Nguồn gốc của dữ liệu khi merge (ví dụ: ZaloProfile, CRM...)"
+          "description": "Nguồn gốc của dữ liệu khi merge (nullable)"
         },
         {
           "name": "mergedLogId",
           "type": "String",
-          "description": "ID log ghi lại thao tác merge"
+          "description": "ID log ghi lại thao tác merge (nullable)"
         },
         {
           "name": "createdAt",
-          "type": "DateTime64",
-          "description": "Thời điểm tạo bản ghi"
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm tạo bản ghi (native DateTime64, lưu UTC)"
         },
         {
           "name": "updatedAt",
-          "type": "DateTime64",
-          "description": "Thời điểm cập nhật gần nhất"
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm cập nhật gần nhất (native DateTime64, lưu UTC)"
         }
       ]
     },
     {
-      "collection": "customer_tagging_staging",
+      "collection": "customer_tagging",
       "purpose": "Bảng log tagging",
-      "description": "Lưu trữ chi tiết về việc gắn tag và áp dụng rule cho khách hàng. Đây là audit trail cho tất cả các hoạt động tagging.",
+      "description": "Lưu trữ log gắn tag cho khách hàng (audit trail tagging). Là bảng chính của DSL Task: chọn khách hàng theo tag đã được gắn (tagId) rồi giao task. Nối cố định với customer_unified bằng customer_tagging.customerId = customer_unified.rootId; nối customer_profile (customer_profile.userId = customer_tagging.customerId) chỉ khi cần điều kiện hồ sơ khách hàng.",
       "fields": [
         {
           "name": "id",
           "type": "UUID",
-          "description": "Khóa định danh duy nhất cho bản ghi (primary key)"
+          "description": "Khóa định danh duy nhất của bản ghi (primary key)"
         },
         {
           "name": "orgId",
           "type": "String",
-          "description": "Mã tổ chức. Liên kết với cách bảng customer_unified.orgId"
+          "description": "Mã tổ chức. Liên kết với customer_unified.orgId"
         },
         {
           "name": "dslResultId",
@@ -94,112 +94,112 @@
         {
           "name": "tagId",
           "type": "String",
-          "description": "ID của tag"
+          "description": "ID của tag đã gắn cho khách hàng (VD: Retail_VIP, Retail_Loyalty, Retail_Risk, loyalty). Giá trị tham khảo, tag mới có thể xuất hiện bất cứ lúc nào"
         },
         {
           "name": "ruleId",
           "type": "String",
-          "description": "ID của rule"
+          "description": "ID của rule gắn tag (thường dạng Retail_Tag_<tên tag>)"
         },
         {
           "name": "status",
           "type": "String",
-          "description": "Trạng thái hiện tại (ACTIVE, INACTIVE, EXPIRED...)"
+          "description": "Trạng thái tag. Giá trị quan sát: active"
         },
         {
           "name": "customerId",
           "type": "String",
-          "description": "Mã khách hàng liên quan. Liên kết với các bảng customer_unified.id"
+          "description": "Mã khách hàng. Khóa nối với customer_unified.rootId và customer_profile.userId. Khi channelType = Phone thì customerId là số điện thoại (không khớp hai khóa trên)"
         },
         {
           "name": "channelType",
           "type": "String",
-          "description": "Loại kênh (email, sms, zalo...)"
+          "description": "Loại kênh gắn tag. Giá trị quan sát: UserId, Phone"
         },
         {
           "name": "channelId",
           "type": "String",
-          "description": "ID của kênh"
+          "description": "ID của kênh (với channelType = UserId thì bằng customerId)"
         },
         {
           "name": "channelGroupId",
           "type": "String",
-          "description": "Nhóm kênh (nếu có)"
+          "description": "Nhóm kênh (nếu có), thường NULL"
         },
         {
           "name": "identifyStatus",
           "type": "String",
-          "description": "Trạng thái định danh khách hàng"
+          "description": "Trạng thái định danh khách hàng. Giá trị quan sát: identified"
         },
         {
           "name": "tagCategory",
           "type": "String",
-          "description": "Nhóm phân loại tag"
+          "description": "Nhóm phân loại tag. Giá trị quan sát: Customer, Behavior, Pango Auto"
         },
         {
           "name": "tagSubCategory",
           "type": "String",
-          "description": "Phân loại phụ của tag"
+          "description": "Phân loại phụ của tag. Giá trị quan sát: High Spenders, Purchase_Behavior, Hot_Lead, Warm_Lead, Cold_Lead"
         },
         {
           "name": "sourceType",
           "type": "String",
-          "description": "Kiểu nguồn dữ liệu"
+          "description": "Kiểu nguồn dữ liệu (VD: dsl_result_<orgId>)"
         },
         {
           "name": "sourceIds",
-          "type": "List<String>",
+          "type": "Array(String)",
           "description": "Danh sách ID nguồn dữ liệu"
         },
         {
           "name": "detailString",
-          "type": "Map<String,String>",
-          "description": "Thông tin chi tiết dạng text key-value"
+          "type": "Map(String, String)",
+          "description": "Thông tin chi tiết dạng text key-value động (hiện rỗng, không dùng)"
         },
         {
           "name": "detailLong",
-          "type": "Map<String,Long>",
-          "description": "Thông tin chi tiết dạng số nguyên"
+          "type": "Map(String, Int64)",
+          "description": "Thông tin chi tiết dạng số nguyên động (hiện rỗng, không dùng)"
         },
         {
           "name": "detailDouble",
-          "type": "Map<String,Double>",
-          "description": "Thông tin chi tiết dạng số thực"
+          "type": "Map(String, Float64)",
+          "description": "Thông tin chi tiết dạng số thực động (hiện rỗng, không dùng)"
         },
         {
           "name": "detailBoolean",
-          "type": "Map<String,Boolean>",
-          "description": "Thông tin chi tiết dạng true/false"
+          "type": "Map(String, UInt8)",
+          "description": "Thông tin chi tiết dạng boolean động, giá trị 0/1 (hiện rỗng, không dùng)"
         },
         {
           "name": "detailDate",
-          "type": "Map<String,String (ISO8601 Date)>",
-          "description": "Thông tin chi tiết dạng ngày"
+          "type": "Map(String, String)",
+          "description": "Thông tin chi tiết dạng ngày, lưu String (hiện rỗng, không dùng)"
         },
         {
           "name": "detailArrayString",
-          "type": "Map<String,List<String>>",
-          "description": "Thông tin chi tiết dạng danh sách text"
+          "type": "Map(String, Array(String))",
+          "description": "Thông tin chi tiết dạng danh sách text (hiện rỗng, không dùng)"
         },
         {
           "name": "detailArrayLong",
-          "type": "Map<String,List<Long>>",
-          "description": "Thông tin chi tiết dạng danh sách số nguyên"
+          "type": "Map(String, Array(Int64))",
+          "description": "Thông tin chi tiết dạng danh sách số nguyên (hiện rỗng, không dùng)"
         },
         {
           "name": "detailArrayDouble",
-          "type": "Map<String,List<Double>>",
-          "description": "Thông tin chi tiết dạng danh sách số thực"
+          "type": "Map(String, Array(Float64))",
+          "description": "Thông tin chi tiết dạng danh sách số thực (hiện rỗng, không dùng)"
         },
         {
           "name": "confidence",
-          "type": "Double",
-          "description": "Mức độ tin cậy (0.0 - 1.0). Đánh giá độ tin cậy của tag/rule (calculationField)"
+          "type": "Float64",
+          "description": "Mức độ tin cậy của tag/rule (0.0 - 1.0)"
         },
         {
           "name": "note",
           "type": "String",
-          "description": "Ghi chú bổ sung"
+          "description": "Ghi chú bổ sung (nullable)"
         },
         {
           "name": "version",
@@ -208,13 +208,13 @@
         },
         {
           "name": "createdAt",
-          "type": "String - ISO8601 DateTime",
-          "description": "Thời điểm tạo (UTC)"
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm gắn tag (native DateTime64, lưu UTC, KHÔNG phải String). Dùng cho điều kiện 'gắn tag trong N ngày gần đây'"
         },
         {
           "name": "expiredAt",
-          "type": "String - ISO8601 DateTime",
-          "description": "Thời điểm hết hạn (UTC)"
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Thời điểm hết hạn của tag (native DateTime64, lưu UTC). Chỉ dùng khi câu hỏi nói rõ 'còn hiệu lực / sắp hết hạn'"
         },
         {
           "name": "createdBy",
@@ -224,17 +224,17 @@
         {
           "name": "extendDueDateCount",
           "type": "Int32",
-          "description": "Số lần gia hạn (calculationField)"
+          "description": "Số lần gia hạn"
         },
         {
           "name": "lastTouchedAt",
-          "type": "String - ISO8601 DateTime",
-          "description": "Lần cuối cùng được cập nhật/đụng tới. Theo dõi lần tương tác gần nhất với tag (calculationField)"
+          "type": "DateTime64(3, 'UTC')",
+          "description": "Lần cuối bản ghi được cập nhật/đụng tới (native DateTime64, lưu UTC)"
         },
         {
-          "name": "systemUpdateRes",
+          "name": "systemUpdateReason",
           "type": "String",
-          "description": "Kết quả cập nhật từ hệ thống"
+          "description": "Lý do/kết quả cập nhật từ hệ thống (nullable). Tên field đúng là systemUpdateReason"
         },
         {
           "name": "requestId",
@@ -255,6 +255,312 @@
           "name": "tagRuleSrcUserKey",
           "type": "String",
           "description": "Khóa user nguồn ban đầu từ rule"
+        }
+      ]
+    },
+    {
+      "collection": "customer_profile",
+      "description": "Hồ sơ tổng hợp của khách hàng (thông tin định danh, liên hệ, đặc điểm, lịch sử mua hàng, hoạt động). Trong DSL Task đây là bảng nối CÓ ĐIỀU KIỆN: chỉ dùng khi câu hỏi có điều kiện hoặc cần field hồ sơ khách hàng (giới tính, tuổi, thành phố, ngày mua...); nối customer_profile.userId = customer_tagging.customerId (inner).",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "description": "Mã định danh duy nhất của bản ghi customer profile (primary key)."
+        },
+        {
+          "name": "version",
+          "type": "DateTime",
+          "description": "Phiên bản của dữ liệu customer profile."
+        },
+        {
+          "name": "userId",
+          "type": "String",
+          "description": "Mã định danh người dùng/khách hàng trong hệ thống."
+        },
+        {
+          "name": "orgId",
+          "type": "String",
+          "description": "Mã định danh tổ chức sở hữu hoặc quản lý dữ liệu khách hàng."
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "description": "Tên đầy đủ của khách hàng."
+        },
+        {
+          "name": "firstName",
+          "type": "String",
+          "description": "Tên của khách hàng."
+        },
+        {
+          "name": "lastName",
+          "type": "String",
+          "description": "Họ của khách hàng."
+        },
+        {
+          "name": "gender",
+          "type": "String",
+          "description": "Giới tính của khách hàng. Giá trị quan sát: Nam, Nữ, Male, Female (có thể có male, female, unknown). Khi lọc: nam = in [Nam, Male, male], nữ = in [Nữ, Female, female]."
+        },
+        {
+          "name": "ageGroup",
+          "type": "String",
+          "description": "Nhóm độ tuổi của khách hàng."
+        },
+        {
+          "name": "birthday",
+          "type": "DateTime",
+          "description": "Ngày, tháng, năm sinh của khách hàng."
+        },
+        {
+          "name": "birthdayDate",
+          "type": "Integer",
+          "description": "Ngày sinh của khách hàng."
+        },
+        {
+          "name": "birthdayMonth",
+          "type": "Integer",
+          "description": "Tháng sinh của khách hàng."
+        },
+        {
+          "name": "birthYear",
+          "type": "Integer",
+          "description": "Năm sinh của khách hàng."
+        },
+        {
+          "name": "avatarUrl",
+          "type": "String",
+          "description": "Đường dẫn đến ảnh đại diện của khách hàng."
+        },
+        {
+          "name": "locale",
+          "type": "String",
+          "description": "Locale/ngôn ngữ và khu vực được xác định cho khách hàng."
+        },
+        {
+          "name": "mainPhone",
+          "type": "String",
+          "description": "Số điện thoại chính của khách hàng."
+        },
+        {
+          "name": "mainEmail",
+          "type": "String",
+          "description": "Địa chỉ email chính của khách hàng."
+        },
+        {
+          "name": "mainFacebookPsid",
+          "type": "String",
+          "description": "Facebook Page-Scoped User ID chính của khách hàng."
+        },
+        {
+          "name": "mainFacebookPageId",
+          "type": "String",
+          "description": "Facebook Page ID chính liên quan đến khách hàng."
+        },
+        {
+          "name": "mainZaloUserId",
+          "type": "String",
+          "description": "Zalo User ID chính của khách hàng."
+        },
+        {
+          "name": "mainZaloOAId",
+          "type": "String",
+          "description": "Zalo Official Account ID chính liên quan đến khách hàng."
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "description": "Địa chỉ của khách hàng."
+        },
+        {
+          "name": "city",
+          "type": "String",
+          "description": "Thành phố/tỉnh của khách hàng."
+        },
+        {
+          "name": "district",
+          "type": "String",
+          "description": "Quận/huyện của khách hàng."
+        },
+        {
+          "name": "countryCode",
+          "type": "String",
+          "description": "Mã quốc gia của khách hàng."
+        },
+        {
+          "name": "customerType",
+          "type": "String",
+          "description": "Loại khách hàng."
+        },
+        {
+          "name": "preferredChannel",
+          "type": "String",
+          "description": "Kênh tương tác ưu tiên của khách hàng."
+        },
+        {
+          "name": "preferredCategory",
+          "type": "String",
+          "description": "Danh mục sản phẩm hoặc nhóm nội dung khách hàng ưu tiên."
+        },
+        {
+          "name": "locationSource",
+          "type": "String",
+          "description": "Nguồn dữ liệu dùng để xác định vị trí của khách hàng."
+        },
+        {
+          "name": "locationDetectedAt",
+          "type": "DateTime",
+          "description": "Thời điểm hệ thống xác định hoặc cập nhật vị trí của khách hàng."
+        },
+        {
+          "name": "firstPurchasedAt",
+          "type": "DateTime",
+          "description": "Thời điểm khách hàng thực hiện giao dịch mua hàng đầu tiên."
+        },
+        {
+          "name": "firstPurchasedStoreId",
+          "type": "String",
+          "description": "Mã cửa hàng nơi khách hàng thực hiện giao dịch mua hàng đầu tiên."
+        },
+        {
+          "name": "firstPurchasedAmount",
+          "type": "Double",
+          "description": "Giá trị giao dịch mua hàng đầu tiên."
+        },
+        {
+          "name": "firstPurchasedProducts",
+          "type": "Array<String>",
+          "description": "Danh sách sản phẩm trong giao dịch mua hàng đầu tiên."
+        },
+        {
+          "name": "lastPurchasedAt",
+          "type": "DateTime",
+          "description": "Thời điểm khách hàng thực hiện giao dịch mua hàng gần nhất."
+        },
+        {
+          "name": "lastPurchasedStoreId",
+          "type": "String",
+          "description": "Mã cửa hàng nơi khách hàng thực hiện giao dịch mua hàng gần nhất."
+        },
+        {
+          "name": "lastPurchasedAmount",
+          "type": "Double",
+          "description": "Giá trị giao dịch mua hàng gần nhất."
+        },
+        {
+          "name": "lastPurchasedProducts",
+          "type": "Array<String>",
+          "description": "Danh sách sản phẩm trong giao dịch mua hàng gần nhất."
+        },
+        {
+          "name": "firstSeenAt",
+          "type": "DateTime",
+          "description": "Thời điểm đầu tiên hệ thống ghi nhận khách hàng."
+        },
+        {
+          "name": "lastActivityAt",
+          "type": "DateTime",
+          "description": "Thời điểm gần nhất khách hàng có hoạt động được hệ thống ghi nhận."
+        },
+        {
+          "name": "attributes",
+          "type": "Map<String, String>",
+          "description": "Tập hợp các thuộc tính mở rộng của khách hàng dưới dạng key-value với giá trị chuỗi."
+        },
+        {
+          "name": "attributeInts",
+          "type": "Map<String, Long>",
+          "description": "Tập hợp các thuộc tính mở rộng của khách hàng dưới dạng key-value với giá trị số nguyên 32-bit."
+        },
+        {
+          "name": "attributeLongs",
+          "type": "Map<String, Long>",
+          "description": "Tập hợp các thuộc tính mở rộng của khách hàng dưới dạng key-value với giá trị số nguyên 64-bit."
+        },
+        {
+          "name": "coreTagIds",
+          "type": "Array<String>",
+          "description": "Danh sách ID các tag cốt lõi được gán cho khách hàng."
+        },
+        {
+          "name": "coreLabelIds",
+          "type": "Array<String>",
+          "description": "Danh sách ID các label cốt lõi được gán cho khách hàng."
+        },
+        {
+          "name": "coreTagIdsAudit",
+          "type": "Map<String, Long>",
+          "description": "Thông tin audit của các tag cốt lõi, ánh xạ tag ID với giá trị số dùng để theo dõi lịch sử hoặc phiên bản."
+        },
+        {
+          "name": "coreLabelIdsAudit",
+          "type": "Map<String, Long>",
+          "description": "Thông tin audit của các label cốt lõi, ánh xạ label ID với giá trị số dùng để theo dõi lịch sử hoặc phiên bản."
+        },
+        {
+          "name": "lastUpdatedSource",
+          "type": "String",
+          "description": "Nguồn cập nhật dữ liệu khách hàng gần nhất."
+        },
+        {
+          "name": "firstUpdatedSource",
+          "type": "String",
+          "description": "Nguồn đầu tiên cập nhật dữ liệu khách hàng."
+        },
+        {
+          "name": "fieldSourceMap",
+          "type": "Map<String, String>",
+          "description": "Ánh xạ tên field với nguồn dữ liệu đã cung cấp hoặc cập nhật field đó."
+        },
+        {
+          "name": "fieldUpdatedAt",
+          "type": "Map<String, Long>",
+          "description": "Ánh xạ tên field với thời điểm cập nhật tương ứng."
+        },
+        {
+          "name": "lastSegmentKeys",
+          "type": "Map<String, String>",
+          "description": "Ánh xạ khóa segment với thông tin segment gần nhất của khách hàng."
+        },
+        {
+          "name": "lastSegmentPrioritys",
+          "type": "Map<String, Long>",
+          "description": "Ánh xạ segment với mức độ ưu tiên gần nhất của segment đó."
+        },
+        {
+          "name": "lastSegmentAt",
+          "type": "Map<String, Long>",
+          "description": "Ánh xạ segment với thời điểm gần nhất khách hàng được ghi nhận trong segment."
+        },
+        {
+          "name": "systemCreated",
+          "type": "String",
+          "description": "Hệ thống tạo bản ghi customer profile."
+        },
+        {
+          "name": "updatedBy",
+          "type": "String",
+          "description": "Người hoặc hệ thống thực hiện cập nhật bản ghi gần nhất."
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "description": "Thời điểm cập nhật bản ghi gần nhất."
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "description": "Thời điểm tạo bản ghi."
+        },
+        {
+          "name": "createdBy",
+          "type": "String",
+          "description": "Người hoặc hệ thống tạo bản ghi."
+        },
+        {
+          "name": "lastTouchedAt",
+          "type": "DateTime",
+          "description": "Thời điểm gần nhất bản ghi customer profile được tác động hoặc cập nhật."
         }
       ]
     }
