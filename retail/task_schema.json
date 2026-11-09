@@ -4,7 +4,11 @@
       "collection": "customer_unified",
       "description": "Bảng lưu thông tin khách hàng đã đồng bộ/hợp nhất từ nhiều nguồn",
       "fields": [
-        null,
+        {
+          "name": "id",
+          "type": "UUID",
+          "description": "Khóa định danh duy nhất cho bản ghi (primary key)"
+        },
         {
           "name": "orgId",
           "type": "String",
