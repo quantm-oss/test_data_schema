@@ -1,0 +1,258 @@
+{
+  "collections": [
+    {
+      "collection": "customer_unified",
+      "description": "Bảng lưu thông tin khách hàng đã đồng bộ/hợp nhất từ nhiều nguồn",
+      "fields": [
+        null,
+        {
+          "name": "orgId",
+          "type": "String",
+          "description": "Mã tổ chức (organization) mà khách hàng thuộc về"
+        },
+        {
+          "name": "rootId",
+          "type": "String",
+          "description": "CustomerId chính (master ID) đại diện cho khách hàng đã được hợp nhất. Các bản ghi cùng rootId xem như cùng một khách hàng. Được dùng join với customer_tagging.customerId"
+        },
+        {
+          "name": "curRootId",
+          "type": "String",
+          "description": "CustomerId hiện tại sau khi merge hoặc cập nhật"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "description": "Tên khách hàng"
+        },
+        {
+          "name": "source",
+          "type": "String",
+          "description": "Nguồn dữ liệu gốc của bản ghi (Import, SocialCRM...)"
+        },
+        {
+          "name": "partial",
+          "type": "Bool",
+          "description": "Đánh dấu bản ghi chưa đầy đủ dữ liệu"
+        },
+        {
+          "name": "merged",
+          "type": "Bool",
+          "description": "Trạng thái bản ghi đã được merge vào bản khác hay chưa"
+        },
+        {
+          "name": "mergedTo",
+          "type": "String",
+          "description": "ID bản ghi mà bản này được merge vào"
+        },
+        {
+          "name": "mergedSrc",
+          "type": "String",
+          "description": "Nguồn gốc của dữ liệu khi merge (ví dụ: ZaloProfile, CRM...)"
+        },
+        {
+          "name": "mergedLogId",
+          "type": "String",
+          "description": "ID log ghi lại thao tác merge"
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime64",
+          "description": "Thời điểm tạo bản ghi"
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime64",
+          "description": "Thời điểm cập nhật gần nhất"
+        }
+      ]
+    },
+    {
+      "collection": "customer_tagging_staging",
+      "purpose": "Bảng log tagging",
+      "description": "Lưu trữ chi tiết về việc gắn tag và áp dụng rule cho khách hàng. Đây là audit trail cho tất cả các hoạt động tagging.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "description": "Khóa định danh duy nhất cho bản ghi (primary key)"
+        },
+        {
+          "name": "orgId",
+          "type": "String",
+          "description": "Mã tổ chức. Liên kết với cách bảng customer_unified.orgId"
+        },
+        {
+          "name": "dslResultId",
+          "type": "String",
+          "description": "ID kết quả từ DSL (query/engine)"
+        },
+        {
+          "name": "tagId",
+          "type": "String",
+          "description": "ID của tag"
+        },
+        {
+          "name": "ruleId",
+          "type": "String",
+          "description": "ID của rule"
+        },
+        {
+          "name": "status",
+          "type": "String",
+          "description": "Trạng thái hiện tại (ACTIVE, INACTIVE, EXPIRED...)"
+        },
+        {
+          "name": "customerId",
+          "type": "String",
+          "description": "Mã khách hàng liên quan. Liên kết với các bảng customer_unified.id"
+        },
+        {
+          "name": "channelType",
+          "type": "String",
+          "description": "Loại kênh (email, sms, zalo...)"
+        },
+        {
+          "name": "channelId",
+          "type": "String",
+          "description": "ID của kênh"
+        },
+        {
+          "name": "channelGroupId",
+          "type": "String",
+          "description": "Nhóm kênh (nếu có)"
+        },
+        {
+          "name": "identifyStatus",
+          "type": "String",
+          "description": "Trạng thái định danh khách hàng"
+        },
+        {
+          "name": "tagCategory",
+          "type": "String",
+          "description": "Nhóm phân loại tag"
+        },
+        {
+          "name": "tagSubCategory",
+          "type": "String",
+          "description": "Phân loại phụ của tag"
+        },
+        {
+          "name": "sourceType",
+          "type": "String",
+          "description": "Kiểu nguồn dữ liệu"
+        },
+        {
+          "name": "sourceIds",
+          "type": "List<String>",
+          "description": "Danh sách ID nguồn dữ liệu"
+        },
+        {
+          "name": "detailString",
+          "type": "Map<String,String>",
+          "description": "Thông tin chi tiết dạng text key-value"
+        },
+        {
+          "name": "detailLong",
+          "type": "Map<String,Long>",
+          "description": "Thông tin chi tiết dạng số nguyên"
+        },
+        {
+          "name": "detailDouble",
+          "type": "Map<String,Double>",
+          "description": "Thông tin chi tiết dạng số thực"
+        },
+        {
+          "name": "detailBoolean",
+          "type": "Map<String,Boolean>",
+          "description": "Thông tin chi tiết dạng true/false"
+        },
+        {
+          "name": "detailDate",
+          "type": "Map<String,String (ISO8601 Date)>",
+          "description": "Thông tin chi tiết dạng ngày"
+        },
+        {
+          "name": "detailArrayString",
+          "type": "Map<String,List<String>>",
+          "description": "Thông tin chi tiết dạng danh sách text"
+        },
+        {
+          "name": "detailArrayLong",
+          "type": "Map<String,List<Long>>",
+          "description": "Thông tin chi tiết dạng danh sách số nguyên"
+        },
+        {
+          "name": "detailArrayDouble",
+          "type": "Map<String,List<Double>>",
+          "description": "Thông tin chi tiết dạng danh sách số thực"
+        },
+        {
+          "name": "confidence",
+          "type": "Double",
+          "description": "Mức độ tin cậy (0.0 - 1.0). Đánh giá độ tin cậy của tag/rule (calculationField)"
+        },
+        {
+          "name": "note",
+          "type": "String",
+          "description": "Ghi chú bổ sung"
+        },
+        {
+          "name": "version",
+          "type": "String",
+          "description": "Phiên bản dữ liệu"
+        },
+        {
+          "name": "createdAt",
+          "type": "String - ISO8601 DateTime",
+          "description": "Thời điểm tạo (UTC)"
+        },
+        {
+          "name": "expiredAt",
+          "type": "String - ISO8601 DateTime",
+          "description": "Thời điểm hết hạn (UTC)"
+        },
+        {
+          "name": "createdBy",
+          "type": "String",
+          "description": "Người/hệ thống tạo"
+        },
+        {
+          "name": "extendDueDateCount",
+          "type": "Int32",
+          "description": "Số lần gia hạn (calculationField)"
+        },
+        {
+          "name": "lastTouchedAt",
+          "type": "String - ISO8601 DateTime",
+          "description": "Lần cuối cùng được cập nhật/đụng tới. Theo dõi lần tương tác gần nhất với tag (calculationField)"
+        },
+        {
+          "name": "systemUpdateRes",
+          "type": "String",
+          "description": "Kết quả cập nhật từ hệ thống"
+        },
+        {
+          "name": "requestId",
+          "type": "String",
+          "description": "Mã request gốc"
+        },
+        {
+          "name": "requestBatch",
+          "type": "Int64",
+          "description": "Batch request ID"
+        },
+        {
+          "name": "tagRuleUserKey",
+          "type": "String",
+          "description": "Khóa user từ rule gắn tag"
+        },
+        {
+          "name": "tagRuleSrcUserKey",
+          "type": "String",
+          "description": "Khóa user nguồn ban đầu từ rule"
+        }
+      ]
+    }
+  ]
+}
